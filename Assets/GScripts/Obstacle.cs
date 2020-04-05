@@ -24,7 +24,6 @@ public class Obstacle : MonoBehaviour, IPooledObject
 
     public void OnObjectSpawn(){
         Start();
-        render.material.SetColor("_Color", Color.green);
     }
 
     void Update(){
