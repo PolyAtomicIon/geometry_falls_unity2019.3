@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : MonoBehaviour, IPooledObject
 {
 
     private Rigidbody rb;
@@ -28,16 +28,16 @@ public class Player : MonoBehaviour
         rb.MovePosition(transform.position + (direction * speed * Time.deltaTime));
     }
 
-    void Start()
-    {
-        fall_down_speed = -4f;
-        speed = 25f;
-
+    void Start(){
         rb = GetComponent<Rigidbody>();
         transform = GetComponent<Transform>();
         
         game_manager = FindObjectOfType<Manager>();
+    }
 
+    void OnObjectSpawn(){
+        fall_down_speed = -4f;
+        speed = 25f;
         fallDown(fall_down_speed);
     }
 

@@ -4,13 +4,32 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Manager : MonoBehaviour
-{
-
+{   
+    enum Constants
+    {
+        max_touches = 25,
+        object_in_level = 5,
+        obstacles_on_scene = 20
+    }
+    
     float ScreenWidth = Screen.width;
     bool game_over_bool = false;
     int touches = 0;
 
     ObjectPooler objectPooler;
+
+    [SerializedField]
+    private int level = 1;
+    [SerializedField]
+    private int score = 1;
+
+    public int get_score(){
+        return score;
+    }
+
+    public void increment_score(){
+        score += 1;
+    }
 
     public void game_over(){
         Debug.Log("game over!");
@@ -26,15 +45,19 @@ public class Manager : MonoBehaviour
         
         objectPooler = ObjectPooler.Instance;
 
-        int random_player_model_index = 0;
+        // here We will spawn random object
 
-        // here i will spawn object
-        //objectPooler.SpawnFromPool("x", spawnPosition, true);
+        int n = objectPooler.models_tag.size();
+        
+        System.Random rand = new System.Random();
+        string random_model_tag = objectPooler.models_tag[ rand.Next(0, n) ];
+            
+        objectPooler.SpawnFromPool(random_model_tag, (int) Constants.obstacles_on_scene);
 
+        // object has been spawned with it obstacles, done
     }
 
     void Update(){
-
 
         // All this stuff for restart of the level
 
@@ -49,7 +72,7 @@ public class Manager : MonoBehaviour
             
             Debug.Log("touch");
             if (Input.GetTouch (i).position.x > ScreenWidth / 2 || Input.GetTouch (i).position.x < ScreenWidth / 2){
-                if( game_over_bool && (touches >= 25) ){
+                if( game_over_bool && (touches >= (int) Constants.max_touches) ){
                     Debug.Log("touch");
                     Time.timeScale = 1f;
                     SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
