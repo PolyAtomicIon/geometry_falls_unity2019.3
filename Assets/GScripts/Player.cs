@@ -20,6 +20,7 @@ public class Player : MonoBehaviour, IPooledObject
 
     private Manager game_manager;
 
+    // ObjectPooler objectPooler;
     public float get_position_y_axis(){
         return transform.position.y;
     }
@@ -37,9 +38,12 @@ public class Player : MonoBehaviour, IPooledObject
         transform = GetComponent<Transform>();
         
         game_manager = FindObjectOfType<Manager>();
+
+        // objectPooler = ObjectPooler.Instance;
     }
 
     public void OnObjectSpawn(){
+        Start();
         fall_down_speed = -4f;
         speed = 25f;
         fallDown(fall_down_speed);
@@ -47,7 +51,7 @@ public class Player : MonoBehaviour, IPooledObject
 
     void Update(){
         
-        Debug.Log(rb.velocity.y);
+        // Debug.Log(rb.velocity.y);
         // To move object in x,y axis
         // movement = new Vector3( Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical") );
         // movement = new Vector3( joystick.Horizontal, 0f, joystick.Vertical );

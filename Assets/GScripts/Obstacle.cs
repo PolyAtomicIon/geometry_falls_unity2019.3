@@ -10,13 +10,21 @@ public class Obstacle : MonoBehaviour, IPooledObject
     private Manager game_manager;
     private Player player;
 
+    private Renderer render;
+
+    ObjectPooler objectPooler;
+
     void Start(){
         player = FindObjectOfType<Player>();
         game_manager = FindObjectOfType<Manager>();
+        render = GetComponent<Renderer>();
+        
+        objectPooler = ObjectPooler.Instance;
     }
 
     public void OnObjectSpawn(){
-        return;
+        Start();
+        render.material.SetColor("_Color", Color.green);
     }
 
     void Update(){

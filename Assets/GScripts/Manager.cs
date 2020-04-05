@@ -19,7 +19,7 @@ public class Manager : MonoBehaviour
 
     ObjectPooler objectPooler;
 
-    private int level = 1;
+    private int level = 0;
     private int score = 1;
 
     public int get_score(){
@@ -28,7 +28,7 @@ public class Manager : MonoBehaviour
 
     public void increment_score(){
         score += 1;
-        level = score / (int) Constants.object_in_level;
+        level = score / ((int) Constants.object_in_level + 1) + 1;
 
         Debug.Log("Score: ");
         Debug.Log(score);

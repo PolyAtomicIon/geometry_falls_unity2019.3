@@ -78,13 +78,7 @@ public class ObjectPooler : MonoBehaviour
         }
 
         IPooledObject pooledObj = objectToSpawn.GetComponent<IPooledObject>();
-
-        try {
-            pooledObj.OnObjectSpawn();
-            Debug.Log(tag + " Object has been spawned ");
-        } catch (NullReferenceException e) {
-            Debug.Log("Exception caught: object is null - " + tag);
-        }
+        pooledObj.OnObjectSpawn();
         
     }
 

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraScript : MonoBehaviour {
 
-	public Transform target;
+	public Player target;
 
 	public float smoothSpeed = 0.125f;
 	public Vector3 offset;
@@ -19,7 +19,6 @@ public class CameraScript : MonoBehaviour {
 
 	void Start()
 	{
-		target = FindObjectOfType<Player>().transform;
 		StartCoroutine(beginToChangeColor());
 	}
 
@@ -54,7 +53,7 @@ public class CameraScript : MonoBehaviour {
 			counter += Time.deltaTime;
 
 			float colorTime = counter / duration;
-			Debug.Log(colorTime);
+			//Debug.Log(colorTime);
 
 			//Change color
 			targetCamera.backgroundColor = Color.Lerp(fromColor, toColor, counter / duration);
@@ -67,8 +66,11 @@ public class CameraScript : MonoBehaviour {
 	// Smooth Camera follow, follows target
 	void FixedUpdate ()
 	{
-		Vector3 desiredPosition = target.position + offset;
-		Vector3 smoothedPosition = Vector3.Lerp(transform.position, desiredPosition, smoothSpeed);
+		if( target == null )
+			target = FindObjectOfType<Player>();
+		
+		Vector3 desiredPosition = target.transform.position + offset;
+		Vector3 smoothedPosition = Vector3.Lerp(transform.transform.position, desiredPosition, smoothSpeed);
 		transform.position = smoothedPosition;
 
         smoothSpeed += 0.0005f;
