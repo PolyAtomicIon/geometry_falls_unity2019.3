@@ -37,18 +37,19 @@ public class ObjectPooler : MonoBehaviour
 
     Vector3 VectorZero = Vector3.zero;
 
-    public float gap = -20f;
+    public float gap = 0f;
 
     [System.Serializable]
     public class Pool{
         public string tag;
         public GameObject prefab;
+        public int size;
         public List<GameObject> obstacles_prefab;
     }
 
     [System.Serializable]
     public class Palette{
-        public Color[] colors = new Color[3];
+        public Color[] colors = new Color[4];
     }
 
     #region Singleton
@@ -73,9 +74,29 @@ public class ObjectPooler : MonoBehaviour
     private Dictionary<string, GameObject> modelsDictionary;
 
     private int random_palette = 0;
+    private int last_random_index = -1;
 
     void Start()
     {
+
+        // get prefabs from folder;
+
+        for(int i = 0; i < models.Count; i++){
+            models[i].prefab = ( Resources.Load("Levels/" + models[i].tag + "/" + models[i].tag) ) as GameObject;
+
+            for(int j = 1; j <= models[i].size; j++){
+
+                string pos = j.ToString();
+                if( j == 1 ) pos = "";
+
+                GameObject temp = ( Resources.Load("Levels/" + models[i].tag + "/" + "obstacle_" + models[i].tag + pos + "_prefab" ) ) as GameObject;
+
+                models[i].obstacles_prefab.Add(temp);
+            }
+
+        }
+        // end
+
 
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
         modelsDictionary = new Dictionary<string, GameObject>();
@@ -123,8 +144,18 @@ public class ObjectPooler : MonoBehaviour
 
         // set the color, get one random from 3 colors of palette
         RandomS rand = new RandomS();
-        int random_color_index = rand.Next(0, 3);
+        
+        int random_color_index = last_random_index;
+        
+        while( random_color_index == last_random_index )
+            random_color_index = ThreadSafeRandom.ThisThreadsRandom.Next(3);
+
+        last_random_index = random_color_index;
+
+        Debug.Log(random_color_index);
+
         Renderer rd = objectToSpawn.GetComponent<Renderer>();
+        rd.material = new Material(Shader.Find("Specular"));
         rd.material.SetColor("_Color", palettes[random_palette].colors[random_color_index]);
         //
 
@@ -132,6 +163,7 @@ public class ObjectPooler : MonoBehaviour
         // set rotation, for player - quaternion, for obstacle x = -90, then random;
         if( model ){
             objectToSpawn.transform.rotation = Quaternion.identity;
+            rd.material.SetColor("_Color", palettes[random_palette].colors[3]);
         }
         else{    
             objectToSpawn.transform.eulerAngles = new Vector3(270f, Random.Range(0f, 360f), Random.Range(0f, 360f));
@@ -161,17 +193,18 @@ public class ObjectPooler : MonoBehaviour
 
         // generate the level with obstacles
         Vector3 gap_between = new Vector3(0f, gap, 0f);
-        Vector3 obstacle_position = new Vector3(0f, 0f, 0f);
+        Vector3 obstacle_position = new Vector3(0f, -20f, 0f);
 
         for(int i=0; i<size; i++){
-
-            obstacle_position += gap_between;
 
             GameObject obstacle = poolDictionary[tag].Dequeue();
 
             initialize_object(obstacle, tag + "_obstacle", obstacle_position);
 
             poolDictionary[tag].Enqueue(obstacle);
+
+            obstacle_position += gap_between;
+
         }    
         
         

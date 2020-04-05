@@ -19,6 +19,8 @@ public class Manager : MonoBehaviour
 
     ObjectPooler objectPooler;
 
+    public GameOver gameOverSection;
+
     private int level = 0;
     private int score = 1;
 
@@ -38,11 +40,11 @@ public class Manager : MonoBehaviour
 
     public void game_over(){
         Debug.Log("game over!");
+        gameOverSection.game_over(level);
         game_over_bool = true;
         Time.timeScale = 0f;
     }
     
-
     void Start()
     {
 
@@ -62,7 +64,8 @@ public class Manager : MonoBehaviour
         // object has been spawned with it obstacles, done
     }
 
-    void Update(){
+    void Update()
+    {
 
         // All this stuff for restart of the level
 

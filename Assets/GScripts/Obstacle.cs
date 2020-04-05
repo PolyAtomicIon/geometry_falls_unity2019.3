@@ -28,7 +28,7 @@ public class Obstacle : MonoBehaviour, IPooledObject
 
     void Update(){
         
-        if( player.get_position_y_axis() < transform.position.y ){
+        if( player.get_position_y_axis() < -10f + transform.position.y ){
             game_manager.increment_score();
             gameObject.SetActive(false);
         }
