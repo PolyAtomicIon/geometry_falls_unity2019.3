@@ -6,10 +6,6 @@ public class RotatableObject : MonoBehaviour
 {
 
     private float rotSpeed = 90f;
-    
-    //public Joystick joystick;
-
-    public Transform transform_player;
 
     bool dragging;
 

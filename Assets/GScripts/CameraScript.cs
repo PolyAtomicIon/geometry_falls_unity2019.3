@@ -19,6 +19,7 @@ public class CameraScript : MonoBehaviour {
 
 	void Start()
 	{
+		target = FindObjectOfType<Player>().transform;
 		StartCoroutine(beginToChangeColor());
 	}
 

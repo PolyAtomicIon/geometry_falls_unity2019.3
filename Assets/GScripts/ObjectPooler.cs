@@ -9,6 +9,8 @@ public class ObjectPooler : MonoBehaviour
 
     Vector3 VectorZero = Vector3.zero;
 
+    public float gap = -20f;
+
     [System.Serializable]
     public class Pool{
         public string tag;
@@ -72,7 +74,7 @@ public class ObjectPooler : MonoBehaviour
             objectToSpawn.transform.rotation = Quaternion.identity;
         }
         else{    
-            objectToSpawn.transform.rotation = Random.rotation;
+            objectToSpawn.transform.eulerAngles = new Vector3(270f, Random.Range(0f, 360f), Random.Range(0f, 360f));
         }
 
         IPooledObject pooledObj = objectToSpawn.GetComponent<IPooledObject>();
@@ -93,7 +95,7 @@ public class ObjectPooler : MonoBehaviour
         GameObject model = modelsDictionary[tag];
         initialize_object(model, tag, VectorZero, true);        
 
-        Vector3 gap_between = new Vector3(0f, -5f, 0f);
+        Vector3 gap_between = new Vector3(0f, gap, 0f);
         Vector3 obstacle_position = new Vector3(0f, 0f, 0f);
 
         for(int i=0; i<size; i++){

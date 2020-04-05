@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 1315265642}
   - component: {fileID: 1315265641}
   - component: {fileID: 1315265644}
+  - component: {fileID: 6188008896514128893}
   m_Layer: 0
   m_Name: obstacle_pyramid_prefab
   m_TagString: obstacle
@@ -92,3 +93,15 @@ MeshCollider:
   m_Convex: 0
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 9278ca070d9c3594e9f150fad10ea7ee, type: 3}
+--- !u!114 &6188008896514128893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1315265640}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d693655122c08bf45a755bb8b6dcb533, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

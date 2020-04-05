@@ -145,7 +145,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f30c90c2450b14f8f9b33eb097cc8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transform_player: {fileID: 0}
 --- !u!64 &89954361
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -565,10 +564,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ab5d13b0458b3ad4c9dbf44ea2f92ac7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pools:
-  - tag: cube
-    prefab: {fileID: 0}
-    scale: 0
+  number_each_prefab: 10
+  models:
+  - tag: pyramid
+    prefab: {fileID: 821136417, guid: ef1a92250099e604bb704f99816570d4, type: 3}
+    obstacles_prefab:
+    - {fileID: 231342458, guid: ba6ab24708dabd44bb32d76d4367879e, type: 3}
+    - {fileID: 1315265640, guid: 573b6712a81d7624f971c20c628ec36f, type: 3}
+  models_tag: []
 --- !u!114 &932153424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1189,7 +1192,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7f30c90c2450b14f8f9b33eb097cc8b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  transform_player: {fileID: 0}
 --- !u!1001 &1931379595
 PrefabInstance:
   m_ObjectHideFlags: 0
