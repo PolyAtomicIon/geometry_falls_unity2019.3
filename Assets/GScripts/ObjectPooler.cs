@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
-using UnityEngine;
+using UnityEngine; 
+using Random=UnityEngine.Random;
 
 public class ObjectPooler : MonoBehaviour
 {
+
+    Vector3 VectorZero = Vector3.zero;
 
     [System.Serializable]
     public class Pool{
@@ -27,7 +30,7 @@ public class ObjectPooler : MonoBehaviour
 
     public List<Pool> models;
      
-    private List<string> models_tag;  
+    public List<string> models_tag;  
 
     public Dictionary<string, Queue<GameObject>> poolDictionary;
     private Dictionary<string, GameObject> modelsDictionary;
@@ -38,7 +41,7 @@ public class ObjectPooler : MonoBehaviour
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
         modelsDictionary = new Dictionary<string, GameObject>();
 
-        foreach(Pool pool in pools){
+        foreach(Pool pool in models){
             Queue<GameObject> objectPool = new Queue<GameObject>();
 
             foreach (GameObject obstacle_prefab in pool.obstacles_prefab){
@@ -60,13 +63,17 @@ public class ObjectPooler : MonoBehaviour
 
     }
 
-    private void initialize_object(GameObject objectToSpawn, string tag, Vector3 position = new Vector3(0f, 0f, 0f)){
+    private void initialize_object(GameObject objectToSpawn, string tag, Vector3 position, bool model = false){
         
         objectToSpawn.SetActive(false);
         objectToSpawn.SetActive(true);
         objectToSpawn.transform.position = position;              
-        objectToSpawn.transform.rotation = Random.rotation; 
-        objectToSpawn.transform.rotation.x = -90f;
+        if( model ){
+            objectToSpawn.transform.rotation = Quaternion.identity;
+        }
+        else{    
+            objectToSpawn.transform.rotation = Random.rotation;
+        }
 
         IPooledObject pooledObj = objectToSpawn.GetComponent<IPooledObject>();
 
@@ -84,9 +91,9 @@ public class ObjectPooler : MonoBehaviour
         Debug.Log(tag + " has been spawned");
 
         GameObject model = modelsDictionary[tag];
-        initialize_object(model, tag);        
+        initialize_object(model, tag, VectorZero, true);        
 
-        float gap_between = new Vector3(0f, -5f, 0f);
+        Vector3 gap_between = new Vector3(0f, -5f, 0f);
         Vector3 obstacle_position = new Vector3(0f, 0f, 0f);
 
         for(int i=0; i<size; i++){

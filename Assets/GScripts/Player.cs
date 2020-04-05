@@ -20,6 +20,10 @@ public class Player : MonoBehaviour, IPooledObject
 
     private Manager game_manager;
 
+    public float get_position_y_axis(){
+        return transform.position.y;
+    }
+
     private void fallDown(float speed){
         rb.velocity = new Vector3(0, speed, 0);
     }
@@ -35,7 +39,7 @@ public class Player : MonoBehaviour, IPooledObject
         game_manager = FindObjectOfType<Manager>();
     }
 
-    void OnObjectSpawn(){
+    public void OnObjectSpawn(){
         fall_down_speed = -4f;
         speed = 25f;
         fallDown(fall_down_speed);

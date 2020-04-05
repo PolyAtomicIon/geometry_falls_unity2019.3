@@ -2,6 +2,7 @@ using System.Collections;
 using UnityEngine.SceneManagement; 
 using System.Collections.Generic;
 using UnityEngine;
+using Random=System.Random;
 
 public class Manager : MonoBehaviour
 {   
@@ -18,9 +19,7 @@ public class Manager : MonoBehaviour
 
     ObjectPooler objectPooler;
 
-    [SerializedField]
     private int level = 1;
-    [SerializedField]
     private int score = 1;
 
     public int get_score(){
@@ -29,6 +28,12 @@ public class Manager : MonoBehaviour
 
     public void increment_score(){
         score += 1;
+        level = score / (int) Constants.object_in_level;
+
+        Debug.Log("Score: ");
+        Debug.Log(score);
+        Debug.Log("level: ");
+        Debug.Log(level);
     }
 
     public void game_over(){
@@ -45,11 +50,11 @@ public class Manager : MonoBehaviour
         
         objectPooler = ObjectPooler.Instance;
 
-        // here We will spawn random object
+        // here We will spawn random object and its obstacles
 
-        int n = objectPooler.models_tag.size();
+        int n = objectPooler.models_tag.Count;
         
-        System.Random rand = new System.Random();
+        Random rand = new Random();
         string random_model_tag = objectPooler.models_tag[ rand.Next(0, n) ];
             
         objectPooler.SpawnFromPool(random_model_tag, (int) Constants.obstacles_on_scene);

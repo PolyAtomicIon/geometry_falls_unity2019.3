@@ -15,13 +15,16 @@ public class Obstacle : MonoBehaviour, IPooledObject
         game_manager = FindObjectOfType<Manager>();
     }
 
-    void OnObjectSpawn(){
+    public void OnObjectSpawn(){
         return;
     }
 
     void Update(){
         
-        // check player's score
+        if( player.get_position_y_axis() < transform.y ){
+            game_manager.increment_score();
+            gameObject.SetActive(false);
+        }
 
     }
 
