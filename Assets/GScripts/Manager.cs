@@ -24,11 +24,13 @@ public class Manager : MonoBehaviour
     private int level = 0;
     private int score = 1;
 
-    public int get_score(){
+    public int get_score()
+    {
         return score;
     }
 
-    public void increment_score(){
+    public void increment_score()
+    {
         score += 1;
         level = score / ((int) Constants.object_in_level + 1) + 1;
 
@@ -38,7 +40,8 @@ public class Manager : MonoBehaviour
         Debug.Log(level);
     }
 
-    public void game_over(){
+    public void game_over()
+    {
         Debug.Log("game over!");
         gameOverSection.game_over(level);
         game_over_bool = true;

@@ -138,7 +138,7 @@ RectTransform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 139292458}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 2.3413086}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 282704321}
@@ -146,8 +146,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 12.518494, y: 26.588135}
-  m_SizeDelta: {x: 480, y: 0}
+  m_AnchoredPosition: {x: 0, y: 129}
+  m_SizeDelta: {x: 900, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &139292460
 MonoBehaviour:
@@ -197,8 +197,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 75
-  m_fontSizeBase: 75
+  m_fontSize: 125
+  m_fontSizeBase: 125
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -246,11 +246,11 @@ MonoBehaviour:
     lineCount: 1
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:
@@ -386,6 +386,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9640e2a55184e3146af82e981a88ed71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  game_manager: {fileID: 932153424}
+  scoreLabel: {fileID: 1438393726}
+  section: {fileID: 282704320}
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0
@@ -621,7 +624,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 932153421}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -21.356674, y: -277.40457, z: 9.521454}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -640,12 +643,13 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   gap: -70
-  number_each_prefab: 10
   models:
   - tag: pyramid
-    prefab: {fileID: 0}
+    prefab: {fileID: 821136417, guid: ef1a92250099e604bb704f99816570d4, type: 3}
     size: 2
-    obstacles_prefab: []
+    obstacles_prefab:
+    - {fileID: 231342458, guid: ba6ab24708dabd44bb32d76d4367879e, type: 3}
+    - {fileID: 1315265640, guid: 573b6712a81d7624f971c20c628ec36f, type: 3}
   models_tag: []
   palettes:
   - colors:
@@ -653,6 +657,11 @@ MonoBehaviour:
     - {r: 0.9245283, g: 0.36702213, b: 0.14391243, a: 0}
     - {r: 0.7735849, g: 0.31746176, b: 0.39206478, a: 0}
     - {r: 0.070354216, g: 0.386457, b: 0.4811321, a: 0}
+  - colors:
+    - {r: 1, g: 0.08962262, b: 0.14835659, a: 0}
+    - {r: 0.8773585, g: 0.8862745, b: 0.1448469, a: 0}
+    - {r: 0.20478818, g: 0.4180819, b: 0.735849, a: 0}
+    - {r: 0.12535366, g: 0.5566038, b: 0.107645065, a: 0}
 --- !u!114 &932153424
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -665,6 +674,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3fc624f660cd8114aa4f3a94c44cf8df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  gameOverSection: {fileID: 282704322}
 --- !u!1 &1016536154
 GameObject:
   m_ObjectHideFlags: 0
@@ -925,7 +935,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 12.518494, y: -118}
-  m_SizeDelta: {x: 200, y: 50}
+  m_SizeDelta: {x: 500, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1438393726
 MonoBehaviour:
@@ -975,8 +985,8 @@ MonoBehaviour:
   m_outlineColor:
     serializedVersion: 2
     rgba: 4278190080
-  m_fontSize: 60
-  m_fontSizeBase: 60
+  m_fontSize: 100
+  m_fontSizeBase: 100
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -1024,11 +1034,11 @@ MonoBehaviour:
     lineCount: 2
     pageCount: 1
     materialCount: 1
-  m_havePropertiesChanged: 0
+  m_havePropertiesChanged: 1
   m_isUsingLegacyAnimationComponent: 0
   m_isVolumetricText: 0
   m_spriteAnimator: {fileID: 0}
-  m_isInputParsingRequired: 0
+  m_isInputParsingRequired: 1
   m_inputSource: 0
   m_hasFontAssetChanged: 0
   m_subTextObjects:

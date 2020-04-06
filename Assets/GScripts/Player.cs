@@ -9,18 +9,15 @@ public class Player : MonoBehaviour, IPooledObject
     private Rigidbody rb;
     private Transform transform;
 
-    public float fall_down_speed;
+    public float fall_down_speed = -4f;
     public float speed;
 
-    public float maxSpeed = 7f;
+    private float maxSpeed = 7f;
 
     private Vector3 movement;
-    
-    //public Joystick joystick;
 
     private Manager game_manager;
 
-    // ObjectPooler objectPooler;
     public float get_position_y_axis(){
         return transform.position.y;
     }
@@ -38,8 +35,6 @@ public class Player : MonoBehaviour, IPooledObject
         transform = GetComponent<Transform>();
         
         game_manager = FindObjectOfType<Manager>();
-
-        // objectPooler = ObjectPooler.Instance;
     }
 
     public void OnObjectSpawn(){

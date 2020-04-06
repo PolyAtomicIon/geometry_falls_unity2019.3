@@ -5,7 +5,8 @@ using UnityEngine;
 public class RotatableObject : MonoBehaviour
 {
 
-    private float rotSpeed = 90f;
+    // rot Speed 8100f
+    public float rotationSpeed = 8100f;
 
     bool dragging;
 
@@ -39,12 +40,12 @@ public class RotatableObject : MonoBehaviour
         if( dragging ){
              
             // Moving by joysticks
-            //float rotX = joystick.Horizontal * rotSpeed * Mathf.Deg2Rad * Time.deltaTime;
-            //float rotY = joystick.Vertical * rotSpeed * Mathf.Deg2Rad * Time.deltaTime;
+            //float rotX = joystick.Horizontal * rotationSpeed * Mathf.Deg2Rad * Time.deltaTime;
+            //float rotY = joystick.Vertical * rotationSpeed * Mathf.Deg2Rad * Time.deltaTime;
         
             // Moving without joysticks
-            //float rotX = Input.GetAxis("Mouse X") * rotSpeed * 1.7f * Time.deltaTime * Mathf.Deg2Rad;
-            //float rotY = Input.GetAxis("Mouse Y") * rotSpeed * 1.7f *  Time.deltaTime * Mathf.Deg2Rad;
+            //float rotX = Input.GetAxis("Mouse X") * rotationSpeed * 1.7f * Time.deltaTime * Mathf.Deg2Rad;
+            //float rotY = Input.GetAxis("Mouse Y") * rotationSpeed * 1.7f *  Time.deltaTime * Mathf.Deg2Rad;
             
             // Without torque
             //transform.RotateAround(Vector3.up, rotX);
@@ -60,10 +61,10 @@ public class RotatableObject : MonoBehaviour
         
         if( dragging ){
             // As in PolySphere game, Torque
-            float rotX = Input.GetAxis("Mouse X") * rotSpeed * 90f * Mathf.Deg2Rad * Time.fixedDeltaTime;
-            float rotY = Input.GetAxis("Mouse Y") * rotSpeed * 90f * Mathf.Deg2Rad * Time.fixedDeltaTime;
+            float rotX = Input.GetAxis("Mouse X") * rotationSpeed * Mathf.Deg2Rad * Time.fixedDeltaTime;
+            float rotY = Input.GetAxis("Mouse Y") * rotationSpeed * Mathf.Deg2Rad * Time.fixedDeltaTime;
 
-            rb.AddTorque (Vector3.down * -rotX);
+            rb.AddTorque (Vector3.down * rotX);
             rb.AddTorque (Vector3.right * rotY);
         }
 

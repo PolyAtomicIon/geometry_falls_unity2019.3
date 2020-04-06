@@ -62,7 +62,7 @@ public class ObjectPooler : MonoBehaviour
 
     #endregion
 
-    public int number_each_prefab = 10;
+    private int number_each_prefab = 10;
 
     public List<Pool> models;
      
@@ -79,23 +79,26 @@ public class ObjectPooler : MonoBehaviour
     void Start()
     {
 
+
         // get prefabs from folder;
+        // In build this is not working, LOL
 
-        for(int i = 0; i < models.Count; i++){
-            models[i].prefab = ( Resources.Load("Levels/" + models[i].tag + "/" + models[i].tag) ) as GameObject;
+        // for(int i = 0; i < models.Count; i++){
+        //     models[i].prefab = ( Resources.Load("Levels/" + models[i].tag + "/" + models[i].tag) ) as GameObject;
 
-            for(int j = 1; j <= models[i].size; j++){
+        //     for(int j = 1; j <= models[i].size; j++){
 
-                string pos = j.ToString();
-                if( j == 1 ) pos = "";
+        //         string pos = j.ToString();
+        //         if( j == 1 ) pos = "";
 
-                GameObject temp = ( Resources.Load("Levels/" + models[i].tag + "/" + "obstacle_" + models[i].tag + pos + "_prefab" ) ) as GameObject;
+        //         GameObject temp = ( Resources.Load("Levels/" + models[i].tag + "/" + "obstacle_" + models[i].tag + pos + "_prefab" ) ) as GameObject;
 
-                models[i].obstacles_prefab.Add(temp);
-            }
+        //         models[i].obstacles_prefab.Add(temp);
+        //     }
 
-        }
+        // }
         // end
+        // actually no need!
 
 
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
@@ -155,7 +158,7 @@ public class ObjectPooler : MonoBehaviour
         Debug.Log(random_color_index);
 
         Renderer rd = objectToSpawn.GetComponent<Renderer>();
-        rd.material = new Material(Shader.Find("Specular"));
+        rd.material = new Material(Shader.Find("Legacy Shaders/Specular"));
         rd.material.SetColor("_Color", palettes[random_palette].colors[random_color_index]);
         //
 
