@@ -21,7 +21,6 @@ public class RotatableObject : MonoBehaviour
     {
         rb = GetComponent<Rigidbody>();
         //joystick = FindObjectOfType<Joystick>();
-        
         rb.centerOfMass = Vector3.zero;
         rb.inertiaTensorRotation = Quaternion.identity;
     }

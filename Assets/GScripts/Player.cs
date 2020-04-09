@@ -8,8 +8,8 @@ public class Player : MonoBehaviour, IPooledObject
 
     private Rigidbody rb;
     private Transform transform;
-
-    public float fall_down_speed = -4f;
+    public float angular_drag = 1.5f;
+    public float fall_down_speed;
     public float speed;
 
     private float maxSpeed = 7f;
@@ -33,13 +33,13 @@ public class Player : MonoBehaviour, IPooledObject
     void Start(){
         rb = GetComponent<Rigidbody>();
         transform = GetComponent<Transform>();
-        
+        rb.angularDrag = angular_drag;
+        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
         game_manager = FindObjectOfType<Manager>();
     }
 
     public void OnObjectSpawn(){
         Start();
-        fall_down_speed = -4f;
         speed = 25f;
         fallDown(fall_down_speed);
     }

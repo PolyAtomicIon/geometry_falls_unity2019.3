@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine;
 using Random=System.Random;
+using TMPro;
 
 public class Manager : MonoBehaviour
 {   
@@ -18,7 +19,7 @@ public class Manager : MonoBehaviour
     int touches = 0;
 
     ObjectPooler objectPooler;
-
+    public TextMeshProUGUI LevelLabel;
     public GameOver gameOverSection;
 
     private int level = 0;
@@ -43,15 +44,24 @@ public class Manager : MonoBehaviour
     public void game_over()
     {
         Debug.Log("game over!");
+        LevelLabel.enabled = false;
         gameOverSection.game_over(level);
         game_over_bool = true;
         Time.timeScale = 0f;
     }
     
+    private string levelString(){
+        string zero = "";
+        if( score < 10 ){
+            zero = "0";
+        }
+        return "Level: " + zero + level.ToString();
+    }
+
     void Start()
     {
 
-        Physics.gravity = new Vector3(0, -0.75f, 0);    
+        Physics.gravity = new Vector3(0, -0.25f, 0);    
         
         objectPooler = ObjectPooler.Instance;
 
@@ -70,8 +80,11 @@ public class Manager : MonoBehaviour
     void Update()
     {
 
-        // All this stuff for restart of the level
+        // set level to Level Label UI
+        LevelLabel.text = levelString();
 
+        // All this stuff for restart of the level
+    
         int i = 0;
 
         if( Input.GetKeyDown("r") ){

@@ -37,8 +37,6 @@ public class ObjectPooler : MonoBehaviour
 
     Vector3 VectorZero = Vector3.zero;
 
-    public float gap = 0f;
-
     [System.Serializable]
     public class Pool{
         public string tag;
@@ -62,7 +60,7 @@ public class ObjectPooler : MonoBehaviour
 
     #endregion
 
-    private int number_each_prefab = 10;
+    private int number_each_prefab = 5;
 
     public List<Pool> models;
      
@@ -76,9 +74,20 @@ public class ObjectPooler : MonoBehaviour
     private int random_palette = 0;
     private int last_random_index = -1;
 
-    void Start()
-    {
+    public float gap = 0f;
+    public Vector3 gap_between;
+    public Vector3 obstacle_position;
 
+    public Vector3 new_obstacle_position(){
+        obstacle_position += gap_between;
+        return obstacle_position;
+    }
+
+    public void Start()
+    {
+        
+        gap_between = new Vector3(0f, gap, 0f);
+        obstacle_position = new Vector3(0f, 0f, 0f);
 
         // get prefabs from folder;
         // In build this is not working, LOL
@@ -157,20 +166,23 @@ public class ObjectPooler : MonoBehaviour
 
         Debug.Log(random_color_index);
 
+        // to change color
         Renderer rd = objectToSpawn.GetComponent<Renderer>();
         rd.material = new Material(Shader.Find("Legacy Shaders/Specular"));
         rd.material.SetColor("_Color", palettes[random_palette].colors[random_color_index]);
-        //
+        // end
 
 
-        // set rotation, for player - quaternion, for obstacle x = -90, then random;
+        // set rotation, for player - quaternion, for obstacle z = 90, then random;
         if( model ){
-            objectToSpawn.transform.rotation = Quaternion.identity;
             rd.material.SetColor("_Color", palettes[random_palette].colors[3]);
-        }
-        else{    
-            objectToSpawn.transform.eulerAngles = new Vector3(270f, Random.Range(0f, 360f), Random.Range(0f, 360f));
-        }
+            objectToSpawn.transform.rotation = Quaternion.identity;
+        }/*
+        else{  
+            // it was random, we changed it  
+            // objectToSpawn.transform.eulerAngles = new Vector3(270f, Random.Range(0f, 360f), Random.Range(0f, 360f));
+            //objectToSpawn.transform.eulerAngles = new Vector3(0f, 0f, 90f);
+        }*/
 
 
         // Call the OnObjectSpwan, differs for player and obstacle.
@@ -195,18 +207,14 @@ public class ObjectPooler : MonoBehaviour
 
 
         // generate the level with obstacles
-        Vector3 gap_between = new Vector3(0f, gap, 0f);
-        Vector3 obstacle_position = new Vector3(0f, -20f, 0f);
 
         for(int i=0; i<size; i++){
 
             GameObject obstacle = poolDictionary[tag].Dequeue();
 
-            initialize_object(obstacle, tag + "_obstacle", obstacle_position);
+            initialize_object(obstacle, tag + "_obstacle", new_obstacle_position());
 
             poolDictionary[tag].Enqueue(obstacle);
-
-            obstacle_position += gap_between;
 
         }    
         
