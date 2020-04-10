@@ -18,6 +18,9 @@ public class Player : MonoBehaviour, IPooledObject
 
     private Manager game_manager;
 
+    public float rotation_duration = 0.5f;
+    private bool rotating = false;
+
     public float get_position_y_axis(){
         return transform.position.y;
     }
@@ -28,6 +31,38 @@ public class Player : MonoBehaviour, IPooledObject
 
     private void move_object(Vector3 direction){
         rb.MovePosition(transform.position + (direction * speed * Time.deltaTime));
+    }
+
+    private IEnumerator Rotate( Vector3 angles, float duration )
+    {
+        rotating = true ;
+        Quaternion startRotation = transform.rotation ;
+        Quaternion endRotation = Quaternion.Euler( angles ) * startRotation ;
+        for( float t = 0 ; t < duration ; t+= Time.deltaTime )
+        {
+            transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
+            yield return null;
+        }
+        transform.rotation = endRotation  ;
+        rotating = false;
+    }
+
+    public void rotate(string direction){
+
+        if( rotating ) return;
+
+        if( direction == "up" ){
+            StartCoroutine( Rotate( Vector3.right * 90f, rotation_duration ) );
+        }
+        if( direction == "down" ){
+            StartCoroutine( Rotate( -Vector3.right * 90f, rotation_duration ) );
+        }
+        if( direction == "right" ){
+            StartCoroutine( Rotate( Vector3.up * 90f, rotation_duration ) );
+        }
+        if( direction == "left" ){
+            StartCoroutine( Rotate( -Vector3.up * 90f, rotation_duration ) );
+        }
     }
 
     void Start(){

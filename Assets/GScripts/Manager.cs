@@ -61,7 +61,7 @@ public class Manager : MonoBehaviour
     void Start()
     {
 
-        Physics.gravity = new Vector3(0, -0.25f, 0);    
+        Physics.gravity = new Vector3(0, -0.1f, 0);    
         
         objectPooler = ObjectPooler.Instance;
 

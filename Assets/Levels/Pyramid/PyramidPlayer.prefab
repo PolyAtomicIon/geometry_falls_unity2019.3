@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 4727065182018490688}
   - component: {fileID: 586278607380054623}
   - component: {fileID: 765126376709609504}
+  - component: {fileID: 8626674879877247862}
   m_Layer: 0
   m_Name: PyramidPlayer
   m_TagString: Untagged
@@ -119,7 +120,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3931665247254696001}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7f30c90c2450b14f8f9b33eb097cc8b, type: 3}
   m_Name: 
@@ -139,3 +140,18 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 14
   m_Mesh: {fileID: 4300000, guid: 1b88409e3ac64f2469d571d0f433172c, type: 3}
+--- !u!114 &8626674879877247862
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3931665247254696001}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5569c274d4e51324aaae8e6f20d08376, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detectSwipeOnlyAfterRelease: 0
+  minDistanceForSwipe: 20
+  player: {fileID: 0}

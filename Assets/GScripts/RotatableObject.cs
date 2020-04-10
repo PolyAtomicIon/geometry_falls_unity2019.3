@@ -63,8 +63,10 @@ public class RotatableObject : MonoBehaviour
             float rotX = Input.GetAxis("Mouse X") * rotationSpeed * Mathf.Deg2Rad * Time.fixedDeltaTime;
             float rotY = Input.GetAxis("Mouse Y") * rotationSpeed * Mathf.Deg2Rad * Time.fixedDeltaTime;
 
+            /*
             rb.AddTorque (Vector3.down * -rotX);
             rb.AddTorque (Vector3.right * rotY);
+            */
         }
 
     }
