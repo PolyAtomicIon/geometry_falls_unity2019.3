@@ -60,7 +60,7 @@ public class ObjectPooler : MonoBehaviour
 
     #endregion
 
-    private int number_each_prefab = 5;
+    private int number_each_prefab = 3;
 
     public List<Pool> models;
      

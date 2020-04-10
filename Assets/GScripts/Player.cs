@@ -18,7 +18,8 @@ public class Player : MonoBehaviour, IPooledObject
 
     private Manager game_manager;
 
-    public float rotation_duration = 0.5f;
+    public float rotation_duration = 0.35f;
+    public float rotation_degree = 45f;
     private bool rotating = false;
 
     public float get_position_y_axis(){
@@ -52,16 +53,16 @@ public class Player : MonoBehaviour, IPooledObject
         if( rotating ) return;
 
         if( direction == "up" ){
-            StartCoroutine( Rotate( Vector3.right * 90f, rotation_duration ) );
+            StartCoroutine( Rotate( Vector3.right * rotation_degree, rotation_duration ) );
         }
         if( direction == "down" ){
-            StartCoroutine( Rotate( -Vector3.right * 90f, rotation_duration ) );
+            StartCoroutine( Rotate( -Vector3.right * rotation_degree, rotation_duration ) );
         }
         if( direction == "right" ){
-            StartCoroutine( Rotate( Vector3.up * 90f, rotation_duration ) );
+            StartCoroutine( Rotate( Vector3.up * rotation_degree, rotation_duration ) );
         }
         if( direction == "left" ){
-            StartCoroutine( Rotate( -Vector3.up * 90f, rotation_duration ) );
+            StartCoroutine( Rotate( -Vector3.up * rotation_degree, rotation_duration ) );
         }
     }
 
