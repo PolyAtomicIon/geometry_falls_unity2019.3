@@ -7,13 +7,20 @@ using TMPro;
 
 public class Manager : MonoBehaviour
 {   
-    enum Constants
+    private enum Constants
     {
         max_touches = 25,
-        object_in_level = 15,
-        obstacles_on_scene = 20
+        object_in_level = 5,
+        obstacles_on_scene = 15
     }
     
+    
+    public int object_in_level(){
+        return (int) Constants.object_in_level;
+    }
+
+    private bool is_active_scene = true;
+
     float ScreenWidth = Screen.width;
     bool game_over_bool = false;
     int touches = 0;
@@ -22,8 +29,8 @@ public class Manager : MonoBehaviour
     public TextMeshProUGUI LevelLabel;
     public GameOver gameOverSection;
 
-    private int level = 0;
-    private int score = 1;
+    private int level = 1;
+    private int score = 0;
 
     public int get_score()
     {
@@ -33,7 +40,13 @@ public class Manager : MonoBehaviour
     public void increment_score()
     {
         score += 1;
-        level = score / ((int) Constants.object_in_level + 1) + 1;
+
+        if( score / ((int) Constants.object_in_level) + 1 > level ){
+            level+=1;
+            Debug.Log("RELOAD THE SCENE");
+            UnloadAdditiveScene();
+            LoadAdditiveScene();
+        }
 
         Debug.Log("Score: ");
         Debug.Log(score);
@@ -52,29 +65,42 @@ public class Manager : MonoBehaviour
     
     private string levelString(){
         string zero = "";
-        if( score < 10 ){
+        if( level < 10 ){
             zero = "0";
         }
         return "Level: " + zero + level.ToString();
     }
 
-    void Start()
-    {
+    private void Awake(){
+    }
+    
+    /*
+    private void StartNewLevelTransition(){
+        is_active_scene = true;
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
+    }
+    */
 
-        Physics.gravity = new Vector3(0, -0.1f, 0);    
+    IEnumerator Unload(){
+        yield return 0.1f;
         
+        SceneManager.UnloadScene("AdditiveScene");
+    }
+
+    private void UnloadAdditiveScene(){
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
+        // StartCoroutine(Unload());
+        
+        SceneManager.UnloadScene("AdditiveScene");
+    }
+
+    private void LoadAdditiveScene(){
+        SceneManager.LoadScene("AdditiveScene", LoadSceneMode.Additive);
+    }
+
+    void Start(){
+        LoadAdditiveScene();
         objectPooler = ObjectPooler.Instance;
-
-        // here We will spawn random object and its obstacles
-
-        int n = objectPooler.models_tag.Count;
-        
-        Random rand = new Random();
-        string random_model_tag = objectPooler.models_tag[ rand.Next(0, n) ];
-            
-        objectPooler.SpawnFromPool(random_model_tag, (int) Constants.obstacles_on_scene);
-
-        // object has been spawned with it obstacles, done
     }
 
     void Update()
@@ -89,7 +115,7 @@ public class Manager : MonoBehaviour
 
         if( Input.GetKeyDown("r") ){
             Time.timeScale = 1f;
-            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+            SceneManager.LoadScene("Base");
         }
 
         while (i < Input.touchCount) {
@@ -99,7 +125,7 @@ public class Manager : MonoBehaviour
                 if( game_over_bool && (touches >= (int) Constants.max_touches) ){
                     Debug.Log("touch");
                     Time.timeScale = 1f;
-                    SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+                    SceneManager.LoadScene("Base");
                 }
                 else{
                     touches += 1;

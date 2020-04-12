@@ -67,6 +67,9 @@ public class Player : MonoBehaviour, IPooledObject
     }
 
     void Start(){
+
+        Physics.gravity = new Vector3(0, -0.1f, 0);    
+
         rb = GetComponent<Rigidbody>();
         transform = GetComponent<Transform>();
         rb.angularDrag = angular_drag;

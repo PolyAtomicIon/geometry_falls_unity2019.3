@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using UnityEngine; 
 using RandomS=System.Random;
+using UnityEngine.SceneManagement; 
 using Random=UnityEngine.Random;
 using System.Threading;
 
@@ -78,14 +79,36 @@ public class ObjectPooler : MonoBehaviour
     public Vector3 gap_between;
     public Vector3 obstacle_position;
 
+    public Manager game_manager;
+
+    public int object_in_level = 5;
+
     public Vector3 new_obstacle_position(){
         obstacle_position += gap_between;
         return obstacle_position;
     }
 
+    private void StartNewLevel(){
+        // here We will spawn random object and its obstacles
+
+        int n = models_tag.Count;
+        
+        RandomS rand = new RandomS();
+        string random_model_tag = models_tag[ rand.Next(0, n) ];
+            
+        SpawnFromPool(random_model_tag, object_in_level);
+
+        // object has been spawned with it obstacles, done
+    }
+
     public void Start()
     {
         
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("AdditiveScene"));
+
+        game_manager = FindObjectOfType<Manager>();
+        object_in_level = (int) game_manager.object_in_level();
+
         gap_between = new Vector3(0f, gap, 0f);
         obstacle_position = new Vector3(0f, 0f, 0f);
 
@@ -145,6 +168,8 @@ public class ObjectPooler : MonoBehaviour
             GameObject model = Instantiate(pool.prefab) as GameObject;
             modelsDictionary.Add(pool.tag, model);
         }
+
+        StartNewLevel();
 
     }
 

@@ -11,6 +11,7 @@ public class Obstacle : MonoBehaviour, IPooledObject
     private Player player;
 
     private Renderer render;
+    private bool is_active = true;
 
     ObjectPooler objectPooler;
 
@@ -18,20 +19,25 @@ public class Obstacle : MonoBehaviour, IPooledObject
         player = FindObjectOfType<Player>();
         game_manager = FindObjectOfType<Manager>();
         render = GetComponent<Renderer>();
-        
+
         objectPooler = ObjectPooler.Instance;
     }
 
     public void OnObjectSpawn(){
-        Start();
+        Start(); 
+        is_active = true;
     }
 
     void Update(){
         
-        if( player.get_position_y_axis() < -10f + transform.position.y ){
+        if( is_active && player.get_position_y_axis() < -10f + transform.position.y ){
+            is_active = false;
             game_manager.increment_score();
-            // move it down
-            transform.position = objectPooler.new_obstacle_position();
+
+            // disabled miving down
+
+            // move it down 
+            //transform.position = objectPooler.new_obstacle_position();
         }
 
     }
