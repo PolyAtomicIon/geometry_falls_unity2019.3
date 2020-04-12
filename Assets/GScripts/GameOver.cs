@@ -12,14 +12,19 @@ public class GameOver : MonoBehaviour
 
     public GameObject section;
 
+    public GameObject spinning_object;
+
     void Start()
     {
         game_manager = FindObjectOfType<Manager>();
-        section = GetComponent<GameObject>();
     }
 
     public void game_over(int score){
+        
+        Time.timeScale = 1f;
+        spinning_object.SetActive(true);
         section.SetActive(true);
+
         string zero = "";
         if( score < 10 ){
             zero = "0";

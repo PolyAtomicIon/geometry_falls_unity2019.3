@@ -90,6 +90,17 @@ public class Player : MonoBehaviour, IPooledObject
         // movement = new Vector3( Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical") );
         // movement = new Vector3( joystick.Horizontal, 0f, joystick.Vertical );
 
+        if( Input.GetKeyDown("s") )
+            rotate("down");
+        
+        if( Input.GetKeyDown("w") )
+            rotate("up");
+        
+        if( Input.GetKeyDown("d") )
+            rotate("right");
+
+        if( Input.GetKeyDown("a") )
+            rotate("left");
     }
 
     void FixedUpdate()

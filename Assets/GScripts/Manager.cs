@@ -4,13 +4,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using Random=System.Random;
 using TMPro;
+using UnityEngine.UI;
 
 public class Manager : MonoBehaviour
 {   
-    private enum Constants
+    public enum Constants
     {
         max_touches = 25,
-        object_in_level = 5,
+        object_in_level = 10,
         obstacles_on_scene = 15
     }
     
@@ -57,10 +58,12 @@ public class Manager : MonoBehaviour
     public void game_over()
     {
         Debug.Log("game over!");
+        
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
+
         LevelLabel.enabled = false;
         gameOverSection.game_over(level);
         game_over_bool = true;
-        Time.timeScale = 0f;
     }
     
     private string levelString(){
@@ -69,6 +72,11 @@ public class Manager : MonoBehaviour
             zero = "0";
         }
         return "Level: " + zero + level.ToString();
+    }
+
+    public void restartLevel(){
+        Time.timeScale = 1f;
+        SceneManager.LoadScene("Base");
     }
 
     private void Awake(){
@@ -110,32 +118,10 @@ public class Manager : MonoBehaviour
         LevelLabel.text = levelString();
 
         // All this stuff for restart of the level
-    
-        int i = 0;
 
         if( Input.GetKeyDown("r") ){
-            Time.timeScale = 1f;
-            SceneManager.LoadScene("Base");
+            restartLevel();
         }
-
-        while (i < Input.touchCount) {
-            
-            Debug.Log("touch");
-            if (Input.GetTouch (i).position.x > ScreenWidth / 2 || Input.GetTouch (i).position.x < ScreenWidth / 2){
-                if( game_over_bool && (touches >= (int) Constants.max_touches) ){
-                    Debug.Log("touch");
-                    Time.timeScale = 1f;
-                    SceneManager.LoadScene("Base");
-                }
-                else{
-                    touches += 1;
-                }
-            }
-            
-            i++;
-        }
-
-        // End of restart
 
     }
 
