@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.44657898, g: 0.4964133, b: 0.5748178, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -223,7 +223,6 @@ MonoBehaviour:
   target: {fileID: 0}
   smoothSpeed: 0.25
   offset: {x: 0.5, y: 9, z: 1.5}
-  transitionTimeInSec: 2
 --- !u!1 &1350015089
 GameObject:
   m_ObjectHideFlags: 0
@@ -255,16 +254,21 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   models:
   - tag: pyramid
-    prefab: {fileID: 3931665247254696001, guid: f5b0cf78ef8b481499a94a5b3ffc3102,
+    prefab: {fileID: 8672699781613493681, guid: f37e4bfa721956d4d8545ded660c4844,
       type: 3}
-    size: 6
+    size: 12
     obstacles_prefab:
-    - {fileID: 1172867009940134080, guid: 8edcef1b8dbd7cd4e949df0f8c9be2b8, type: 3}
-    - {fileID: 1683178600231678200, guid: 9ad0a302e12c12543bf8cc9f45e4fd35, type: 3}
-    - {fileID: 8413710260323813513, guid: 0199f15e38eceea4c93a969c8b190027, type: 3}
-    - {fileID: 3304138121233580003, guid: 53d5ece9662288147868b63ed92ac32a, type: 3}
-    - {fileID: 7745003634132867490, guid: d00fd7241d0d5554a820392c92a7ca36, type: 3}
-    - {fileID: 1750746761228527571, guid: edd0fd33acaaaf846a65a40a9ce2eae2, type: 3}
+    - {fileID: 3335191758614979336, guid: 00adfd0c82034304481fa9e2a708a949, type: 3}
+    - {fileID: 3872395026139086956, guid: 85dda7732cb20c04cb61de32fd983ca5, type: 3}
+    - {fileID: 7317397480640752287, guid: 85809560df7b5a7458380a4a1bfe1d70, type: 3}
+    - {fileID: 9216141174636013078, guid: cf73a40094b716a4698a0c8623caa40b, type: 3}
+    - {fileID: 2089993616380116978, guid: 91f1106476a213d4b925cbb9215de066, type: 3}
+    - {fileID: 7358849203676417563, guid: 4288e8fb662cfb14184c9fa90b600dcb, type: 3}
+    - {fileID: 1609687018773985801, guid: e508d18df6e3d9348b8ff383ebe06e1c, type: 3}
+    - {fileID: 9216141174636013078, guid: cf73a40094b716a4698a0c8623caa40b, type: 3}
+    - {fileID: 8246895459067104984, guid: 83e1421246550a94c8123672729cb414, type: 3}
+    - {fileID: 7358849203676417563, guid: 4288e8fb662cfb14184c9fa90b600dcb, type: 3}
+    - {fileID: 2089993616380116978, guid: 91f1106476a213d4b925cbb9215de066, type: 3}
   models_tag: []
   palettes:
   - colors:

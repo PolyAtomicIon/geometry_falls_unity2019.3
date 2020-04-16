@@ -852,6 +852,28 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 1385491909786780714, guid: 02d7342bb80931a4b91b8c19f0983cf2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 932153423}
+    - target: {fileID: 1385491909786780714, guid: 02d7342bb80931a4b91b8c19f0983cf2,
+        type: 3}
+      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: TurnWheel
+      objectReference: {fileID: 0}
+    - target: {fileID: 1385491909786780714, guid: 02d7342bb80931a4b91b8c19f0983cf2,
+        type: 3}
+      propertyPath: m_SpriteState.m_PressedSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: cf9a7c52365b50a45b958cbea9d2afa3,
+        type: 3}
+    - target: {fileID: 1385491910513430436, guid: 02d7342bb80931a4b91b8c19f0983cf2,
+        type: 3}
+      propertyPath: m_FontData.m_Font
+      value: 
+      objectReference: {fileID: 12800000, guid: 65d249acec1c5814bb89b0a948c5679e,
+        type: 3}
     - target: {fileID: 5756893141472280864, guid: 02d7342bb80931a4b91b8c19f0983cf2,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1017,28 +1039,6 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
-    - target: {fileID: 1385491910513430436, guid: 02d7342bb80931a4b91b8c19f0983cf2,
-        type: 3}
-      propertyPath: m_FontData.m_Font
-      value: 
-      objectReference: {fileID: 12800000, guid: 65d249acec1c5814bb89b0a948c5679e,
-        type: 3}
-    - target: {fileID: 1385491909786780714, guid: 02d7342bb80931a4b91b8c19f0983cf2,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 932153423}
-    - target: {fileID: 1385491909786780714, guid: 02d7342bb80931a4b91b8c19f0983cf2,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: TurnWheel
-      objectReference: {fileID: 0}
-    - target: {fileID: 1385491909786780714, guid: 02d7342bb80931a4b91b8c19f0983cf2,
-        type: 3}
-      propertyPath: m_SpriteState.m_PressedSprite
-      value: 
-      objectReference: {fileID: 21300000, guid: cf9a7c52365b50a45b958cbea9d2afa3,
-        type: 3}
     - target: {fileID: 1385491909786780712, guid: 02d7342bb80931a4b91b8c19f0983cf2,
         type: 3}
       propertyPath: m_Controller
