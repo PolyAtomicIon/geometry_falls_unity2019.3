@@ -3,6 +3,80 @@ guid: 52a670d2e977a4648962c40d3ba52e3f
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
+    100000: Cube
+    100002: Cube.001
+    100004: Cube.003
+    100006: Cube.004
+    100008: Cube.005
+    100010: Cube.006
+    100012: Cube.007
+    100014: Cube.008
+    100016: Cube.009
+    100018: Cube.010
+    100020: Cube.011
+    100022: Cube.012
+    100024: Cube.013
+    100026: Cube.014
+    100028: //RootNode
+    400000: Cube
+    400002: Cube.001
+    400004: Cube.003
+    400006: Cube.004
+    400008: Cube.005
+    400010: Cube.006
+    400012: Cube.007
+    400014: Cube.008
+    400016: Cube.009
+    400018: Cube.010
+    400020: Cube.011
+    400022: Cube.012
+    400024: Cube.013
+    400026: Cube.014
+    400028: //RootNode
+    2100000: No Name
+    2300000: Cube
+    2300002: Cube.001
+    2300004: Cube.003
+    2300006: Cube.004
+    2300008: Cube.005
+    2300010: Cube.006
+    2300012: Cube.007
+    2300014: Cube.008
+    2300016: Cube.009
+    2300018: Cube.010
+    2300020: Cube.011
+    2300022: Cube.012
+    2300024: Cube.013
+    2300026: Cube.014
+    3300000: Cube
+    3300002: Cube.001
+    3300004: Cube.003
+    3300006: Cube.004
+    3300008: Cube.005
+    3300010: Cube.006
+    3300012: Cube.007
+    3300014: Cube.008
+    3300016: Cube.009
+    3300018: Cube.010
+    3300020: Cube.011
+    3300022: Cube.012
+    3300024: Cube.013
+    3300026: Cube.014
+    4300000: Cube
+    4300002: Cube.001
+    4300004: Cube.005
+    4300006: Cube.006
+    4300008: Cube.007
+    4300010: Cube.008
+    4300012: Cube.009
+    4300014: Cube.010
+    4300016: Cube.011
+    4300018: Cube.012
+    4300020: Cube.013
+    4300022: Cube.014
+    4300024: Cube.004
+    4300026: Cube.003
+    9500000: //RootNode
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
@@ -57,7 +131,7 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
     previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
