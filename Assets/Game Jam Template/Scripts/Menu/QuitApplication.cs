@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.SceneManagement; 
 
 public class QuitApplication : MonoBehaviour {
 
@@ -17,4 +18,9 @@ public class QuitApplication : MonoBehaviour {
 		UnityEditor.EditorApplication.isPlaying = false;
 	#endif
 	}
+
+	public void exit(){
+        SceneManager.LoadScene("MainMenu");
+	}
+
 }

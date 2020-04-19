@@ -9,7 +9,7 @@ public class StartOptions : MonoBehaviour {
 
 
     public MenuSettings menuSettingsData;
-	public int sceneToStart = 1;										//Index number in build settings of scene to load if changeScenes is true
+	public int sceneToStart = 1;									//Index number in build settings of scene to load if changeScenes is true
 	public bool changeScenes;											//If true, load a new scene when Start is pressed, if false, fade out UI and continue in single scene
 	public bool changeMusicOnStart;										//Choose whether to continue playing menu music or start a new music clip
     public CanvasGroup fadeOutImageCanvasGroup;                         //Canvas group used to fade alpha of image which fades in before changing scenes
@@ -42,6 +42,38 @@ public class StartOptions : MonoBehaviour {
 
 	public void StartButtonClicked()
 	{
+		//If changeMusicOnStart is true, fade out volume of music group of AudioMixer by calling FadeDown function of PlayMusic
+		//To change fade time, change length of animation "FadeToColor"
+		if (menuSettingsData.musicLoopToChangeTo != null) 
+		{
+			playMusic.FadeDown(menuSettingsData.menuFadeTime);
+		}
+		
+		Debug.Log(menuSettingsData.nextSceneIndex);
+		//If changeScenes is true, start fading and change scenes halfway through animation when screen is blocked by FadeImage
+		if (menuSettingsData.nextSceneIndex != 0) 
+		{
+			//Use invoke to delay calling of LoadDelayed by half the length of fadeColorAnimationClip
+			Invoke ("LoadDelayed", menuSettingsData.menuFadeTime);
+			Debug.Log("axlx");
+            StartCoroutine(FadeCanvasGroupAlpha(0f, 1f, fadeOutImageCanvasGroup));
+
+        } 
+
+		//If changeScenes is false, call StartGameInScene
+		else 
+		{
+			//Call the StartGameInScene function to start game without loading a new scene.
+			StartGameInScene();
+		}
+
+	}
+
+	public void StartPaidButtonClicked()
+	{
+		// change scene to another scene -> Challange
+		sceneToStart = 2;
+
 		//If changeMusicOnStart is true, fade out volume of music group of AudioMixer by calling FadeDown function of PlayMusic
 		//To change fade time, change length of animation "FadeToColor"
 		if (menuSettingsData.musicLoopToChangeTo != null) 
