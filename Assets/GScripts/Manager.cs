@@ -11,7 +11,7 @@ public class Manager : MonoBehaviour
     public enum Constants
     {
         max_touches = 25,
-        object_in_level = 10,
+        object_in_level = 13,
         obstacles_on_scene = 15
     }
     
@@ -29,6 +29,12 @@ public class Manager : MonoBehaviour
     ObjectPooler objectPooler;
     public TextMeshProUGUI LevelLabel;
     public GameOver gameOverSection;
+
+    // For getting random models for each level 
+    public List<int> random_models_indexes;
+    private int next_model_index = 0;
+    public int max_models_number = 2;
+    // end
 
     private int level = 1;
     private int score = 0;
@@ -55,6 +61,28 @@ public class Manager : MonoBehaviour
         Debug.Log(level);
     }
 
+    public int get_next_random_model_index(){
+
+        if( random_models_indexes.Count == 0 )
+            return -1;
+
+        int res = random_models_indexes[next_model_index];
+
+        next_model_index += 1;
+        next_model_index %= max_models_number;
+
+        return res; 
+    }
+
+    public void create_random_models_indexes(){
+        Debug.Log(max_models_number);
+
+        for(int i=0; i<max_models_number; i++)
+            random_models_indexes.Add(i);
+        
+        random_models_indexes.Shuffle();
+    }
+
     public void game_over()
     {
         Debug.Log("game over!");
@@ -77,6 +105,10 @@ public class Manager : MonoBehaviour
     public void restartLevel(){
         Time.timeScale = 1f;
         SceneManager.LoadScene("Base");
+    }
+
+    public void exit(){
+        SceneManager.LoadScene("MainMenu");
     }
 
     private void Awake(){

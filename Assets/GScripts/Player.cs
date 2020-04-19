@@ -114,6 +114,7 @@ public class Player : MonoBehaviour, IPooledObject
     {
         Debug.Log(col.gameObject.name);    
         rb.velocity = new Vector3(0f, 0f, 0f);
+        gameObject.SetActive(false);
         game_manager.game_over();
     }
 

@@ -17,7 +17,7 @@ public static class ThreadSafeRandom
     }
 }
 
-static class Shuffler
+public static class Shuffler
 {
     public static void Shuffle<T>(this IList<T> list)
     {
@@ -39,11 +39,17 @@ public class ObjectPooler : MonoBehaviour
     Vector3 VectorZero = Vector3.zero;
 
     [System.Serializable]
+    public class Obstacle{
+        public GameObject prefab;
+        public int complexity;
+    }
+
+    [System.Serializable]
     public class Pool{
         public string tag;
         public GameObject prefab;
         public int size;
-        public List<GameObject> obstacles_prefab;
+        public List<Obstacle> obstacles_prefab;
     }
 
     [System.Serializable]
@@ -61,7 +67,9 @@ public class ObjectPooler : MonoBehaviour
 
     #endregion
 
-    private int number_each_prefab = 3;
+    private int max_complexity_value = 3;
+
+    private int number_each_prefab = 2;
 
     public List<Pool> models;
      
@@ -91,11 +99,16 @@ public class ObjectPooler : MonoBehaviour
     private void StartNewLevel(){
         // here We will spawn random object and its obstacles
 
-        int n = models_tag.Count;
+        int random_model_index = game_manager.get_next_random_model_index();
+
+        if ( random_model_index == -1 ){
+            game_manager.max_models_number = models_tag.Count;
+            game_manager.create_random_models_indexes();
+            random_model_index = game_manager.get_next_random_model_index();
+        } 
         
-        RandomS rand = new RandomS();
-        string random_model_tag = models_tag[ rand.Next(0, n) ];
-            
+        string random_model_tag = models_tag[random_model_index];
+
         SpawnFromPool(random_model_tag, object_in_level);
 
         // object has been spawned with it obstacles, done
@@ -136,36 +149,46 @@ public class ObjectPooler : MonoBehaviour
         poolDictionary = new Dictionary<string, Queue<GameObject>>();
         modelsDictionary = new Dictionary<string, GameObject>();
 
-        // Add all gameobjects here, then we will shuffle
-        List<GameObject> temp_gameobjects = new List<GameObject>();
-
+        // Add all gameobjects here, then we will shuffle, sorted by obstacle complexity
+        List<GameObject>[] temp_gameobjects = new List<GameObject>[max_complexity_value+1];
 
         // create for every type of prefab 'number_each_prefab' clones
         foreach(Pool pool in models){
+
+            // clean all obstacles
+            for (int i = 0; i <= max_complexity_value; i++)
+                temp_gameobjects[i] = new List<GameObject>();
+
             Queue<GameObject> objectPool = new Queue<GameObject>();
 
 
-            foreach (GameObject obstacle_prefab in pool.obstacles_prefab){
+            foreach (Obstacle obstacle in pool.obstacles_prefab){
                 
                 for(int j = 0; j < number_each_prefab; j++){
-                    GameObject obstacle = Instantiate(obstacle_prefab) as GameObject;
-                    obstacle.SetActive(false);
-                    temp_gameobjects.Add(obstacle);
+                    GameObject obstacle_prefab = Instantiate(obstacle.prefab) as GameObject;
+                    obstacle_prefab.SetActive(false);
+                    temp_gameobjects[obstacle.complexity].Add(obstacle_prefab);
                 }
 
             }
 
             // Shuffle, add them to Queue
-            temp_gameobjects.Shuffle();
-            foreach(GameObject i in temp_gameobjects){
-                objectPool.Enqueue(i);
+            for(int i=1; i<=max_complexity_value; i++){
+
+                temp_gameobjects[i].Shuffle();
+            
+                foreach(GameObject prefab in temp_gameobjects[i])
+                    objectPool.Enqueue(prefab);
+            
             }
+            
             poolDictionary.Add(pool.tag, objectPool);
             // end
 
             // Player's model, add tag, add to dictionary
             models_tag.Add(pool.tag);
             GameObject model = Instantiate(pool.prefab) as GameObject;
+            model.SetActive(false);
             modelsDictionary.Add(pool.tag, model);
         }
 
