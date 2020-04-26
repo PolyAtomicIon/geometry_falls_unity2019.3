@@ -216,8 +216,10 @@ public class ObjectPooler : MonoBehaviour
 
         // to change color
         Renderer rd = objectToSpawn.GetComponent<Renderer>();
-        rd.material = new Material(Shader.Find("Legacy Shaders/Specular"));
-        rd.material.SetColor("_Color", palettes[random_palette].colors[random_color_index]);
+        rd.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
+        rd.material.SetColor("_EMISSION", new Color(0.0927F, 0.4852F, 0.2416F, 0.42F));
+        rd.material.EnableKeyword("_EMISSION");
+        rd.material.SetColor("_BaseColor", palettes[random_palette].colors[random_color_index]);
         // end
 
 
