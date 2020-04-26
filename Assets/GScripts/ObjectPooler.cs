@@ -83,7 +83,7 @@ public class ObjectPooler : MonoBehaviour
     private int random_palette = 0;
     private int last_random_index = -1;
 
-    public float gap = 0f;
+    [SerializeField] private float gap = -60f;
     public Vector3 gap_between;
     public Vector3 obstacle_position;
 

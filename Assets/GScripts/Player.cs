@@ -9,7 +9,7 @@ public class Player : MonoBehaviour, IPooledObject
     private Rigidbody rb;
     private Transform transform;
     public float angular_drag = 1.5f;
-    public float fall_down_speed;
+    [SerializeField] private float fall_down_speed;
     public float speed;
 
     private float maxSpeed = 7f;
@@ -18,7 +18,7 @@ public class Player : MonoBehaviour, IPooledObject
 
     private Manager game_manager;
 
-    public float rotation_duration = 0.35f;
+    [SerializeField] private float rotation_duration = 1f;
     public float rotation_degree = 45f;
     private bool rotating = false;
 
@@ -39,11 +39,13 @@ public class Player : MonoBehaviour, IPooledObject
         rotating = true ;
         Quaternion startRotation = transform.rotation ;
         Quaternion endRotation = Quaternion.Euler( angles ) * startRotation ;
+        
         for( float t = 0 ; t < duration ; t+= Time.deltaTime )
         {
             transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
             yield return null;
         }
+
         transform.rotation = endRotation  ;
         rotating = false;
     }
@@ -67,8 +69,7 @@ public class Player : MonoBehaviour, IPooledObject
     }
 
     void Start(){
-
-        Physics.gravity = new Vector3(0, -0.1f, 0);    
+        Physics.gravity = new Vector3(0, -0.075f, 0);    
 
         rb = GetComponent<Rigidbody>();
         transform = GetComponent<Transform>();
@@ -80,6 +81,7 @@ public class Player : MonoBehaviour, IPooledObject
     public void OnObjectSpawn(){
         Start();
         speed = 25f;
+        fall_down_speed = -27f;
         fallDown(fall_down_speed);
     }
 

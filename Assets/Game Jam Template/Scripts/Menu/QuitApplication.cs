@@ -17,7 +17,7 @@ public class QuitApplication : MonoBehaviour {
 		//Stop playing the scene
 		UnityEditor.EditorApplication.isPlaying = false;
 	#endif
-	}
+	}	
 
 	public void exit(){
         SceneManager.LoadScene("MainMenu");
