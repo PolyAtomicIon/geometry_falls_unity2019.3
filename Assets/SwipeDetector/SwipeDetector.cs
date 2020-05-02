@@ -10,7 +10,7 @@ public class SwipeDetector : MonoBehaviour
     private bool detectSwipeOnlyAfterRelease = false;
 
     [SerializeField]
-    private float minDistanceForSwipe = 20f;
+    private float minDistanceForSwipe = 10f;
 
     public static event Action<SwipeData> OnSwipe = delegate { };
 
@@ -94,16 +94,16 @@ public class SwipeDetector : MonoBehaviour
         /* define direction */
 
         if( direction == SwipeDirection.Up ){
-            player.rotate("up");
+            player.rotate(0);
         }
         if( direction == SwipeDirection.Down ){
-            player.rotate("down");
+            player.rotate(2);
         }
         if( direction == SwipeDirection.Left ){
-            player.rotate("left");
+            player.rotate(1);
         }
         if( direction == SwipeDirection.Right ){
-            player.rotate("right");
+            player.rotate(3);
         }
         /* defined and rotated */
 

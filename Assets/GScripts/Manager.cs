@@ -11,8 +11,8 @@ public class Manager : MonoBehaviour
     public enum Constants
     {
         max_touches = 25,
-        object_in_level = 13,
-        obstacles_on_scene = 15
+        object_in_level = 50,
+        obstacles_on_scene = 50
     }
     
     

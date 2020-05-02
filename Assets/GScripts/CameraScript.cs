@@ -12,7 +12,7 @@ public class CameraScript : MonoBehaviour {
 	void Start()
 	{
 		// change background color randomly
-		StartCoroutine(CameraBackgroundChanger.beginToChangeColor());
+		//StartCoroutine(CameraBackgroundChanger.beginToChangeColor());
 	}
 
 	

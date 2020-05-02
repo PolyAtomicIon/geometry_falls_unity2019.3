@@ -37,6 +37,8 @@ public class ObjectPooler : MonoBehaviour
 {
 
     Vector3 VectorZero = Vector3.zero;
+    
+    private const int number_of_colors = 4;
 
     [System.Serializable]
     public class Obstacle{
@@ -53,8 +55,24 @@ public class ObjectPooler : MonoBehaviour
     }
 
     [System.Serializable]
+    public class Materials{
+
+        public Material[] materials_list = new Material[number_of_colors];
+
+        private int material_index = 0;
+    
+        public int next_material(){
+            int result = material_index;
+            material_index = (material_index + 1) % number_of_colors;
+            return result;
+        }
+
+    }
+
+    [System.Serializable]
     public class Palette{
-        public Color[] colors = new Color[4];
+        public Color[] colors = new Color[number_of_colors];
+        public Color[] emission_colors = new Color[number_of_colors];
     }
 
     #region Singleton
@@ -69,13 +87,14 @@ public class ObjectPooler : MonoBehaviour
 
     private int max_complexity_value = 3;
 
-    private int number_each_prefab = 2;
+    private int number_each_prefab = 10;
 
     public List<Pool> models;
      
     public List<string> models_tag;  
 
     public List<Palette> palettes;
+    public Materials materials;
 
     public Dictionary<string, Queue<GameObject>> poolDictionary;
     private Dictionary<string, GameObject> modelsDictionary;
@@ -203,30 +222,33 @@ public class ObjectPooler : MonoBehaviour
         objectToSpawn.transform.position = position;              
 
         // set the color, get one random from 3 colors of palette
-        RandomS rand = new RandomS();
         
         int random_color_index = last_random_index;
         
         while( random_color_index == last_random_index )
-            random_color_index = ThreadSafeRandom.ThisThreadsRandom.Next(3);
+            random_color_index = ThreadSafeRandom.ThisThreadsRandom.Next(4);
 
         last_random_index = random_color_index;
 
-        Debug.Log(random_color_index);
+        //Debug.Log(random_color_index);
 
         // to change color
+        Material cur_material = materials.materials_list[materials.next_material()];
+
+        float intensity =  0.75f;
+
         Renderer rd = objectToSpawn.GetComponent<Renderer>();
-        rd.material = new Material(Shader.Find("Universal Render Pipeline/Lit"));
-        rd.material.SetColor("_EMISSION", new Color(0.0927F, 0.4852F, 0.2416F, 0.42F));
-        rd.material.EnableKeyword("_EMISSION");
-        rd.material.SetColor("_BaseColor", palettes[random_palette].colors[random_color_index]);
+        rd.material = cur_material;
+        rd.material.SetColor("_BaseColor", palettes[random_palette].colors[random_color_index]);    
+        rd.material.EnableKeyword ("_EMISSION");
+        rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[random_color_index] * intensity);
         // end
 
 
         // set rotation, for player - quaternion, for obstacle z = 90, then random;
         if( model ){
-            rd.material.SetColor("_Color", palettes[random_palette].colors[3]);
-            objectToSpawn.transform.rotation = Quaternion.identity;
+          //  rd.material.SetColor("_Color", palettes[random_palette].colors[3]);
+            //objectToSpawn.transform.rotation = Quaternion.identity;
         }/*
         else{  
             // it was random, we changed it  
@@ -246,8 +268,9 @@ public class ObjectPooler : MonoBehaviour
         Debug.Log(tag + " has been spawned");
 
         // Get random palettes, 3 colours
-        RandomS rand = new RandomS();
-        random_palette = rand.Next(0, palettes.Count);
+        random_palette = ThreadSafeRandom.ThisThreadsRandom.Next(palettes.Count);
+        Debug.Log("Palette number");
+        Debug.Log(random_palette);
         // end
 
 

@@ -18,10 +18,6 @@ public class Player : MonoBehaviour, IPooledObject
 
     private Manager game_manager;
 
-    [SerializeField] private float rotation_duration = 1f;
-    public float rotation_degree = 45f;
-    private bool rotating = false;
-
     public float get_position_y_axis(){
         return transform.position.y;
     }
@@ -34,38 +30,165 @@ public class Player : MonoBehaviour, IPooledObject
         rb.MovePosition(transform.position + (direction * speed * Time.deltaTime));
     }
 
-    private IEnumerator Rotate( Vector3 angles, float duration )
+    // Rotating Object
+    private int isVertical = 0; // 0 = top, 2 = down;
+    private int isHorizontal = -1; // 0 = forward, 1 = right, 3 = left;
+    [SerializeField] private float rotation_duration = 1.0f;
+    public float time = 5;
+    public float rotation_degree = 90f;
+    private bool rotating = false;
+
+    private IEnumerator Rotate( Vector3 angles, float duration = 1.0f )
     {
         rotating = true ;
         Quaternion startRotation = transform.rotation ;
         Quaternion endRotation = Quaternion.Euler( angles ) * startRotation ;
-        
-        for( float t = 0 ; t < duration ; t+= Time.deltaTime )
+
+        for( float t = 0 ; t < Time.deltaTime * 25; t+= Time.deltaTime )
         {
             transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
             yield return null;
         }
 
-        transform.rotation = endRotation  ;
+        transform.rotation = endRotation;
         rotating = false;
     }
 
-    public void rotate(string direction){
+    public void rotate(int direction){
 
         if( rotating ) return;
 
-        if( direction == "up" ){
-            StartCoroutine( Rotate( Vector3.right * rotation_degree, rotation_duration ) );
+        // UP
+        if( direction == 0 ){
+            // From horizontal position to vertical
+            if( isHorizontal == 1 ){    
+                StartCoroutine( Rotate( Vector3.forward * rotation_degree, rotation_duration ) );
+                isHorizontal = -1;
+                isVertical = 0;
+            }
+            else if( isHorizontal == 3 ){    
+                StartCoroutine( Rotate( -Vector3.forward * rotation_degree, rotation_duration ) );
+                isHorizontal = -1;
+                isVertical = 0;
+            }
+            // Turn vertically
+            else{
+                StartCoroutine( Rotate( Vector3.right * rotation_degree, rotation_duration ) );
+                if( isVertical == 0 ){
+                    isVertical = 1;
+                    isHorizontal = 0;
+                }
+                else if( isVertical == 1 ){
+                    isVertical = 2;
+                    isHorizontal = -1;
+                }
+                else if( isVertical == 2 ){
+                    isVertical = 3;
+                    isHorizontal = 2;  
+                }
+                else{
+                    isVertical = 0;
+                    isHorizontal = -1;
+                }
+            }
         }
-        if( direction == "down" ){
-            StartCoroutine( Rotate( -Vector3.right * rotation_degree, rotation_duration ) );
+        // Left
+        if( direction == 1 ){
+            // Turn horizontally
+            if(  isVertical != 0 && isVertical != 2 ){
+                StartCoroutine( Rotate( -Vector3.up * rotation_degree, rotation_duration ) );
+                isHorizontal -= 1;
+                if( isHorizontal < 0 )
+                    isHorizontal = 3;
+            }
+            // Turn from top or down position, to left
+            else{
+                // from Top
+                if( isVertical == 0 ){
+                    StartCoroutine( Rotate( Vector3.forward * rotation_degree, rotation_duration ) );
+                    isHorizontal = 3;
+                }
+                // from Bottom
+                else{
+                    StartCoroutine( Rotate( -Vector3.forward * rotation_degree, rotation_duration ) );
+                    isHorizontal = 3;
+                }
+            }
+            
+            if( isHorizontal == 0 )
+                isVertical = 1;
+            else if( isHorizontal == 2 )
+                isVertical = 3;
+            else
+                isVertical = -1;
         }
-        if( direction == "right" ){
-            StartCoroutine( Rotate( Vector3.up * rotation_degree, rotation_duration ) );
+        // Down
+        if( direction == 2 ){
+            // From horizontal position to vertical
+            if( isHorizontal == 1 ){    
+                StartCoroutine( Rotate( -Vector3.forward * rotation_degree, rotation_duration ) );
+                isHorizontal = -1;
+                isVertical = 2;
+            }
+            else if( isHorizontal == 3 ){    
+                StartCoroutine( Rotate( Vector3.forward * rotation_degree, rotation_duration ) );
+                isHorizontal = -1;
+                isVertical = 2;
+            }
+            // Turn Vertically
+            else{
+                StartCoroutine( Rotate( -Vector3.right * rotation_degree, rotation_duration ) );
+                if( isVertical == 0 ){
+                    isVertical = 3;
+                    isHorizontal = 2;
+                }
+                else if( isVertical == 1 ){
+                    isVertical = 0;
+                    isHorizontal = -1;
+                }
+                else if( isVertical == 2 ){
+                    isVertical = 1;
+                    isHorizontal = 0;  
+                }
+                else{
+                    isVertical = 2;
+                    isHorizontal = -1;
+                }
+
+            }
         }
-        if( direction == "left" ){
-            StartCoroutine( Rotate( -Vector3.up * rotation_degree, rotation_duration ) );
+        // Right
+        if( direction == 3 ){
+            // Turn horizontally
+            if( isVertical != 0 && isVertical != 2 ){
+                StartCoroutine( Rotate( Vector3.up * rotation_degree, rotation_duration ) );    
+                isHorizontal += 1;
+                isHorizontal = isHorizontal % 4;
+            }
+            // Turn from top or down position, to left
+            else{    
+                // from Top
+                if( isVertical == 0 ){
+                    StartCoroutine( Rotate( -Vector3.forward * rotation_degree, rotation_duration ) );
+                    isHorizontal = 1;
+                }
+                // from Bottom
+                else{
+                    StartCoroutine( Rotate( Vector3.forward * rotation_degree, rotation_duration ) );
+                    isHorizontal = 1;
+                }
+            }
+
+            if( isHorizontal == 0 )
+                isVertical = 1;
+            else if( isHorizontal == 2 )
+                isVertical = 3;
+            else
+                isVertical = -1;
         }
+    
+        
+    
     }
 
     void Start(){
@@ -93,16 +216,16 @@ public class Player : MonoBehaviour, IPooledObject
         // movement = new Vector3( joystick.Horizontal, 0f, joystick.Vertical );
 
         if( Input.GetKeyDown("s") )
-            rotate("down");
+            rotate(2);
         
         if( Input.GetKeyDown("w") )
-            rotate("up");
+            rotate(0);
         
         if( Input.GetKeyDown("d") )
-            rotate("right");
+            rotate(3);
 
         if( Input.GetKeyDown("a") )
-            rotate("left");
+            rotate(1);
     }
 
     void FixedUpdate()

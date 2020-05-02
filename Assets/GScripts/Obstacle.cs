@@ -26,14 +26,15 @@ public class Obstacle : MonoBehaviour, IPooledObject
     public void OnObjectSpawn(){
         Start(); 
         is_active = true;
+        gameObject.SetActive(is_active);
     }
 
     void Update(){
         
-        if( is_active && player.get_position_y_axis() < -10f + transform.position.y ){
+        if( is_active && player.get_position_y_axis() < transform.position.y ){
             is_active = false;
             game_manager.increment_score();
-
+            gameObject.SetActive(is_active);
             // disabled miving down
 
             // move it down 
