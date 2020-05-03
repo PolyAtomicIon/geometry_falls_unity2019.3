@@ -46,7 +46,7 @@ public class Player : MonoBehaviour, IPooledObject
         Quaternion startRotation = transform.rotation ;
         Quaternion endRotation = Quaternion.Euler( angles ) * startRotation ;
 
-        for( float t = 0 ; t < Time.deltaTime * 25; t+= Time.deltaTime )
+        for( float t = 0 ; t < Time.deltaTime * 10; t+= Time.deltaTime )
         {
             transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
             yield return null;

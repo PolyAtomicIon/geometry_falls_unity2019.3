@@ -9,8 +9,7 @@ public class SwipeDetector : MonoBehaviour
     [SerializeField]
     private bool detectSwipeOnlyAfterRelease = false;
 
-    [SerializeField]
-    private float minDistanceForSwipe = 40f;
+    private float minDistanceForSwipe = 5f;
 
     public static event Action<SwipeData> OnSwipe = delegate { };
 
@@ -18,7 +17,6 @@ public class SwipeDetector : MonoBehaviour
 
     void Start(){
         player = FindObjectOfType<Player>();
-        minDistanceForSwipe = player.SwipeDistance;
     }
 
     private void Update()

@@ -34,11 +34,12 @@ public class Obstacle : MonoBehaviour, IPooledObject
         if( is_active && player.get_position_y_axis() < transform.position.y - 2.5f ){
             is_active = false;
             game_manager.increment_score();
-            gameObject.SetActive(is_active);
+            //gameObject.SetActive(is_active);
             // disabled moving down
-
-            // move it down 
-            //transform.position = objectPooler.new_obstacle_position();
+        }
+        if( !is_active ){
+            // Debug.Log("There is nothing that can stop you~");
+            transform.Translate(Vector3.up * Time.deltaTime * 100);
         }
 
     }
