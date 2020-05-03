@@ -8,13 +8,15 @@ public class Player : MonoBehaviour, IPooledObject
 
     private Rigidbody rb;
     private Transform transform;
-    public float angular_drag = 1.5f;
-    [SerializeField] private float fall_down_speed;
+    // private float angular_drag = 1.5f;
+    private float fall_down_speed = -27f;
+    public float acceleration = -0.075f;
+    public float SwipeDistance = 10f;
     public float speed;
 
-    private float maxSpeed = 7f;
+    // private float maxSpeed = 7f;
 
-    private Vector3 movement;
+    // private Vector3 movement;
 
     private Manager game_manager;
 
@@ -26,15 +28,15 @@ public class Player : MonoBehaviour, IPooledObject
         rb.velocity = new Vector3(0, speed, 0);
     }
 
-    private void move_object(Vector3 direction){
-        rb.MovePosition(transform.position + (direction * speed * Time.deltaTime));
-    }
+    // private void move_object(Vector3 direction){
+    //     rb.MovePosition(transform.position + (direction * speed * Time.deltaTime));
+    // }
 
     // Rotating Object
     private int isVertical = 0; // 0 = top, 2 = down;
     private int isHorizontal = -1; // 0 = forward, 1 = right, 3 = left;
     [SerializeField] private float rotation_duration = 1.0f;
-    public float time = 5;
+    private float time = 5;
     public float rotation_degree = 90f;
     private bool rotating = false;
 
@@ -191,20 +193,46 @@ public class Player : MonoBehaviour, IPooledObject
     
     }
 
+    // Just experiment
+
+    //  public void rotate1(int direction){
+
+    //     if( rotating ) return;
+
+    //     // UP
+    //     if( direction == 0 ){
+    //         StartCoroutine( Rotate( transform.TransformDirection(Vector3.right) * rotation_degree, rotation_duration ) );
+    //         //transform.Rotate(90.0f * Time.deltaTime, 0.0f, 0.0f, Space.Self);
+    //     }
+    //     // Left
+    //     if( direction == 1 ){
+    //         StartCoroutine( Rotate( -transform.TransformDirection(Vector3.up) * rotation_degree, rotation_duration ) );
+    //     }
+    //     // Down
+    //     if( direction == 2 ){
+    //         StartCoroutine( Rotate( -transform.TransformDirection(Vector3.right) * rotation_degree, rotation_duration ) );
+    //     }
+    //     // Right
+    //     if( direction == 3 ){
+    //         StartCoroutine( Rotate( transform.TransformDirection(Vector3.up) * rotation_degree, rotation_duration ) );    
+    //     }
+    
+    // }
+
     void Start(){
-        Physics.gravity = new Vector3(0, -0.075f, 0);    
+        Physics.gravity = new Vector3(0, acceleration, 0);    
 
         rb = GetComponent<Rigidbody>();
         transform = GetComponent<Transform>();
-        rb.angularDrag = angular_drag;
+        // rb.angularDrag = angular_drag;
         rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
-        game_manager = FindObjectOfType<Manager>();
     }
 
     public void OnObjectSpawn(){
         Start();
-        speed = 25f;
-        fall_down_speed = -27f;
+        // speed = 25f;
+        game_manager = FindObjectOfType<Manager>();
+        fall_down_speed = game_manager.fall_down_speed;
         fallDown(fall_down_speed);
     }
 
@@ -214,6 +242,8 @@ public class Player : MonoBehaviour, IPooledObject
         // To move object in x,y axis
         // movement = new Vector3( Input.GetAxis("Horizontal"), 0f, Input.GetAxis("Vertical") );
         // movement = new Vector3( joystick.Horizontal, 0f, joystick.Vertical );
+
+        game_manager.fall_down_speed = rb.velocity.y;
 
         if( Input.GetKeyDown("s") )
             rotate(2);

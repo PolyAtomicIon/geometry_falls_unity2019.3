@@ -31,11 +31,11 @@ public class Obstacle : MonoBehaviour, IPooledObject
 
     void Update(){
         
-        if( is_active && player.get_position_y_axis() < transform.position.y ){
+        if( is_active && player.get_position_y_axis() < transform.position.y - 2.5f ){
             is_active = false;
             game_manager.increment_score();
             gameObject.SetActive(is_active);
-            // disabled miving down
+            // disabled moving down
 
             // move it down 
             //transform.position = objectPooler.new_obstacle_position();

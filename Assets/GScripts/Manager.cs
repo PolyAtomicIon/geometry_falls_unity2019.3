@@ -11,7 +11,7 @@ public class Manager : MonoBehaviour
     public enum Constants
     {
         max_touches = 25,
-        object_in_level = 50,
+        object_in_level = 20,
         obstacles_on_scene = 50
     }
     
@@ -21,7 +21,6 @@ public class Manager : MonoBehaviour
     }
 
     private bool is_active_scene = true;
-
     float ScreenWidth = Screen.width;
     bool game_over_bool = false;
     int touches = 0;
@@ -35,6 +34,8 @@ public class Manager : MonoBehaviour
     private int next_model_index = 0;
     public int max_models_number = 2;
     // end
+
+    public float fall_down_speed;
 
     private int level = 1;
     private int score = 0;

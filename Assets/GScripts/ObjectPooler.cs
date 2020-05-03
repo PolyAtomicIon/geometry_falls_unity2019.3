@@ -85,9 +85,9 @@ public class ObjectPooler : MonoBehaviour
 
     #endregion
 
-    private int max_complexity_value = 3;
+    public int max_complexity_value = 3;
 
-    private int number_each_prefab = 10;
+    public int number_each_prefab = 3;
 
     public List<Pool> models;
      
@@ -186,7 +186,8 @@ public class ObjectPooler : MonoBehaviour
                 for(int j = 0; j < number_each_prefab; j++){
                     GameObject obstacle_prefab = Instantiate(obstacle.prefab) as GameObject;
                     obstacle_prefab.SetActive(false);
-                    temp_gameobjects[obstacle.complexity].Add(obstacle_prefab);
+                    // temp_gameobjects[obstacle.complexity].Add(obstacle_prefab);
+                    temp_gameobjects[1].Add(obstacle_prefab);
                 }
 
             }

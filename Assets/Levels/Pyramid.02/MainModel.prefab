@@ -112,9 +112,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   angular_drag: 3.5
-  fall_down_speed: -20
+  fall_down_speed: -27
+  acceleration: -0.075
+  SwipeDistance: 10
   speed: 0
-  rotation_duration: 0.35
+  rotation_duration: 0.25
   rotation_degree: 90
 --- !u!114 &5540798307983520182
 MonoBehaviour:
