@@ -21,6 +21,7 @@ public class Obstacle : MonoBehaviour, IPooledObject
         render = GetComponent<Renderer>();
 
         objectPooler = ObjectPooler.Instance;
+        gameObject.layer = LayerMask.NameToLayer("Obstacle");
     }
 
     public void OnObjectSpawn(){
@@ -39,7 +40,7 @@ public class Obstacle : MonoBehaviour, IPooledObject
         }
         if( !is_active ){
             // Debug.Log("There is nothing that can stop you~");
-            transform.Translate(Vector3.up * Time.deltaTime * 100);
+            transform.Translate(Vector3.right * Time.deltaTime * 50);
         }
 
     }

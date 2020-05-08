@@ -110,6 +110,8 @@ public class ObjectPooler : MonoBehaviour
 
     public int object_in_level = 5;
 
+    private int color_index;
+
     public Vector3 new_obstacle_position(){
         obstacle_position += gap_between;
         return obstacle_position;
@@ -223,32 +225,40 @@ public class ObjectPooler : MonoBehaviour
         objectToSpawn.transform.position = position;              
 
         // set the color, get one random from 3 colors of palette
-        
-        int random_color_index = last_random_index;
-        
-        while( random_color_index == last_random_index )
-            random_color_index = ThreadSafeRandom.ThisThreadsRandom.Next(4);
 
-        last_random_index = random_color_index;
+        // if it not random color
+        color_index = color_index % 3;
 
-        //Debug.Log(random_color_index);
+        // HERE WE HAVE RANDOM COLOR PICKER
+        /*
+        color_index = last_random_index;
+        
+        while( color_index == last_random_index )
+            color_index = ThreadSafeRandom.ThisThreadsRandom.Next(4);
+
+        last_random_index = color_index;
+        */
+        
+        //Debug.Log(color_index);
 
         // to change color
         Material cur_material = materials.materials_list[materials.next_material()];
 
-        float intensity =  0.75f;
+        float intensity =  0.875f;
 
         Renderer rd = objectToSpawn.GetComponent<Renderer>();
         rd.material = cur_material;
-        rd.material.SetColor("_BaseColor", palettes[random_palette].colors[random_color_index]);    
+        rd.material.SetColor("_BaseColor", palettes[random_palette].colors[color_index]);    
         rd.material.EnableKeyword ("_EMISSION");
-        rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[random_color_index] * intensity);
+        rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[color_index] * intensity);
         // end
 
 
         // set rotation, for player - quaternion, for obstacle z = 90, then random;
         if( model ){
-          //  rd.material.SetColor("_Color", palettes[random_palette].colors[3]);
+            rd.material.SetColor("_BaseColor", palettes[random_palette].colors[3]);    
+            rd.material.EnableKeyword ("_EMISSION");
+            rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[3] * intensity);
             //objectToSpawn.transform.rotation = Quaternion.identity;
         }/*
         else{  
@@ -261,7 +271,10 @@ public class ObjectPooler : MonoBehaviour
         // Call the OnObjectSpwan, differs for player and obstacle.
         IPooledObject pooledObj = objectToSpawn.GetComponent<IPooledObject>();
         pooledObj.OnObjectSpawn();
-        
+
+        // if not random, get the next color;
+        color_index++;
+
     }
 
     public void SpawnFromPool (string tag, int size = 0){
@@ -279,6 +292,7 @@ public class ObjectPooler : MonoBehaviour
         GameObject model = modelsDictionary[tag];
         initialize_object(model, tag, VectorZero, true);        
 
+        color_index = 0;
 
         // generate the level with obstacles
 

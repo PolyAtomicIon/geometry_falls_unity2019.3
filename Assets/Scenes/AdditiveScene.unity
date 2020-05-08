@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -148,11 +148,11 @@ Light:
   m_GameObject: {fileID: 398651398}
   m_Enabled: 1
   serializedVersion: 10
-  m_Type: 1
+  m_Type: 2
   m_Shape: 0
-  m_Color: {r: 0.6226415, g: 0.6079566, b: 0.6079566, a: 1}
-  m_Intensity: 0.65
-  m_Range: 10
+  m_Color: {r: 0.9528302, g: 0.9528302, b: 0.9528302, a: 1}
+  m_Intensity: 250
+  m_Range: 20
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -188,15 +188,15 @@ Light:
   m_RenderMode: 0
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 311
   m_RenderingLayerMask: 1
-  m_Lightmapping: 1
+  m_Lightmapping: 4
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
+  m_BoundingSphereOverride: {x: 0, y: 1.7326e-41, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -207,12 +207,12 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 398651398}
-  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
-  m_LocalPosition: {x: -9.342098, y: -371.86377, z: -12.815462}
+  m_LocalRotation: {x: -0.33036613, y: -0.08852132, z: 0.24321029, w: 0.90767336}
+  m_LocalPosition: {x: 3.3, y: 2.6, z: 35}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_Father: {fileID: 534669905}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &398651401
 MonoBehaviour:
@@ -327,7 +327,8 @@ Transform:
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
   m_LocalPosition: {x: 0.05, y: -3.0700035, z: -4.83}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
+  m_Children:
+  - {fileID: 398651400}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -356,8 +357,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   target: {fileID: 0}
-  smoothSpeed: 0.25
-  offset: {x: -2.5, y: 16, z: 1.5}
+  smoothSpeed: 0.33249894
+  offset: {x: -1.5, y: 16, z: -0.25}
 --- !u!114 &534669908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -422,80 +423,129 @@ MonoBehaviour:
   number_each_prefab: 3
   models:
   - tag: pyramid
-    prefab: {fileID: 8672699781613493681, guid: f37e4bfa721956d4d8545ded660c4844,
+    prefab: {fileID: 7683050732060490876, guid: 2c89f7bf8dddb8e4791acd310a03c47a,
       type: 3}
-    size: 10
+    size: 18
     obstacles_prefab:
-    - prefab: {fileID: 7317397480640752287, guid: 85809560df7b5a7458380a4a1bfe1d70,
+    - prefab: {fileID: 7250800272259727195, guid: 7bdc44a7150cb1a4e97d4db5b59015e0,
         type: 3}
       complexity: 1
-    - prefab: {fileID: 9216141174636013078, guid: cf73a40094b716a4698a0c8623caa40b,
+    - prefab: {fileID: 6138100027964302688, guid: 9a0b1c8306fdf6f499384cbb526b8990,
         type: 3}
       complexity: 1
-    - prefab: {fileID: 3335191758614979336, guid: 00adfd0c82034304481fa9e2a708a949,
+    - prefab: {fileID: 5697383219205043357, guid: 5eaf648eb72587545b4558c669c5bb71,
         type: 3}
       complexity: 1
-    - prefab: {fileID: 2089993616380116978, guid: 91f1106476a213d4b925cbb9215de066,
+    - prefab: {fileID: 398237659851650057, guid: 6090ec24f8f0bcc41b48522e2ca667bf,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 7358849203676417563, guid: 4288e8fb662cfb14184c9fa90b600dcb,
+    - prefab: {fileID: 7173478284457980354, guid: e6778c3b2318e144699c317225ee6120,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 8246895459067104984, guid: 83e1421246550a94c8123672729cb414,
+    - prefab: {fileID: 894570732767894027, guid: 89d5dcc610a02c947b09149dbb2cb3e3,
         type: 3}
       complexity: 3
-    - prefab: {fileID: 1609687018773985801, guid: e508d18df6e3d9348b8ff383ebe06e1c,
+    - prefab: {fileID: 2255669865826012370, guid: 68dfe02c91aed844982e8ac843065881,
         type: 3}
       complexity: 3
-    - prefab: {fileID: 8486312299765361496, guid: ff71b94ac21d9f648b4fa6cb8f1d0845,
+    - prefab: {fileID: 4302492397101428435, guid: 841819a0a6c66a741b39e5643ed090a5,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 3872395026139086956, guid: c0ccdb8e1e681a4428b47e798df5e346,
+    - prefab: {fileID: 2148840123927739390, guid: d2cbb1cbc85bfe4418a179998f9d77cf,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 3872395026139086956, guid: 85dda7732cb20c04cb61de32fd983ca5,
+    - prefab: {fileID: 7710907857175733908, guid: fc1a778b7c65d0a48ba57c53bb561bb0,
         type: 3}
       complexity: 2
-  - tag: pyramid2
-    prefab: {fileID: 1589361376, guid: 006095c32d4bb5b44aa73290b326bbdb, type: 3}
-    size: 8
+    - prefab: {fileID: 2699784762951482523, guid: e84484537d10efb4f8f56d99842e205d,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 2381043484618530357, guid: 8cf1c49f8076c724eb29a54ccbb974fc,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 6934121176889227156, guid: d61782c108f48a04cb686e5702ec9077,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 7743756719386949181, guid: 076239b9996e25d47bae86dd210152a6,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 2342663483525441045, guid: d18cdaa9d2eb0e1498ef97e04249296d,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 1371219660135068155, guid: 35a96271b67450446aa57a7f21bac73e,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 4307986714664192497, guid: 2232a9884a67d0e428610eef8ed19488,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 865874378174123818, guid: 36b850628e854ef409e01288f17ec9a8,
+        type: 3}
+      complexity: 2
+  - tag: trapezoid
+    prefab: {fileID: 5331026048089362027, guid: 4f351693c8229b74b8d48654b8c8874d,
+      type: 3}
+    size: 16
     obstacles_prefab:
-    - prefab: {fileID: 7317397480640752287, guid: 85809560df7b5a7458380a4a1bfe1d70,
+    - prefab: {fileID: 8204883061030509328, guid: 7f734ef20a2306a41850607f24e3ce1a,
         type: 3}
       complexity: 1
-    - prefab: {fileID: 9216141174636013078, guid: cf73a40094b716a4698a0c8623caa40b,
+    - prefab: {fileID: 1979427777979792921, guid: 85506b7fa96f91649afff60f6f64b14b,
         type: 3}
       complexity: 1
-    - prefab: {fileID: 3335191758614979336, guid: 00adfd0c82034304481fa9e2a708a949,
+    - prefab: {fileID: 6185139879456402712, guid: 28a7ee14604823447afd3a559780ed17,
         type: 3}
       complexity: 1
-    - prefab: {fileID: 2089993616380116978, guid: 91f1106476a213d4b925cbb9215de066,
+    - prefab: {fileID: 6881052900984172156, guid: 81d9605dbf3bcbf4fa9e8d4753b501a0,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 7358849203676417563, guid: 4288e8fb662cfb14184c9fa90b600dcb,
+    - prefab: {fileID: 2081763186572273062, guid: b6581baeab49c094796fb6dcdb87e559,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 8246895459067104984, guid: 83e1421246550a94c8123672729cb414,
+    - prefab: {fileID: 1147285977651552315, guid: 39f07e68229c1284f89134924a0a2ce3,
         type: 3}
       complexity: 3
-    - prefab: {fileID: 1609687018773985801, guid: e508d18df6e3d9348b8ff383ebe06e1c,
+    - prefab: {fileID: 5963156104641863963, guid: 98f69baa15c10004d9604b0feff02d85,
         type: 3}
       complexity: 3
-    - prefab: {fileID: 8486312299765361496, guid: ff71b94ac21d9f648b4fa6cb8f1d0845,
+    - prefab: {fileID: 2758508016329333311, guid: 2c0a66a276dc5b446b572410c69ad9cc,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 3875841952198411237, guid: 5eefe07028ed2e04f8125561967c7826,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 4322069682311088873, guid: 2b9f16754c16f724c9d25b72bc3c7c14,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 5948651267866418583, guid: 7dd52d7cbf7a476408d0bc7a4e88a36e,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 677913095012203359, guid: 1c7062d0d72760b42b36628879ab3421,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 4798533756049134679, guid: 98f5135192369f14ca64c74b757f7863,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 2256899595064655894, guid: d21360c5485dff6429f776dec47f7b2f,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 692102770132090211, guid: 1dbcbc53797a0d14d905722bde7dee63,
+        type: 3}
+      complexity: 2
+    - prefab: {fileID: 7840107590862432779, guid: 7f867da92e24edf48a24d781e6dc62c5,
         type: 3}
       complexity: 2
   models_tag: []
   palettes:
   - colors:
-    - {r: 0.9529412, g: 0.91872, b: 0.12941174, a: 0}
-    - {r: 1, g: 0, b: 0.6313726, a: 0}
-    - {r: 0.15641688, g: 0.16384935, b: 0.8962264, a: 0}
-    - {r: 0.4115483, g: 0.09807763, b: 0.7169812, a: 0}
+    - {r: 0.9245283, g: 0.8074437, b: 0.10902455, a: 0}
+    - {r: 0.754717, g: 0.7226771, b: 0.7281337, a: 0}
+    - {r: 0.94509804, g: 0.047058824, b: 0.2, a: 0}
+    - {r: 0.7176471, g: 0.15800422, b: 0.0980392, a: 0}
     emission_colors:
-    - {r: 0.9422959, g: 0.9433962, b: 0.07564971, a: 0}
-    - {r: 1, g: 0, b: 0.6313726, a: 0}
-    - {r: 0.16114369, g: 0.07058823, b: 1, a: 0}
-    - {r: 0.43191135, g: 0, b: 0.8490566, a: 0}
+    - {r: 0.96855265, g: 0.9716981, b: 0.16958882, a: 0}
+    - {r: 0.9056604, g: 0.8843005, b: 0.8843005, a: 0}
+    - {r: 0.9339623, g: 0.13952234, b: 0.048460312, a: 0}
+    - {r: 0.9433962, g: 0.18624085, b: 0.057849795, a: 0}
   materials:
     materials_list:
     - {fileID: 2100000, guid: dd48c2f4acbde4843be092b4fec60cfe, type: 2}
@@ -567,5 +617,5 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

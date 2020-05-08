@@ -35,7 +35,7 @@ public class Player : MonoBehaviour, IPooledObject
     // Rotating Object
     private int isVertical = 0; // 0 = top, 2 = down;
     private int isHorizontal = -1; // 0 = forward, 1 = right, 3 = left;
-    [SerializeField] private float rotation_duration = 1.0f;
+    [SerializeField] private float rotation_duration = 0.35f;
     private float time = 5;
     public float rotation_degree = 90f;
     private bool rotating = false;
