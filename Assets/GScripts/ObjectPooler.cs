@@ -245,14 +245,18 @@ public class ObjectPooler : MonoBehaviour
         Material cur_material = materials.materials_list[materials.next_material()];
 
         float intensity =  0.875f;
-
+            
         Renderer rd = objectToSpawn.GetComponent<Renderer>();
         rd.material = cur_material;
+        if( model ){
+            rd.material = materials.materials_list[3];
+        }
+        /*
         rd.material.SetColor("_BaseColor", palettes[random_palette].colors[color_index]);    
         rd.material.EnableKeyword ("_EMISSION");
         rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[color_index] * intensity);
         // end
-
+        */
 
         // set rotation, for player - quaternion, for obstacle z = 90, then random;
         if( model ){

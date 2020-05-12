@@ -29,6 +29,8 @@ public class Manager : MonoBehaviour
     public TextMeshProUGUI LevelLabel;
     public GameOver gameOverSection;
 
+    public Material DissolveMaterial;
+
     // For getting random models for each level 
     public List<int> random_models_indexes;
     private int next_model_index = 0;
