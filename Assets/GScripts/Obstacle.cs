@@ -21,7 +21,6 @@ public class Obstacle : MonoBehaviour, IPooledObject
         player = FindObjectOfType<Player>();
         game_manager = FindObjectOfType<Manager>();
         render = GetComponent<Renderer>();
-
         objectPooler = ObjectPooler.Instance;
         gameObject.layer = LayerMask.NameToLayer("Obstacle");
     }
@@ -41,19 +40,31 @@ public class Obstacle : MonoBehaviour, IPooledObject
     }
 
     void Update(){
+
+        if( is_active && player.get_position_y_axis() < transform.position.y - objectPooler.get_gap_between_obstacles() - 2.5f ){    
+            player.render.material = render.material;
+        }
         
-        if( is_active && player.get_position_y_axis() < transform.position.y + 5f ){
+        if( is_active && player.get_position_y_axis() < transform.position.y - 2.5f ){
             is_active = false;
-            render.material = game_manager.DissolveMaterial;
+          
+            // !!! Dissolve effect
+            //render.material = game_manager.DissolveMaterial;
+
             game_manager.increment_score();
             //gameObject.SetActive(is_active);
             // disabled moving down
         }
-        if( !is_active && !done ){
-            game_manager.DissolveMaterial.SetFloat("Vector1_DB3F2BFC", dissolveLevel);            
-            StartCoroutine(DissolveEffect());
+
+        // !!! Dissolve effect
+        // if( !is_active && !done ){
+        //     game_manager.DissolveMaterial.SetFloat("Vector1_DB3F2BFC", dissolveLevel);            
+        //     StartCoroutine(DissolveEffect());
+        // }
+
+        if( !is_active ){
             // Debug.Log("There is nothing that can stop you~");
-            //transform.Translate(Vector3.forward * Time.deltaTime * 50);
+            transform.Translate(Vector3.forward * Time.deltaTime * 50);
         }
 
     }

@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine;
 using Random=System.Random;
+using Random2=UnityEngine.Random;
 using TMPro;
 using UnityEngine.UI;
 
@@ -30,6 +31,7 @@ public class Manager : MonoBehaviour
     public GameOver gameOverSection;
 
     public Material DissolveMaterial;
+    public Material TunnelMaterial;
 
     // For getting random models for each level 
     public List<int> random_models_indexes;
@@ -54,6 +56,9 @@ public class Manager : MonoBehaviour
         if( score / ((int) Constants.object_in_level) + 1 > level ){
             level+=1;
             Debug.Log("RELOAD THE SCENE");
+            
+            // change color of tunnel 
+            TunnelMaterial.SetColor("_BaseColor", Random2.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
             UnloadAdditiveScene();
             LoadAdditiveScene();
         }

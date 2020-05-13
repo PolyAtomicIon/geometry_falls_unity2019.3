@@ -13,6 +13,7 @@ public class Player : MonoBehaviour, IPooledObject
     public float acceleration = -0.075f;
     public float SwipeDistance = 10f;
     public float speed;
+    public Renderer render;
 
     // private float maxSpeed = 7f;
 
@@ -223,6 +224,7 @@ public class Player : MonoBehaviour, IPooledObject
         Physics.gravity = new Vector3(0, acceleration, 0);    
 
         rb = GetComponent<Rigidbody>();
+        render = GetComponent<Renderer>();
         transform = GetComponent<Transform>();
         // rb.angularDrag = angular_drag;
         rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;

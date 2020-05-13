@@ -36,6 +36,7 @@ public static class Shuffler
 public class ObjectPooler : MonoBehaviour
 {
 
+    // player spawning point
     Vector3 VectorZero = Vector3.zero;
     
     private const int number_of_colors = 4;
@@ -103,6 +104,11 @@ public class ObjectPooler : MonoBehaviour
     private int last_random_index = -1;
 
     [SerializeField] private float gap = -60f;
+
+    public float get_gap_between_obstacles(){
+        return gap;
+    }
+
     public Vector3 gap_between;
     public Vector3 obstacle_position;
 
@@ -144,7 +150,7 @@ public class ObjectPooler : MonoBehaviour
         object_in_level = (int) game_manager.object_in_level();
 
         gap_between = new Vector3(0f, gap, 0f);
-        obstacle_position = new Vector3(0f, 0f, 0f);
+        obstacle_position = new Vector3(0f, gap, 0f);
 
         // get prefabs from folder;
         // In build this is not working, LOL
@@ -244,22 +250,22 @@ public class ObjectPooler : MonoBehaviour
         // to change color
         Material cur_material = materials.materials_list[materials.next_material()];
 
-        float intensity =  0.875f;
+        float intensity =  0.2f;
             
         Renderer rd = objectToSpawn.GetComponent<Renderer>();
         rd.material = cur_material;
         if( model ){
             rd.material = materials.materials_list[3];
         }
-        /*
+        
         rd.material.SetColor("_BaseColor", palettes[random_palette].colors[color_index]);    
         rd.material.EnableKeyword ("_EMISSION");
         rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[color_index] * intensity);
         // end
-        */
+        
 
         // set rotation, for player - quaternion, for obstacle z = 90, then random;
-        if( model ){
+        if( model ){  
             rd.material.SetColor("_BaseColor", palettes[random_palette].colors[3]);    
             rd.material.EnableKeyword ("_EMISSION");
             rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[3] * intensity);
@@ -301,13 +307,11 @@ public class ObjectPooler : MonoBehaviour
         // generate the level with obstacles
 
         for(int i=0; i<size; i++){
-
             GameObject obstacle = poolDictionary[tag].Dequeue();
 
             initialize_object(obstacle, tag + "_obstacle", new_obstacle_position());
 
             poolDictionary[tag].Enqueue(obstacle);
-
         }    
         
         
