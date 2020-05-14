@@ -40,6 +40,11 @@ public class Player : MonoBehaviour, IPooledObject
     private float time = 5;
     public float rotation_degree = 90f;
     private bool rotating = false;
+    private float dissolveLevel;
+
+    private bool done = false;
+
+    private int start = 0;
 
     private IEnumerator Rotate( Vector3 angles, float duration = 1.0f )
     {
@@ -57,7 +62,8 @@ public class Player : MonoBehaviour, IPooledObject
         rotating = false;
     }
 
-    public void rotate(int direction){
+    public void rotate(int direction)
+    {
 
         if( rotating ) return;
 
@@ -220,6 +226,12 @@ public class Player : MonoBehaviour, IPooledObject
     
     // }
 
+    private IEnumerator DissolveEffect(int effect)
+    {
+        dissolveLevel += 0.01f * effect;
+        yield return 0.25f;
+    }
+
     void Start(){
         Physics.gravity = new Vector3(0, acceleration, 0);    
 
@@ -258,6 +270,37 @@ public class Player : MonoBehaviour, IPooledObject
 
         if( Input.GetKeyDown("a") )
             rotate(1);
+
+        if( start == 0 ){
+            dissolveLevel = 0.5f;
+            start = 1;
+        }
+
+        if( transform.position.y < -460 && !done ){
+            dissolveLevel = -0.75f;
+            done = true;
+            Color cur_color = render.material.GetColor("_EmissionColor");
+            render.material = game_manager.DissolveMaterial;
+            render.material.SetColor("Color_998522F8", cur_color * 5f);
+        }
+
+        if( done ){
+            render.material.SetFloat("Vector1_DB3F2BFC", dissolveLevel);            
+            StartCoroutine(DissolveEffect(1));
+        }
+
+        if( start == 1 ){
+            render.material.SetFloat("Vector1_DB3F2BFC", dissolveLevel);            
+            StartCoroutine(DissolveEffect(-1));
+            if( dissolveLevel <= -1.5f ){
+                // Time.timeScale = 0;
+                start = 2;
+            }
+        }
+
+        if( transform.position.y < -500 ){
+            game_manager.start_next_level();
+        }    
     }
 
     void FixedUpdate()

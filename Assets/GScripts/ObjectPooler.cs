@@ -266,9 +266,18 @@ public class ObjectPooler : MonoBehaviour
 
         // set rotation, for player - quaternion, for obstacle z = 90, then random;
         if( model ){  
+
+            // add dissolve material, for transition between levels
+            rd.material = game_manager.DissolveMaterial;
+            rd.material.SetColor("Color_998522F8", palettes[random_palette].emission_colors[0] * 2.5f);
+            
+            /*
+            // change Color by default
             rd.material.SetColor("_BaseColor", palettes[random_palette].colors[3]);    
             rd.material.EnableKeyword ("_EMISSION");
             rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[3] * intensity);
+            */
+
             //objectToSpawn.transform.rotation = Quaternion.identity;
         }/*
         else{  

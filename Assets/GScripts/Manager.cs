@@ -12,10 +12,30 @@ public class Manager : MonoBehaviour
     public enum Constants
     {
         max_touches = 25,
-        object_in_level = 15,
+        object_in_level = 6,
         obstacles_on_scene = 50
     }
     
+    public static IEnumerator lerpColor(Material target, Color fromColor, Color toColor, float duration)
+	{
+
+		float counter = 0;
+
+		while (counter < duration)
+		{
+			counter += Time.deltaTime;
+
+			float colorTime = counter / duration;
+			//Debug.Log(colorTime);
+
+			//Change color
+            target.SetColor("_BaseColor", Color.Lerp(fromColor, toColor, counter / duration) );
+       
+			//Wait for a frame
+			yield return null;
+		}
+
+	}
     
     public int object_in_level(){
         return (int) Constants.object_in_level;
@@ -49,19 +69,20 @@ public class Manager : MonoBehaviour
         return score;
     }
 
+    public void start_next_level(){
+        level+=1;
+        Debug.Log("RELOAD THE SCENE");
+        
+        // change color of tunnel 
+        StartCoroutine( lerpColor( TunnelMaterial, TunnelMaterial.color, Random2.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f), 2f ) );
+        
+        UnloadAdditiveScene();
+        LoadAdditiveScene();
+    }
+
     public void increment_score()
     {
         score += 1;
-
-        if( score / ((int) Constants.object_in_level) + 1 > level ){
-            level+=1;
-            Debug.Log("RELOAD THE SCENE");
-            
-            // change color of tunnel 
-            TunnelMaterial.SetColor("_BaseColor", Random2.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f));
-            UnloadAdditiveScene();
-            LoadAdditiveScene();
-        }
 
         Debug.Log("Score: ");
         Debug.Log(score);
