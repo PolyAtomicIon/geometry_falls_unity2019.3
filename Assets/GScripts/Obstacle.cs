@@ -9,7 +9,6 @@ public class Obstacle : MonoBehaviour, IPooledObject
    
     private Manager game_manager;
     private Player player;
-
     private Renderer render;
     private bool is_active = true, done = false;
 
@@ -41,8 +40,17 @@ public class Obstacle : MonoBehaviour, IPooledObject
 
     void Update(){
 
+        if( game_manager.figure_plane.transform.position.y < transform.position.y ){
+            Vector3 position_f = transform.position;
+            position_f.y -= 0.1f;
+            game_manager.figure_plane.transform.position = position_f;
+        }
+
         if( is_active && player.get_position_y_axis() < transform.position.y - objectPooler.get_gap_between_obstacles() - 2.5f ){    
             player.render.material = render.material;
+            Vector3 position_f = transform.position;
+            position_f.y -= 0.1f;
+            game_manager.figure_plane.transform.position = position_f;
         }
         
         if( is_active && player.get_position_y_axis() < transform.position.y - 2.5f ){
@@ -50,7 +58,7 @@ public class Obstacle : MonoBehaviour, IPooledObject
           
             // !!! Dissolve effect
             //render.material = game_manager.DissolveMaterial;
-
+            player.increment_score();
             game_manager.increment_score();
             //gameObject.SetActive(is_active);
             // disabled moving down

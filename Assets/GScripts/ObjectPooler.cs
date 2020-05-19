@@ -150,7 +150,7 @@ public class ObjectPooler : MonoBehaviour
         object_in_level = (int) game_manager.object_in_level();
 
         gap_between = new Vector3(0f, gap, 0f);
-        obstacle_position = new Vector3(0f, gap, 0f);
+        obstacle_position = new Vector3(0f, -30f, 0f);
 
         // get prefabs from folder;
         // In build this is not working, LOL
@@ -232,8 +232,11 @@ public class ObjectPooler : MonoBehaviour
 
         // set the color, get one random from 3 colors of palette
 
+        // fixed color
+        color_index = 2;
+
         // if it not random color
-        color_index = color_index % 3;
+        // color_index = color_index % 3;
 
         // HERE WE HAVE RANDOM COLOR PICKER
         /*
@@ -250,26 +253,28 @@ public class ObjectPooler : MonoBehaviour
         // to change color
         Material cur_material = materials.materials_list[materials.next_material()];
 
-        float intensity =  0.2f;
+        float intensity =  0f;
             
         Renderer rd = objectToSpawn.GetComponent<Renderer>();
         rd.material = cur_material;
         if( model ){
-            rd.material = materials.materials_list[3];
+            rd.material = materials.materials_list[2];
         }
         
         rd.material.SetColor("_BaseColor", palettes[random_palette].colors[color_index]);    
-        rd.material.EnableKeyword ("_EMISSION");
-        rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[color_index] * intensity);
+        // rd.material.EnableKeyword ("_EMISSION");
+        // rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[color_index] * intensity);
         // end
         
-
+        if( !model )
+            objectToSpawn.transform.eulerAngles = new Vector3(-90f, ThreadSafeRandom.ThisThreadsRandom.Next(4) * 90f, 0);
+        
         // set rotation, for player - quaternion, for obstacle z = 90, then random;
-        if( model ){  
+        // if( model ){  
 
             // add dissolve material, for transition between levels
-            rd.material = game_manager.DissolveMaterial;
-            rd.material.SetColor("Color_998522F8", palettes[random_palette].emission_colors[0] * 2.5f);
+            // rd.material = game_manager.DissolveMaterial;
+            // rd.material.SetColor("Color_998522F8", palettes[random_palette].emission_colors[color_index] * intensity);
             
             /*
             // change Color by default
@@ -279,12 +284,12 @@ public class ObjectPooler : MonoBehaviour
             */
 
             //objectToSpawn.transform.rotation = Quaternion.identity;
-        }/*
-        else{  
+        // }
+        // else{  
             // it was random, we changed it  
             // objectToSpawn.transform.eulerAngles = new Vector3(270f, Random.Range(0f, 360f), Random.Range(0f, 360f));
             //objectToSpawn.transform.eulerAngles = new Vector3(0f, 0f, 90f);
-        }*/
+        // }
 
 
         // Call the OnObjectSpwan, differs for player and obstacle.
@@ -305,6 +310,8 @@ public class ObjectPooler : MonoBehaviour
         Debug.Log("Palette number");
         Debug.Log(random_palette);
         // end
+
+        game_manager.tunnel_color = palettes[random_palette].colors[0];
 
 
         // player's model

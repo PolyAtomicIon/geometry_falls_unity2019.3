@@ -12,7 +12,7 @@ public class Manager : MonoBehaviour
     public enum Constants
     {
         max_touches = 25,
-        object_in_level = 6,
+        object_in_level = 8,
         obstacles_on_scene = 50
     }
     
@@ -52,10 +52,12 @@ public class Manager : MonoBehaviour
 
     public Material DissolveMaterial;
     public Material TunnelMaterial;
+    public Color tunnel_color;
 
     // For getting random models for each level 
     public List<int> random_models_indexes;
     private int next_model_index = 0;
+    public GameObject figure_plane;
     public int max_models_number = 2;
     // end
 
@@ -73,11 +75,15 @@ public class Manager : MonoBehaviour
         level+=1;
         Debug.Log("RELOAD THE SCENE");
         
-        // change color of tunnel 
-        StartCoroutine( lerpColor( TunnelMaterial, TunnelMaterial.color, Random2.ColorHSV(0f, 1f, 1f, 1f, 0.5f, 1f), 2f ) );
+        StartCoroutine( lerpColor( TunnelMaterial, TunnelMaterial.color, tunnel_color, 2f) );
         
         UnloadAdditiveScene();
         LoadAdditiveScene();
+        
+        Vector3 pos_t = figure_plane.transform.position;
+        pos_t.y -= -95.1f;
+        // change color of tunnel 
+        figure_plane.transform.position = pos_t;
     }
 
     public void increment_score()

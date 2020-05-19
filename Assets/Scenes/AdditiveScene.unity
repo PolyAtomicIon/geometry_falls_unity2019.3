@@ -121,130 +121,6 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &398651398
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 398651400}
-  - component: {fileID: 398651399}
-  - component: {fileID: 398651401}
-  m_Layer: 0
-  m_Name: Directional Light
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!108 &398651399
-Light:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398651398}
-  m_Enabled: 1
-  serializedVersion: 10
-  m_Type: 2
-  m_Shape: 0
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 150
-  m_Range: 20
-  m_SpotAngle: 30
-  m_InnerSpotAngle: 21.80208
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 0
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-    m_CullingMatrixOverride:
-      e00: 1
-      e01: 0
-      e02: 0
-      e03: 0
-      e10: 0
-      e11: 1
-      e12: 0
-      e13: 0
-      e20: 0
-      e21: 0
-      e22: 1
-      e23: 0
-      e30: 0
-      e31: 0
-      e32: 0
-      e33: 1
-    m_UseCullingMatrixOverride: 0
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 311
-  m_RenderingLayerMask: 1
-  m_Lightmapping: 4
-  m_LightShadowCasterMode: 0
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: 0, y: 1.7326e-41, z: 0, w: 0}
-  m_UseBoundingSphereOverride: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
---- !u!4 &398651400
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398651398}
-  m_LocalRotation: {x: -0.33036613, y: -0.08852132, z: 0.24321029, w: 0.90767336}
-  m_LocalPosition: {x: 3.3, y: 2.6, z: 35}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 534669905}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!114 &398651401
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 398651398}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_RenderShadows: 1
-  m_RequiresDepthTextureOption: 2
-  m_RequiresOpaqueTextureOption: 2
-  m_CameraType: 0
-  m_Cameras: []
-  m_RendererIndex: -1
-  m_VolumeLayerMask:
-    serializedVersion: 2
-    m_Bits: 1
-  m_VolumeTrigger: {fileID: 0}
-  m_RenderPostProcessing: 0
-  m_Antialiasing: 0
-  m_AntialiasingQuality: 2
-  m_StopNaN: 0
-  m_Dithering: 0
-  m_ClearDepth: 1
-  m_RequiresDepthTexture: 0
-  m_RequiresColorTexture: 0
-  m_Version: 2
 --- !u!1 &534669902
 GameObject:
   m_ObjectHideFlags: 0
@@ -325,10 +201,9 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
   m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: 0.05, y: 3, z: -4.83}
+  m_LocalPosition: {x: -1.5, y: 16, z: -0.25}
   m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children:
-  - {fileID: 398651400}
+  m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
@@ -423,129 +298,123 @@ MonoBehaviour:
   number_each_prefab: 3
   models:
   - tag: pyramid
-    prefab: {fileID: 7683050732060490876, guid: 2c89f7bf8dddb8e4791acd310a03c47a,
+    prefab: {fileID: 6867587272139074764, guid: 48ec8021e07153748a64fa0d93071609,
       type: 3}
-    size: 18
+    size: 14
     obstacles_prefab:
-    - prefab: {fileID: 7250800272259727195, guid: 7bdc44a7150cb1a4e97d4db5b59015e0,
+    - prefab: {fileID: 6890468463767791432, guid: b71ec9b43cb7f0a448397c5bc098cd04,
         type: 3}
       complexity: 1
-    - prefab: {fileID: 6138100027964302688, guid: 9a0b1c8306fdf6f499384cbb526b8990,
+    - prefab: {fileID: 330374886770537753, guid: 0335de4e6dd865341865d07e4148cda1,
         type: 3}
       complexity: 1
-    - prefab: {fileID: 5697383219205043357, guid: 5eaf648eb72587545b4558c669c5bb71,
+    - prefab: {fileID: 739800478175045177, guid: 65ffa61f607c1214a9f00a19055761f9,
         type: 3}
       complexity: 1
-    - prefab: {fileID: 398237659851650057, guid: 6090ec24f8f0bcc41b48522e2ca667bf,
+    - prefab: {fileID: 7028120770135029138, guid: dc2617de0375e9c4f9dd773cd7c14c81,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 7173478284457980354, guid: e6778c3b2318e144699c317225ee6120,
+    - prefab: {fileID: 784316296296467104, guid: 6bdea6bd32a90fd47abfd0937ea5cd70,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 894570732767894027, guid: 89d5dcc610a02c947b09149dbb2cb3e3,
+    - prefab: {fileID: 3912351394532773086, guid: e917b86f7192f944b8a190107fa6d482,
         type: 3}
       complexity: 3
-    - prefab: {fileID: 2255669865826012370, guid: 68dfe02c91aed844982e8ac843065881,
+    - prefab: {fileID: 8524561776614806840, guid: 90dcce48a0be7034a81574853ca950fd,
         type: 3}
       complexity: 3
-    - prefab: {fileID: 4302492397101428435, guid: 841819a0a6c66a741b39e5643ed090a5,
+    - prefab: {fileID: 2146453524153293732, guid: 5ebe4038951751a47ba8734012eeb9a0,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 2148840123927739390, guid: d2cbb1cbc85bfe4418a179998f9d77cf,
+    - prefab: {fileID: 4515041331711554218, guid: ef0ed4eef57c2154893169b82dbe347b,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 7710907857175733908, guid: fc1a778b7c65d0a48ba57c53bb561bb0,
+    - prefab: {fileID: 809391694297759234, guid: a712506af8688cb42852deb17caf46f2,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 2699784762951482523, guid: e84484537d10efb4f8f56d99842e205d,
+    - prefab: {fileID: 5268657218108149321, guid: e3d0cef9b6b3bad4d9ed39fbca4d6dde,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 2381043484618530357, guid: 8cf1c49f8076c724eb29a54ccbb974fc,
+    - prefab: {fileID: 6836823815676453583, guid: d097ed3411e1e0844af83d70f144629e,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 6934121176889227156, guid: d61782c108f48a04cb686e5702ec9077,
+    - prefab: {fileID: 3143951842247813950, guid: 632f27fe7fda8214082750b7edf2c898,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 7743756719386949181, guid: 076239b9996e25d47bae86dd210152a6,
-        type: 3}
-      complexity: 2
-    - prefab: {fileID: 2342663483525441045, guid: d18cdaa9d2eb0e1498ef97e04249296d,
-        type: 3}
-      complexity: 2
-    - prefab: {fileID: 1371219660135068155, guid: 35a96271b67450446aa57a7f21bac73e,
-        type: 3}
-      complexity: 2
-    - prefab: {fileID: 4307986714664192497, guid: 2232a9884a67d0e428610eef8ed19488,
-        type: 3}
-      complexity: 2
-    - prefab: {fileID: 865874378174123818, guid: 36b850628e854ef409e01288f17ec9a8,
+    - prefab: {fileID: 3970535564287472333, guid: 93756e673a1870a43a87a560fc46c94e,
         type: 3}
       complexity: 2
   - tag: trapezoid
-    prefab: {fileID: 5331026048089362027, guid: 4f351693c8229b74b8d48654b8c8874d,
+    prefab: {fileID: 5484417299442731736, guid: 216e4bddaf1b9b54ab95c4912d05b671,
       type: 3}
     size: 16
     obstacles_prefab:
-    - prefab: {fileID: 8204883061030509328, guid: 7f734ef20a2306a41850607f24e3ce1a,
+    - prefab: {fileID: 2182124693019510139, guid: 9d8d01d81024f3f449a5fa6b6dd25f9e,
         type: 3}
       complexity: 1
-    - prefab: {fileID: 1979427777979792921, guid: 85506b7fa96f91649afff60f6f64b14b,
+    - prefab: {fileID: 2507374687407463124, guid: a48c7b944ad6a064c837e2904dbe03d2,
         type: 3}
       complexity: 1
-    - prefab: {fileID: 6185139879456402712, guid: 28a7ee14604823447afd3a559780ed17,
+    - prefab: {fileID: 6385088373852037637, guid: 41164ea140211d24b86c1812d3b7ca5e,
         type: 3}
       complexity: 1
-    - prefab: {fileID: 6881052900984172156, guid: 81d9605dbf3bcbf4fa9e8d4753b501a0,
+    - prefab: {fileID: 4565159122799121260, guid: 9624d631066a33d41bf7b8240256abc3,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 2081763186572273062, guid: b6581baeab49c094796fb6dcdb87e559,
+    - prefab: {fileID: 1227444884804890356, guid: bfb0ec5f19970f44b9620252c1dc5c51,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 1147285977651552315, guid: 39f07e68229c1284f89134924a0a2ce3,
+    - prefab: {fileID: 6286000442259513897, guid: 7aac84bbdc49f4e4e8df358fc318d2a8,
         type: 3}
       complexity: 3
-    - prefab: {fileID: 5963156104641863963, guid: 98f69baa15c10004d9604b0feff02d85,
+    - prefab: {fileID: 2425037237516123101, guid: 1323316a9feb3304b989180f8fee6fed,
         type: 3}
       complexity: 3
-    - prefab: {fileID: 2758508016329333311, guid: 2c0a66a276dc5b446b572410c69ad9cc,
+    - prefab: {fileID: 4639240465607453644, guid: 792b188475598d941ae8a64e94e1e434,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 3875841952198411237, guid: 5eefe07028ed2e04f8125561967c7826,
+    - prefab: {fileID: 8995269924010521855, guid: c97331f49b309bb4d91955a1a299319f,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 4322069682311088873, guid: 2b9f16754c16f724c9d25b72bc3c7c14,
+    - prefab: {fileID: 6314627942568360129, guid: 1dd8b445a85a3bf419d8e25411d9b308,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 5948651267866418583, guid: 7dd52d7cbf7a476408d0bc7a4e88a36e,
+    - prefab: {fileID: 4668956784405903963, guid: 46ec0c4d8e94f0f47a4757a429d37215,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 677913095012203359, guid: 1c7062d0d72760b42b36628879ab3421,
+    - prefab: {fileID: 5499717126798416814, guid: dedab2baa91b34a41bb1d37e6264f720,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 4798533756049134679, guid: 98f5135192369f14ca64c74b757f7863,
+    - prefab: {fileID: 1072568294032298215, guid: 320316b1d0595ec478b46397ba9e707a,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 2256899595064655894, guid: d21360c5485dff6429f776dec47f7b2f,
+    - prefab: {fileID: 8368980928003534846, guid: c3f0da00d1ee7664299c90d9877dcb1b,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 692102770132090211, guid: 1dbcbc53797a0d14d905722bde7dee63,
+    - prefab: {fileID: 6319990303985180654, guid: 02a6e457011954b45bdf52bf03f4d299,
         type: 3}
       complexity: 2
-    - prefab: {fileID: 7840107590862432779, guid: 7f867da92e24edf48a24d781e6dc62c5,
+    - prefab: {fileID: 4326974284178341105, guid: 475322c7e14d27449b055adc9b03ac55,
         type: 3}
       complexity: 2
   models_tag: []
   palettes:
   - colors:
-    - {r: 0.9245283, g: 0.8074437, b: 0.10902455, a: 0}
-    - {r: 0.754717, g: 0.7226771, b: 0.7281337, a: 0}
-    - {r: 0.94509804, g: 0.047058824, b: 0.2, a: 0}
-    - {r: 0.7176471, g: 0.15800422, b: 0.0980392, a: 0}
+    - {r: 0.46666667, g: 0, b: 0.6509804, a: 0}
+    - {r: 0.9960785, g: 0, b: 0.9960785, a: 0}
+    - {r: 0, g: 0.08627451, b: 0.93333334, a: 0}
     emission_colors:
-    - {r: 0.96855265, g: 0.9716981, b: 0.16958882, a: 0}
-    - {r: 0.9056604, g: 0.8843005, b: 0.8843005, a: 0}
-    - {r: 0.9339623, g: 0.13952234, b: 0.048460312, a: 0}
-    - {r: 0.9433962, g: 0.18624085, b: 0.057849795, a: 0}
+    - {r: 0.4666667, g: 0, b: 0.6509804, a: 0}
+    - {r: 0.9960785, g: 0, b: 0.9960785, a: 0}
+    - {r: 0, g: 0.08627451, b: 0.9333334, a: 0}
+  - colors:
+    - {r: 0.4509804, g: 1, b: 0.99607843, a: 0}
+    - {r: 0.5372549, g: 0.8901961, b: 0.9647059, a: 0}
+    - {r: 0.754717, g: 0.7370194, b: 0.13883947, a: 0}
+    emission_colors:
+    - {r: 0.45098042, g: 1, b: 0.9960785, a: 0}
+    - {r: 0.5372549, g: 0.89019614, b: 0.96470594, a: 0}
+    - {r: 0.9843138, g: 0.96470594, b: 0.39607847, a: 0}
   materials:
     materials_list:
     - {fileID: 2100000, guid: dd48c2f4acbde4843be092b4fec60cfe, type: 2}

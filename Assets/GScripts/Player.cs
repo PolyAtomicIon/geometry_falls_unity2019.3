@@ -21,6 +21,8 @@ public class Player : MonoBehaviour, IPooledObject
 
     private Manager game_manager;
 
+    private int score = 0;
+
     public float get_position_y_axis(){
         return transform.position.y;
     }
@@ -42,8 +44,7 @@ public class Player : MonoBehaviour, IPooledObject
     private bool rotating = false;
     private float dissolveLevel;
 
-    private bool done = false;
-
+    private int done = 0;
     private int start = 0;
 
     private IEnumerator Rotate( Vector3 angles, float duration = 1.0f )
@@ -61,144 +62,165 @@ public class Player : MonoBehaviour, IPooledObject
         transform.rotation = endRotation;
         rotating = false;
     }
-
-    public void rotate(int direction)
-    {
+    
+    public void rotate(int direction){
 
         if( rotating ) return;
 
-        // UP
         if( direction == 0 ){
-            // From horizontal position to vertical
-            if( isHorizontal == 1 ){    
-                StartCoroutine( Rotate( Vector3.forward * rotation_degree, rotation_duration ) );
-                isHorizontal = -1;
-                isVertical = 0;
-            }
-            else if( isHorizontal == 3 ){    
-                StartCoroutine( Rotate( -Vector3.forward * rotation_degree, rotation_duration ) );
-                isHorizontal = -1;
-                isVertical = 0;
-            }
-            // Turn vertically
-            else{
-                StartCoroutine( Rotate( Vector3.right * rotation_degree, rotation_duration ) );
-                if( isVertical == 0 ){
-                    isVertical = 1;
-                    isHorizontal = 0;
-                }
-                else if( isVertical == 1 ){
-                    isVertical = 2;
-                    isHorizontal = -1;
-                }
-                else if( isVertical == 2 ){
-                    isVertical = 3;
-                    isHorizontal = 2;  
-                }
-                else{
-                    isVertical = 0;
-                    isHorizontal = -1;
-                }
-            }
+            StartCoroutine( Rotate( Vector3.right * rotation_degree, rotation_duration ) );
         }
-        // Left
-        if( direction == 1 ){
-            // Turn horizontally
-            if(  isVertical != 0 && isVertical != 2 ){
-                StartCoroutine( Rotate( -Vector3.up * rotation_degree, rotation_duration ) );
-                isHorizontal -= 1;
-                if( isHorizontal < 0 )
-                    isHorizontal = 3;
-            }
-            // Turn from top or down position, to left
-            else{
-                // from Top
-                if( isVertical == 0 ){
-                    StartCoroutine( Rotate( Vector3.forward * rotation_degree, rotation_duration ) );
-                    isHorizontal = 3;
-                }
-                // from Bottom
-                else{
-                    StartCoroutine( Rotate( -Vector3.forward * rotation_degree, rotation_duration ) );
-                    isHorizontal = 3;
-                }
-            }
-            
-            if( isHorizontal == 0 )
-                isVertical = 1;
-            else if( isHorizontal == 2 )
-                isVertical = 3;
-            else
-                isVertical = -1;
-        }
-        // Down
         if( direction == 2 ){
-            // From horizontal position to vertical
-            if( isHorizontal == 1 ){    
-                StartCoroutine( Rotate( -Vector3.forward * rotation_degree, rotation_duration ) );
-                isHorizontal = -1;
-                isVertical = 2;
-            }
-            else if( isHorizontal == 3 ){    
-                StartCoroutine( Rotate( Vector3.forward * rotation_degree, rotation_duration ) );
-                isHorizontal = -1;
-                isVertical = 2;
-            }
-            // Turn Vertically
-            else{
-                StartCoroutine( Rotate( -Vector3.right * rotation_degree, rotation_duration ) );
-                if( isVertical == 0 ){
-                    isVertical = 3;
-                    isHorizontal = 2;
-                }
-                else if( isVertical == 1 ){
-                    isVertical = 0;
-                    isHorizontal = -1;
-                }
-                else if( isVertical == 2 ){
-                    isVertical = 1;
-                    isHorizontal = 0;  
-                }
-                else{
-                    isVertical = 2;
-                    isHorizontal = -1;
-                }
-
-            }
+            StartCoroutine( Rotate( -Vector3.right * rotation_degree, rotation_duration ) );
         }
-        // Right
         if( direction == 3 ){
-            // Turn horizontally
-            if( isVertical != 0 && isVertical != 2 ){
-                StartCoroutine( Rotate( Vector3.up * rotation_degree, rotation_duration ) );    
-                isHorizontal += 1;
-                isHorizontal = isHorizontal % 4;
-            }
-            // Turn from top or down position, to left
-            else{    
-                // from Top
-                if( isVertical == 0 ){
-                    StartCoroutine( Rotate( -Vector3.forward * rotation_degree, rotation_duration ) );
-                    isHorizontal = 1;
-                }
-                // from Bottom
-                else{
-                    StartCoroutine( Rotate( Vector3.forward * rotation_degree, rotation_duration ) );
-                    isHorizontal = 1;
-                }
-            }
-
-            if( isHorizontal == 0 )
-                isVertical = 1;
-            else if( isHorizontal == 2 )
-                isVertical = 3;
-            else
-                isVertical = -1;
+            StartCoroutine( Rotate( Vector3.up * rotation_degree, rotation_duration ) );
         }
+        if( direction == 1 ){
+            StartCoroutine( Rotate( -Vector3.up * rotation_degree, rotation_duration ) );
+        }
+    }
+
+    
+    // Silly rotation
+    // public void rotate(int direction)
+    // {
+
+    //     if( rotating ) return;
+
+    //     // UP
+    //     if( direction == 0 ){
+    //         // From horizontal position to vertical
+    //         if( isHorizontal == 1 ){    
+    //             StartCoroutine( Rotate( Vector3.forward * rotation_degree, rotation_duration ) );
+    //             isHorizontal = -1;
+    //             isVertical = 0;
+    //         }
+    //         else if( isHorizontal == 3 ){    
+    //             StartCoroutine( Rotate( -Vector3.forward * rotation_degree, rotation_duration ) );
+    //             isHorizontal = -1;
+    //             isVertical = 0;
+    //         }
+    //         // Turn vertically
+    //         else{
+    //             StartCoroutine( Rotate( Vector3.right * rotation_degree, rotation_duration ) );
+    //             if( isVertical == 0 ){
+    //                 isVertical = 1;
+    //                 isHorizontal = 0;
+    //             }
+    //             else if( isVertical == 1 ){
+    //                 isVertical = 2;
+    //                 isHorizontal = -1;
+    //             }
+    //             else if( isVertical == 2 ){
+    //                 isVertical = 3;
+    //                 isHorizontal = 2;  
+    //             }
+    //             else{
+    //                 isVertical = 0;
+    //                 isHorizontal = -1;
+    //             }
+    //         }
+    //     }
+    //     // Left
+    //     if( direction == 1 ){
+    //         // Turn horizontally
+    //         if(  isVertical != 0 && isVertical != 2 ){
+    //             StartCoroutine( Rotate( -Vector3.up * rotation_degree, rotation_duration ) );
+    //             isHorizontal -= 1;
+    //             if( isHorizontal < 0 )
+    //                 isHorizontal = 3;
+    //         }
+    //         // Turn from top or down position, to left
+    //         else{
+    //             // from Top
+    //             if( isVertical == 0 ){
+    //                 StartCoroutine( Rotate( Vector3.forward * rotation_degree, rotation_duration ) );
+    //                 isHorizontal = 3;
+    //             }
+    //             // from Bottom
+    //             else{
+    //                 StartCoroutine( Rotate( -Vector3.forward * rotation_degree, rotation_duration ) );
+    //                 isHorizontal = 3;
+    //             }
+    //         }
+            
+    //         if( isHorizontal == 0 )
+    //             isVertical = 1;
+    //         else if( isHorizontal == 2 )
+    //             isVertical = 3;
+    //         else
+    //             isVertical = -1;
+    //     }
+    //     // Down
+    //     if( direction == 2 ){
+    //         // From horizontal position to vertical
+    //         if( isHorizontal == 1 ){    
+    //             StartCoroutine( Rotate( -Vector3.forward * rotation_degree, rotation_duration ) );
+    //             isHorizontal = -1;
+    //             isVertical = 2;
+    //         }
+    //         else if( isHorizontal == 3 ){    
+    //             StartCoroutine( Rotate( Vector3.forward * rotation_degree, rotation_duration ) );
+    //             isHorizontal = -1;
+    //             isVertical = 2;
+    //         }
+    //         // Turn Vertically
+    //         else{
+    //             StartCoroutine( Rotate( -Vector3.right * rotation_degree, rotation_duration ) );
+    //             if( isVertical == 0 ){
+    //                 isVertical = 3;
+    //                 isHorizontal = 2;
+    //             }
+    //             else if( isVertical == 1 ){
+    //                 isVertical = 0;
+    //                 isHorizontal = -1;
+    //             }
+    //             else if( isVertical == 2 ){
+    //                 isVertical = 1;
+    //                 isHorizontal = 0;  
+    //             }
+    //             else{
+    //                 isVertical = 2;
+    //                 isHorizontal = -1;
+    //             }
+
+    //         }
+    //     }
+    //     // Right
+    //     if( direction == 3 ){
+    //         // Turn horizontally
+    //         if( isVertical != 0 && isVertical != 2 ){
+    //             StartCoroutine( Rotate( Vector3.up * rotation_degree, rotation_duration ) );    
+    //             isHorizontal += 1;
+    //             isHorizontal = isHorizontal % 4;
+    //         }
+    //         // Turn from top or down position, to left
+    //         else{    
+    //             // from Top
+    //             if( isVertical == 0 ){
+    //                 StartCoroutine( Rotate( -Vector3.forward * rotation_degree, rotation_duration ) );
+    //                 isHorizontal = 1;
+    //             }
+    //             // from Bottom
+    //             else{
+    //                 StartCoroutine( Rotate( Vector3.forward * rotation_degree, rotation_duration ) );
+    //                 isHorizontal = 1;
+    //             }
+    //         }
+
+    //         if( isHorizontal == 0 )
+    //             isVertical = 1;
+    //         else if( isHorizontal == 2 )
+    //             isVertical = 3;
+    //         else
+    //             isVertical = -1;
+    //     }
     
         
     
-    }
+    // }
+    
 
     // Just experiment
 
@@ -228,8 +250,12 @@ public class Player : MonoBehaviour, IPooledObject
 
     private IEnumerator DissolveEffect(int effect)
     {
-        dissolveLevel += 0.01f * effect;
-        yield return 0.25f;
+        dissolveLevel += 0.02f * effect;
+        yield return 0.05f;
+    }
+
+    public void increment_score(){
+        score += 1;
     }
 
     void Start(){
@@ -258,7 +284,7 @@ public class Player : MonoBehaviour, IPooledObject
         // movement = new Vector3( joystick.Horizontal, 0f, joystick.Vertical );
 
         game_manager.fall_down_speed = rb.velocity.y;
-
+        
         if( Input.GetKeyDown("s") )
             rotate(2);
         
@@ -273,22 +299,26 @@ public class Player : MonoBehaviour, IPooledObject
 
         if( start == 0 ){
             dissolveLevel = 0.5f;
-            start = 1;
+            start = 2;
         }
 
-        if( transform.position.y < -460 && !done ){
+        if( score >= (int) game_manager.object_in_level() && done == 0 ){
             dissolveLevel = -0.75f;
-            done = true;
+            done = 2;
             Color cur_color = render.material.GetColor("_EmissionColor");
             render.material = game_manager.DissolveMaterial;
             render.material.SetColor("Color_998522F8", cur_color * 5f);
         }
 
-        if( done ){
+        if( done == 1 ){
             render.material.SetFloat("Vector1_DB3F2BFC", dissolveLevel);            
             StartCoroutine(DissolveEffect(1));
+            if( dissolveLevel >= 0.75f ){
+                // Time.timeScale = 0;
+                done = 2;
+            }
         }
-
+        
         if( start == 1 ){
             render.material.SetFloat("Vector1_DB3F2BFC", dissolveLevel);            
             StartCoroutine(DissolveEffect(-1));
@@ -298,7 +328,7 @@ public class Player : MonoBehaviour, IPooledObject
             }
         }
 
-        if( transform.position.y < -500 ){
+        if( done == 2 ){
             game_manager.start_next_level();
         }    
     }
