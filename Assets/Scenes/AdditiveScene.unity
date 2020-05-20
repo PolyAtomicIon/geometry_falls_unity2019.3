@@ -200,13 +200,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 534669902}
-  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -1.5, y: 16, z: -0.25}
+  m_LocalRotation: {x: 0.72611564, y: -0, z: -0, w: 0.6875726}
+  m_LocalPosition: {x: 0, y: 18, z: 2}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 90, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 93.122986, y: -0.000015258789, z: -0.000015258789}
 --- !u!114 &534669906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -233,7 +233,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 0}
   smoothSpeed: 0.33249894
-  offset: {x: -1.5, y: 16, z: -0.25}
+  offset: {x: 0, y: 18, z: 2}
 --- !u!114 &534669908
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -313,16 +313,16 @@ MonoBehaviour:
       complexity: 1
     - prefab: {fileID: 7028120770135029138, guid: dc2617de0375e9c4f9dd773cd7c14c81,
         type: 3}
-      complexity: 2
+      complexity: 1
     - prefab: {fileID: 784316296296467104, guid: 6bdea6bd32a90fd47abfd0937ea5cd70,
         type: 3}
-      complexity: 2
+      complexity: 1
     - prefab: {fileID: 3912351394532773086, guid: e917b86f7192f944b8a190107fa6d482,
         type: 3}
-      complexity: 3
+      complexity: 2
     - prefab: {fileID: 8524561776614806840, guid: 90dcce48a0be7034a81574853ca950fd,
         type: 3}
-      complexity: 3
+      complexity: 2
     - prefab: {fileID: 2146453524153293732, guid: 5ebe4038951751a47ba8734012eeb9a0,
         type: 3}
       complexity: 2
@@ -331,19 +331,19 @@ MonoBehaviour:
       complexity: 2
     - prefab: {fileID: 809391694297759234, guid: a712506af8688cb42852deb17caf46f2,
         type: 3}
-      complexity: 2
+      complexity: 3
     - prefab: {fileID: 5268657218108149321, guid: e3d0cef9b6b3bad4d9ed39fbca4d6dde,
         type: 3}
       complexity: 2
     - prefab: {fileID: 6836823815676453583, guid: d097ed3411e1e0844af83d70f144629e,
         type: 3}
-      complexity: 2
+      complexity: 3
     - prefab: {fileID: 3143951842247813950, guid: 632f27fe7fda8214082750b7edf2c898,
         type: 3}
-      complexity: 2
+      complexity: 3
     - prefab: {fileID: 3970535564287472333, guid: 93756e673a1870a43a87a560fc46c94e,
         type: 3}
-      complexity: 2
+      complexity: 3
   - tag: trapezoid
     prefab: {fileID: 5484417299442731736, guid: 216e4bddaf1b9b54ab95c4912d05b671,
       type: 3}
@@ -360,16 +360,16 @@ MonoBehaviour:
       complexity: 1
     - prefab: {fileID: 4565159122799121260, guid: 9624d631066a33d41bf7b8240256abc3,
         type: 3}
-      complexity: 2
+      complexity: 1
     - prefab: {fileID: 1227444884804890356, guid: bfb0ec5f19970f44b9620252c1dc5c51,
         type: 3}
       complexity: 2
     - prefab: {fileID: 6286000442259513897, guid: 7aac84bbdc49f4e4e8df358fc318d2a8,
         type: 3}
-      complexity: 3
+      complexity: 2
     - prefab: {fileID: 2425037237516123101, guid: 1323316a9feb3304b989180f8fee6fed,
         type: 3}
-      complexity: 3
+      complexity: 2
     - prefab: {fileID: 4639240465607453644, guid: 792b188475598d941ae8a64e94e1e434,
         type: 3}
       complexity: 2
@@ -384,19 +384,19 @@ MonoBehaviour:
       complexity: 2
     - prefab: {fileID: 5499717126798416814, guid: dedab2baa91b34a41bb1d37e6264f720,
         type: 3}
-      complexity: 2
+      complexity: 3
     - prefab: {fileID: 1072568294032298215, guid: 320316b1d0595ec478b46397ba9e707a,
         type: 3}
-      complexity: 2
+      complexity: 3
     - prefab: {fileID: 8368980928003534846, guid: c3f0da00d1ee7664299c90d9877dcb1b,
         type: 3}
-      complexity: 2
+      complexity: 3
     - prefab: {fileID: 6319990303985180654, guid: 02a6e457011954b45bdf52bf03f4d299,
         type: 3}
-      complexity: 2
+      complexity: 3
     - prefab: {fileID: 4326974284178341105, guid: 475322c7e14d27449b055adc9b03ac55,
         type: 3}
-      complexity: 2
+      complexity: 3
   models_tag: []
   palettes:
   - colors:
@@ -421,7 +421,7 @@ MonoBehaviour:
     - {fileID: 2100000, guid: 23e8a1fdae5d5b141af29a67b7b5548c, type: 2}
     - {fileID: 2100000, guid: 882f6eb93c4da854bb85657dc563587f, type: 2}
     - {fileID: 2100000, guid: 5fc187e8b01ba1140b5372b144956416, type: 2}
-  gap: -65
+  gap: -90
   gap_between: {x: 0, y: 0, z: 0}
   obstacle_position: {x: 0, y: 0, z: 0}
   game_manager: {fileID: 0}

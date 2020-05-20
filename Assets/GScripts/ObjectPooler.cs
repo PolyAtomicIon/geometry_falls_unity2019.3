@@ -194,8 +194,10 @@ public class ObjectPooler : MonoBehaviour
                 for(int j = 0; j < number_each_prefab; j++){
                     GameObject obstacle_prefab = Instantiate(obstacle.prefab) as GameObject;
                     obstacle_prefab.SetActive(false);
-                    // temp_gameobjects[obstacle.complexity].Add(obstacle_prefab);
-                    temp_gameobjects[1].Add(obstacle_prefab);
+                    // Random
+                    temp_gameobjects[obstacle.complexity].Add(obstacle_prefab);
+                    // not random
+                    // temp_gameobjects[1].Add(obstacle_prefab);
                 }
 
             }
@@ -233,7 +235,7 @@ public class ObjectPooler : MonoBehaviour
         // set the color, get one random from 3 colors of palette
 
         // fixed color
-        color_index = 2;
+        color_index = 0;
 
         // if it not random color
         // color_index = color_index % 3;
@@ -266,16 +268,19 @@ public class ObjectPooler : MonoBehaviour
         // rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[color_index] * intensity);
         // end
         
+        
         if( !model )
             objectToSpawn.transform.eulerAngles = new Vector3(-90f, ThreadSafeRandom.ThisThreadsRandom.Next(4) * 90f, 0);
         
         // set rotation, for player - quaternion, for obstacle z = 90, then random;
-        // if( model ){  
+        if( model ){  
+
+            rd.material.SetColor("_BaseColor", palettes[random_palette].colors[2]);    
 
             // add dissolve material, for transition between levels
             // rd.material = game_manager.DissolveMaterial;
             // rd.material.SetColor("Color_998522F8", palettes[random_palette].emission_colors[color_index] * intensity);
-            
+        }
             /*
             // change Color by default
             rd.material.SetColor("_BaseColor", palettes[random_palette].colors[3]);    
@@ -311,9 +316,9 @@ public class ObjectPooler : MonoBehaviour
         Debug.Log(random_palette);
         // end
 
-        game_manager.tunnel_color = palettes[random_palette].colors[0];
-
-
+        // Change tunnel color, acces to Manger
+        game_manager.change_tunnel_color( palettes[random_palette].colors[0] );
+        
         // player's model
         GameObject model = modelsDictionary[tag];
         initialize_object(model, tag, VectorZero, true);        

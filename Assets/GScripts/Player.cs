@@ -11,7 +11,6 @@ public class Player : MonoBehaviour, IPooledObject
     // private float angular_drag = 1.5f;
     private float fall_down_speed = -27f;
     public float acceleration = -0.075f;
-    public float SwipeDistance = 10f;
     public float speed;
     public Renderer render;
 
@@ -38,46 +37,63 @@ public class Player : MonoBehaviour, IPooledObject
     // Rotating Object
     private int isVertical = 0; // 0 = top, 2 = down;
     private int isHorizontal = -1; // 0 = forward, 1 = right, 3 = left;
-    [SerializeField] private float rotation_duration = 0.35f;
+    [SerializeField] private float rotation_duration = 0.8f;
     private float time = 5;
-    public float rotation_degree = 90f;
+    private float rotation_degree = 90f;
     private bool rotating = false;
     private float dissolveLevel;
 
     private int done = 0;
     private int start = 0;
 
+    // Rotation, like smooth
     private IEnumerator Rotate( Vector3 angles, float duration = 1.0f )
     {
         rotating = true ;
         Quaternion startRotation = transform.rotation ;
         Quaternion endRotation = Quaternion.Euler( angles ) * startRotation ;
-
-        for( float t = 0 ; t < Time.deltaTime * 10; t+= Time.deltaTime )
+        
+        for( float t = 0 ; t < Time.deltaTime * 2; t+= Time.deltaTime )
         {
             transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
             yield return null;
         }
-
+        
         transform.rotation = endRotation;
         rotating = false;
     }
     
+    private void Rotate(Vector3 to){
+        transform.eulerAngles = Vector3.Lerp(transform.rotation.eulerAngles, to, Time.deltaTime);
+    }
+
     public void rotate(int direction){
 
         if( rotating ) return;
 
         if( direction == 0 ){
             StartCoroutine( Rotate( Vector3.right * rotation_degree, rotation_duration ) );
+            // Rotate(new Vector3(rotation_degree, 0, 0));
+            
+            // transform.Rotate(90.0f, 0.0f, 0.0f, Space.World);
         }
         if( direction == 2 ){
             StartCoroutine( Rotate( -Vector3.right * rotation_degree, rotation_duration ) );
+            // Rotate(new Vector3(-rotation_degree, 0, 0));
+
+            // transform.Rotate(-90.0f, 0.0f, 0.0f, Space.World);
         }
         if( direction == 3 ){
             StartCoroutine( Rotate( Vector3.up * rotation_degree, rotation_duration ) );
+            // Rotate(new Vector3(0, rotation_degree, 0));
+            
+            // transform.Rotate(0.0f, 90.0f, 0.0f, Space.World);
         }
         if( direction == 1 ){
             StartCoroutine( Rotate( -Vector3.up * rotation_degree, rotation_duration ) );
+            // Rotate(new Vector3(0, -rotation_degree, 0));
+            
+            // transform.Rotate(0.0f, -90.0f, 0.0f, Space.World);
         }
     }
 
@@ -248,12 +264,6 @@ public class Player : MonoBehaviour, IPooledObject
     
     // }
 
-    private IEnumerator DissolveEffect(int effect)
-    {
-        dissolveLevel += 0.02f * effect;
-        yield return 0.05f;
-    }
-
     public void increment_score(){
         score += 1;
     }
@@ -297,38 +307,7 @@ public class Player : MonoBehaviour, IPooledObject
         if( Input.GetKeyDown("a") )
             rotate(1);
 
-        if( start == 0 ){
-            dissolveLevel = 0.5f;
-            start = 2;
-        }
-
-        if( score >= (int) game_manager.object_in_level() && done == 0 ){
-            dissolveLevel = -0.75f;
-            done = 2;
-            Color cur_color = render.material.GetColor("_EmissionColor");
-            render.material = game_manager.DissolveMaterial;
-            render.material.SetColor("Color_998522F8", cur_color * 5f);
-        }
-
-        if( done == 1 ){
-            render.material.SetFloat("Vector1_DB3F2BFC", dissolveLevel);            
-            StartCoroutine(DissolveEffect(1));
-            if( dissolveLevel >= 0.75f ){
-                // Time.timeScale = 0;
-                done = 2;
-            }
-        }
-        
-        if( start == 1 ){
-            render.material.SetFloat("Vector1_DB3F2BFC", dissolveLevel);            
-            StartCoroutine(DissolveEffect(-1));
-            if( dissolveLevel <= -1.5f ){
-                // Time.timeScale = 0;
-                start = 2;
-            }
-        }
-
-        if( done == 2 ){
+        if( score >= (int) game_manager.object_in_level() ){
             game_manager.start_next_level();
         }    
     }

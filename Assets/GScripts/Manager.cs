@@ -71,11 +71,15 @@ public class Manager : MonoBehaviour
         return score;
     }
 
+
+    public void change_tunnel_color(Color new_color){
+        tunnel_color = new_color;
+        StartCoroutine( lerpColor( TunnelMaterial, TunnelMaterial.color, tunnel_color, 2f) );
+    }
+
     public void start_next_level(){
         level+=1;
         Debug.Log("RELOAD THE SCENE");
-        
-        StartCoroutine( lerpColor( TunnelMaterial, TunnelMaterial.color, tunnel_color, 2f) );
         
         UnloadAdditiveScene();
         LoadAdditiveScene();

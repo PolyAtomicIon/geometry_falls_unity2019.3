@@ -7,9 +7,9 @@ public class SwipeDetector : MonoBehaviour
     private Vector2 fingerUpPosition;
 
     [SerializeField]
-    private bool detectSwipeOnlyAfterRelease = false;
+    private bool detectSwipeOnlyAfterRelease = true;
 
-    private float minDistanceForSwipe = 5f;
+    private float minDistanceForSwipe = 300f;
 
     public static event Action<SwipeData> OnSwipe = delegate { };
 
