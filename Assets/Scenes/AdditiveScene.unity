@@ -313,10 +313,10 @@ MonoBehaviour:
       complexity: 1
     - prefab: {fileID: 7028120770135029138, guid: dc2617de0375e9c4f9dd773cd7c14c81,
         type: 3}
-      complexity: 1
+      complexity: 2
     - prefab: {fileID: 784316296296467104, guid: 6bdea6bd32a90fd47abfd0937ea5cd70,
         type: 3}
-      complexity: 1
+      complexity: 2
     - prefab: {fileID: 3912351394532773086, guid: e917b86f7192f944b8a190107fa6d482,
         type: 3}
       complexity: 2
@@ -328,7 +328,7 @@ MonoBehaviour:
       complexity: 2
     - prefab: {fileID: 4515041331711554218, guid: ef0ed4eef57c2154893169b82dbe347b,
         type: 3}
-      complexity: 2
+      complexity: 3
     - prefab: {fileID: 809391694297759234, guid: a712506af8688cb42852deb17caf46f2,
         type: 3}
       complexity: 3
@@ -378,7 +378,7 @@ MonoBehaviour:
       complexity: 2
     - prefab: {fileID: 6314627942568360129, guid: 1dd8b445a85a3bf419d8e25411d9b308,
         type: 3}
-      complexity: 2
+      complexity: 3
     - prefab: {fileID: 4668956784405903963, guid: 46ec0c4d8e94f0f47a4757a429d37215,
         type: 3}
       complexity: 2
@@ -393,34 +393,46 @@ MonoBehaviour:
       complexity: 3
     - prefab: {fileID: 6319990303985180654, guid: 02a6e457011954b45bdf52bf03f4d299,
         type: 3}
-      complexity: 3
+      complexity: 2
     - prefab: {fileID: 4326974284178341105, guid: 475322c7e14d27449b055adc9b03ac55,
         type: 3}
-      complexity: 3
+      complexity: 2
   models_tag: []
   palettes:
   - colors:
-    - {r: 0.46666667, g: 0, b: 0.6509804, a: 0}
-    - {r: 0.9960785, g: 0, b: 0.9960785, a: 0}
-    - {r: 0, g: 0.08627451, b: 0.93333334, a: 0}
+    - {r: 0.47843137, g: 0.015686275, b: 0.92156863, a: 0}
+    - {r: 1, g: 0.07058824, b: 0.30980393, a: 0}
     emission_colors:
-    - {r: 0.4666667, g: 0, b: 0.6509804, a: 0}
-    - {r: 0.9960785, g: 0, b: 0.9960785, a: 0}
-    - {r: 0, g: 0.08627451, b: 0.9333334, a: 0}
+    - {r: 0.4784314, g: 0.015686275, b: 0.9215687, a: 0}
+    - {r: 1, g: 0.07058824, b: 0.30980393, a: 0}
+  - colors:
+    - {r: 0.07058824, g: 0.015686275, b: 0.34509805, a: 0}
+    - {r: 1, g: 0, b: 0.627451, a: 0}
+    emission_colors:
+    - {r: 0.07058824, g: 0.015686275, b: 0.34509805, a: 0}
+    - {r: 1, g: 0, b: 0.627451, a: 0}
+  - colors:
+    - {r: 0.003921569, g: 0.003921569, b: 0.16862746, a: 0}
+    - {r: 0.019607844, g: 0.8509804, b: 0.9098039, a: 0}
+    emission_colors:
+    - {r: 0.003921569, g: 0.003921569, b: 0.16862746, a: 0}
+    - {r: 0.019607844, g: 0.85098046, b: 0.909804, a: 0}
+  - colors:
+    - {r: 0.38431373, g: 0.5294118, b: 0.972549, a: 0}
+    - {r: 1, g: 0.43137255, b: 0.15294118, a: 0}
+    emission_colors:
+    - {r: 0.38431376, g: 0.5294118, b: 0.9725491, a: 0}
+    - {r: 1, g: 0.43137258, b: 0.15294118, a: 0}
   - colors:
     - {r: 0.4509804, g: 1, b: 0.99607843, a: 0}
-    - {r: 0.5372549, g: 0.8901961, b: 0.9647059, a: 0}
-    - {r: 0.754717, g: 0.7370194, b: 0.13883947, a: 0}
+    - {r: 1, g: 0.34117648, b: 0.49019608, a: 0}
     emission_colors:
     - {r: 0.45098042, g: 1, b: 0.9960785, a: 0}
-    - {r: 0.5372549, g: 0.89019614, b: 0.96470594, a: 0}
-    - {r: 0.9843138, g: 0.96470594, b: 0.39607847, a: 0}
+    - {r: 1, g: 0.34117648, b: 0.4901961, a: 0}
   materials:
     materials_list:
     - {fileID: 2100000, guid: dd48c2f4acbde4843be092b4fec60cfe, type: 2}
     - {fileID: 2100000, guid: 23e8a1fdae5d5b141af29a67b7b5548c, type: 2}
-    - {fileID: 2100000, guid: 882f6eb93c4da854bb85657dc563587f, type: 2}
-    - {fileID: 2100000, guid: 5fc187e8b01ba1140b5372b144956416, type: 2}
   gap: -90
   gap_between: {x: 0, y: 0, z: 0}
   obstacle_position: {x: 0, y: 0, z: 0}

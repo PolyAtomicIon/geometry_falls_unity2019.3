@@ -834,7 +834,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1.2
+  m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -1096,6 +1096,7 @@ MonoBehaviour:
   random_models_indexes: 
   figure_plane: {fileID: 725109364}
   max_models_number: 8
+  palette: 0
   fall_down_speed: -35
 --- !u!1 &1000687027
 GameObject:

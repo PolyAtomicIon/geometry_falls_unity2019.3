@@ -47,7 +47,6 @@ public class Obstacle : MonoBehaviour, IPooledObject
         }
 
         if( is_active && player.get_position_y_axis() < transform.position.y - objectPooler.get_gap_between_obstacles() - 2.5f ){    
-            player.render.material = render.material;
             Vector3 position_f = transform.position;
             position_f.y -= 0.1f;
             game_manager.figure_plane.transform.position = position_f;

@@ -61,6 +61,8 @@ public class Manager : MonoBehaviour
     public int max_models_number = 2;
     // end
 
+    public int palette = 0;
+
     public float fall_down_speed;
 
     private int level = 1;
@@ -180,6 +182,7 @@ public class Manager : MonoBehaviour
     void Start(){
         LoadAdditiveScene();
         objectPooler = ObjectPooler.Instance;
+        palette = ThreadSafeRandom.ThisThreadsRandom.Next(4);
     }
 
     void Update()

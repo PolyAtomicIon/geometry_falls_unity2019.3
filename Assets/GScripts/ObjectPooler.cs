@@ -231,70 +231,30 @@ public class ObjectPooler : MonoBehaviour
         objectToSpawn.SetActive(false);
         objectToSpawn.SetActive(true);
         objectToSpawn.transform.position = position;              
-
-        // set the color, get one random from 3 colors of palette
-
-        // fixed color
-        color_index = 0;
-
-        // if it not random color
-        // color_index = color_index % 3;
-
-        // HERE WE HAVE RANDOM COLOR PICKER
-        /*
-        color_index = last_random_index;
-        
-        while( color_index == last_random_index )
-            color_index = ThreadSafeRandom.ThisThreadsRandom.Next(4);
-
-        last_random_index = color_index;
-        */
-        
-        //Debug.Log(color_index);
-
-        // to change color
-        Material cur_material = materials.materials_list[materials.next_material()];
-
-        float intensity =  0f;
             
         Renderer rd = objectToSpawn.GetComponent<Renderer>();
-        rd.material = cur_material;
-        if( model ){
-            rd.material = materials.materials_list[2];
-        }
         
-        rd.material.SetColor("_BaseColor", palettes[random_palette].colors[color_index]);    
-        // rd.material.EnableKeyword ("_EMISSION");
-        // rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[color_index] * intensity);
-        // end
-        
-        
-        if( !model )
+        if( !model ){
             objectToSpawn.transform.eulerAngles = new Vector3(-90f, ThreadSafeRandom.ThisThreadsRandom.Next(4) * 90f, 0);
-        
+                
+            rd.material = materials.materials_list[0];;
+            
+            rd.material.SetColor("_BaseColor", palettes[random_palette].colors[0]);    
+        }
+
         // set rotation, for player - quaternion, for obstacle z = 90, then random;
         if( model ){  
+            
+            float intensity =  0.95f;
+            
+            rd.material = materials.materials_list[1];
 
-            rd.material.SetColor("_BaseColor", palettes[random_palette].colors[2]);    
-
-            // add dissolve material, for transition between levels
-            // rd.material = game_manager.DissolveMaterial;
-            // rd.material.SetColor("Color_998522F8", palettes[random_palette].emission_colors[color_index] * intensity);
-        }
-            /*
-            // change Color by default
-            rd.material.SetColor("_BaseColor", palettes[random_palette].colors[3]);    
+            rd.material.SetColor("_BaseColor", palettes[random_palette].colors[1]);    
             rd.material.EnableKeyword ("_EMISSION");
-            rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[3] * intensity);
-            */
+            rd.material.SetColor("_EmissionColor", palettes[random_palette].emission_colors[1] * intensity);
+            // end
 
-            //objectToSpawn.transform.rotation = Quaternion.identity;
-        // }
-        // else{  
-            // it was random, we changed it  
-            // objectToSpawn.transform.eulerAngles = new Vector3(270f, Random.Range(0f, 360f), Random.Range(0f, 360f));
-            //objectToSpawn.transform.eulerAngles = new Vector3(0f, 0f, 90f);
-        // }
+        }
 
 
         // Call the OnObjectSpwan, differs for player and obstacle.
@@ -311,7 +271,7 @@ public class ObjectPooler : MonoBehaviour
         Debug.Log(tag + " has been spawned");
 
         // Get random palettes, 3 colours
-        random_palette = ThreadSafeRandom.ThisThreadsRandom.Next(palettes.Count);
+        random_palette = game_manager.palette;
         Debug.Log("Palette number");
         Debug.Log(random_palette);
         // end
