@@ -99,7 +99,7 @@ MonoBehaviour:
   speed: 0
   render: {fileID: 0}
   rotation_duration: 0.35
-  rotationSpeed: 28000
+  rotationSpeed: 35000
 --- !u!54 &704279913014861071
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -110,7 +110,7 @@ Rigidbody:
   serializedVersion: 2
   m_Mass: 1
   m_Drag: 0
-  m_AngularDrag: 0.75
+  m_AngularDrag: 0.65
   m_UseGravity: 1
   m_IsKinematic: 0
   m_Interpolate: 0

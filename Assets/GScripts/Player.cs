@@ -329,7 +329,7 @@ public class Player : MonoBehaviour, IPooledObject
             dragging = false;
         }
         
-        if( rb.angularVelocity.magnitude < 5.3f ){
+        if( rb.angularVelocity.magnitude < 6f ){
             rb.angularVelocity = Vector3.zero;
             /*
             if( dragging ){
