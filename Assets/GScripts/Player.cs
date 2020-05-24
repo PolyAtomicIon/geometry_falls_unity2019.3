@@ -2,6 +2,7 @@
 using UnityEngine.SceneManagement; 
 using System.Collections.Generic;
 using UnityEngine;
+using System;   
 
 public class Player : MonoBehaviour, IPooledObject
 {
@@ -46,6 +47,10 @@ public class Player : MonoBehaviour, IPooledObject
     private int done = 0;
     private int start = 0;
 
+    bool dragging;
+    public float rotationSpeed = 8100f;
+    float rotX, rotY;
+    
     // Rotation, like smooth
     private IEnumerator Rotate( Vector3 angles, float duration = 1.0f )
     {
@@ -275,6 +280,10 @@ public class Player : MonoBehaviour, IPooledObject
         render = GetComponent<Renderer>();
         transform = GetComponent<Transform>();
         // rb.angularDrag = angular_drag;
+
+        rb.centerOfMass = Vector3.zero;
+        rb.inertiaTensorRotation = Quaternion.identity;
+
         rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
     }
 
@@ -294,7 +303,8 @@ public class Player : MonoBehaviour, IPooledObject
         // movement = new Vector3( joystick.Horizontal, 0f, joystick.Vertical );
 
         game_manager.fall_down_speed = rb.velocity.y;
-        
+
+        /*
         if( Input.GetKeyDown("s") )
             rotate(2);
         
@@ -310,15 +320,47 @@ public class Player : MonoBehaviour, IPooledObject
         if( score >= (int) game_manager.object_in_level() ){
             game_manager.start_next_level();
         }    
+        */
+
+        if( Input.GetMouseButtonDown(0) ){
+            dragging = true;
+        }
+        if( Input.GetMouseButtonUp(0) ){
+            dragging = false;
+        }
+        
+        if( rb.angularVelocity.magnitude < 5.3f ){
+            rb.angularVelocity = Vector3.zero;
+            /*
+            if( dragging ){
+                float rotX2 = Input.GetAxis("Mouse X") * Mathf.Deg2Rad;
+                float rotY2 = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
+
+                Debug.Log(rotX2);
+
+                transform.RotateAround(Vector3.up, rotX2 * 150f * Time.deltaTime);
+                transform.RotateAround(Vector3.right, rotY2 * 150f * Time.deltaTime);
+            }*/
+        }
+
     }
 
-    void FixedUpdate()
-    { 
+    void FixedUpdate(){
+        
+        if( dragging ){
+            // As in PolySphere game, Torque
+            rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad;
+            rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
 
-        //move_object(movement);  
+            rb.AddTorque (Vector3.down * -rotX * rotationSpeed * Time.fixedDeltaTime);
+            rb.AddTorque (Vector3.right * rotY * rotationSpeed * Time.fixedDeltaTime);
+
+            //rb.AddTorque (Vector3.down * -rotX);
+            //rb.AddTorque (Vector3.right * rotY);
+        }
 
     }
-
+    
      void OnCollisionEnter (Collision col)
     {
         Debug.Log(col.gameObject.name);    

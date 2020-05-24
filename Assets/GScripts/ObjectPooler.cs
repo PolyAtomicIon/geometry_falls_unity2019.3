@@ -126,7 +126,8 @@ public class ObjectPooler : MonoBehaviour
     private void StartNewLevel(){
         // here We will spawn random object and its obstacles
 
-        int random_model_index = game_manager.get_next_random_model_index();
+        // int random_model_index = game_manager.get_next_random_model_index();
+        int random_model_index = 0;
 
         if ( random_model_index == -1 ){
             game_manager.max_models_number = models_tag.Count;

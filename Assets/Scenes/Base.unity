@@ -1097,7 +1097,7 @@ MonoBehaviour:
   figure_plane: {fileID: 725109364}
   max_models_number: 8
   palette: 0
-  fall_down_speed: -35
+  fall_down_speed: -30
 --- !u!1 &1000687027
 GameObject:
   m_ObjectHideFlags: 0
