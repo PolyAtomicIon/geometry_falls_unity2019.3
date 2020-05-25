@@ -335,8 +335,8 @@ public class Player : MonoBehaviour, IPooledObject
             
             Vector3 movement = new Vector3( game_manager.joystick.Horizontal, game_manager.joystick.Vertical, 0f );
 
-            transform.RotateAround(Vector3.up, movement.x / 2f * Time.deltaTime);
-            transform.RotateAround(Vector3.right, movement.y / 2f * Time.deltaTime);
+            transform.RotateAround(Vector3.up, movement.x / 4f * Time.deltaTime);
+            transform.RotateAround(Vector3.right, movement.y / 4f * Time.deltaTime);
         }
 
 
@@ -361,8 +361,10 @@ public class Player : MonoBehaviour, IPooledObject
             // rotX = movement.x * Mathf.Deg2Rad;
             // rotY = movement.y * Mathf.Deg2Rad;
 
-            rb.AddTorque (Vector3.down * -rotX * rotationSpeed * Time.fixedDeltaTime);
-            rb.AddTorque (Vector3.right * rotY * rotationSpeed * Time.fixedDeltaTime);
+            if ( Math.Abs(rotX) > Math.Abs(rotY) )
+                rb.AddTorque (Vector3.down * -rotX * rotationSpeed * Time.fixedDeltaTime);
+            else
+                rb.AddTorque (Vector3.right * rotY * rotationSpeed * Time.fixedDeltaTime);
 
             // rb.AddTorque (Vector3.down * -rotX);
             // rb.AddTorque (Vector3.right * rotY);
