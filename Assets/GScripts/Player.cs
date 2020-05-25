@@ -44,13 +44,14 @@ public class Player : MonoBehaviour, IPooledObject
     private bool rotating = false;
     private float dissolveLevel;
 
-    private int done = 0;
-    private int start = 0;
-
-    bool dragging;
-    public float rotationSpeed = 8100f;
+    private bool dragging = false;
+    
+    public float rotationSpeed = 32500f;
+    public float angular_drag = 0.65F;
     float rotX, rotY;
     
+    public float value_t;
+
     // Rotation, like smooth
     private IEnumerator Rotate( Vector3 angles, float duration = 1.0f )
     {
@@ -279,7 +280,6 @@ public class Player : MonoBehaviour, IPooledObject
         rb = GetComponent<Rigidbody>();
         render = GetComponent<Renderer>();
         transform = GetComponent<Transform>();
-        // rb.angularDrag = angular_drag;
 
         rb.centerOfMass = Vector3.zero;
         rb.inertiaTensorRotation = Quaternion.identity;
@@ -304,6 +304,7 @@ public class Player : MonoBehaviour, IPooledObject
 
         game_manager.fall_down_speed = rb.velocity.y;
 
+        rb.angularDrag = angular_drag;
         /*
         if( Input.GetKeyDown("s") )
             rotate(2);
@@ -329,34 +330,42 @@ public class Player : MonoBehaviour, IPooledObject
             dragging = false;
         }
         
-        if( rb.angularVelocity.magnitude < 6f ){
+        if( rb.angularVelocity.magnitude < value_t ){
             rb.angularVelocity = Vector3.zero;
-            /*
-            if( dragging ){
-                float rotX2 = Input.GetAxis("Mouse X") * Mathf.Deg2Rad;
-                float rotY2 = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
+            
+            Vector3 movement = new Vector3( game_manager.joystick.Horizontal, game_manager.joystick.Vertical, 0f );
 
-                Debug.Log(rotX2);
-
-                transform.RotateAround(Vector3.up, rotX2 * 150f * Time.deltaTime);
-                transform.RotateAround(Vector3.right, rotY2 * 150f * Time.deltaTime);
-            }*/
+            transform.RotateAround(Vector3.up, movement.x / 2f * Time.deltaTime);
+            transform.RotateAround(Vector3.right, movement.y / 2f * Time.deltaTime);
         }
+
+
+        // if( dragging ){
+            //float rotX2 = Input.GetAxis("Mouse X") * Mathf.Deg2Rad / 3f;
+            //float rotY2 = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad / 3f;
+            
+            
+        // }
 
     }
 
     void FixedUpdate(){
         
         if( dragging ){
-            // As in PolySphere game, Torque
+            // // As in PolySphere game, Torque
             rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad;
             rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
+
+            Vector3 movement = new Vector3( game_manager.joystick.Horizontal, game_manager.joystick.Vertical, 0f );
+
+            // rotX = movement.x * Mathf.Deg2Rad;
+            // rotY = movement.y * Mathf.Deg2Rad;
 
             rb.AddTorque (Vector3.down * -rotX * rotationSpeed * Time.fixedDeltaTime);
             rb.AddTorque (Vector3.right * rotY * rotationSpeed * Time.fixedDeltaTime);
 
-            //rb.AddTorque (Vector3.down * -rotX);
-            //rb.AddTorque (Vector3.right * rotY);
+            // rb.AddTorque (Vector3.down * -rotX);
+            // rb.AddTorque (Vector3.right * rotY);
         }
 
     }

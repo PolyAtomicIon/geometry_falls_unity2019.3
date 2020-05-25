@@ -68,6 +68,8 @@ public class Manager : MonoBehaviour
     private int level = 1;
     private int score = 0;
 
+    public Joystick joystick;
+
     public int get_score()
     {
         return score;

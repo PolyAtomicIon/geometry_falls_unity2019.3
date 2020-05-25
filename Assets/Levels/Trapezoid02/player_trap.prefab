@@ -129,7 +129,8 @@ MonoBehaviour:
   speed: 0
   render: {fileID: 0}
   rotation_duration: 0.35
-  rotationSpeed: 8100
+  rotationSpeed: 35000
+  angular_drag: 0.65
 --- !u!114 &4917684388841291043
 MonoBehaviour:
   m_ObjectHideFlags: 0
