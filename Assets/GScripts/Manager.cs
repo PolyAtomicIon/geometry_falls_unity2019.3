@@ -70,6 +70,8 @@ public class Manager : MonoBehaviour
 
     public Joystick joystick;
 
+    public float rotation_lvl = 2500f;
+
     public int get_score()
     {
         return score;
@@ -198,6 +200,7 @@ public class Manager : MonoBehaviour
         if( Input.GetKeyDown("r") ){
             restartLevel();
         }
+        
 
     }
 

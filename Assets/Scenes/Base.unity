@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -217,7 +217,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &139292459
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1118,8 +1118,9 @@ MonoBehaviour:
   figure_plane: {fileID: 725109364}
   max_models_number: 8
   palette: 0
-  fall_down_speed: -20
+  fall_down_speed: -26
   joystick: {fileID: 8135886327106113509}
+  rotation_lvl: 2500
 --- !u!1 &1000687027
 GameObject:
   m_ObjectHideFlags: 0
@@ -3291,7 +3292,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8135886328012664760}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
