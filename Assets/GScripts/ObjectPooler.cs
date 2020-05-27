@@ -223,7 +223,7 @@ public class ObjectPooler : MonoBehaviour
             modelsDictionary.Add(pool.tag, model);
         }
 
-        StartNewLevel();
+         StartNewLevel();
 
     }
 

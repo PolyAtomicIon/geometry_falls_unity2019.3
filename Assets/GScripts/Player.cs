@@ -105,43 +105,52 @@ public class Player : MonoBehaviour, IPooledObject
         
         if( rb.angularVelocity.magnitude < value_t ){
             rb.angularVelocity = Vector3.zero;
-            
-            Vector3 movement = new Vector3( game_manager.joystick.Horizontal, game_manager.joystick.Vertical, 0f );
-
-            transform.RotateAround(Vector3.up, movement.x / divisor * Time.deltaTime);
-            transform.RotateAround(Vector3.right, movement.y / divisor * Time.deltaTime);
         }
 
-        // if( dragging ){
-            //float rotX2 = Input.GetAxis("Mouse X") * Mathf.Deg2Rad / 3f;
-            //float rotY2 = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad / 3f;
-            
-            
-        // }
+        Vector3 movement = new Vector3( game_manager.joystick.Horizontal, game_manager.joystick.Vertical, 0f );
+        Vector3 movement_x = new Vector3( game_manager.joystick.Horizontal, 0f, 0f );
+        Vector3 movement_y = new Vector3( 0f, game_manager.joystick.Vertical, 0f );
+        
+
+        Debug.Log(movement_y.magnitude);
+
+        if(  movement_x.magnitude > movement_y.magnitude && movement_x.magnitude <= 2.75f ){
+            transform.RotateAround(Vector3.up, movement.x / divisor * Time.deltaTime);
+        }
+        else if( movement_y.magnitude <= 2.75f ){
+            transform.RotateAround(Vector3.right, movement.y / divisor * Time.deltaTime);
+        }
 
     }
 
     void FixedUpdate(){
         
-        if( dragging ){
+        Vector3 movement = new Vector3( game_manager.joystick.Horizontal, game_manager.joystick.Vertical, 0f );
+        Vector3 movement_x = new Vector3( game_manager.joystick.Horizontal, 0f, 0f );
+        Vector3 movement_y = new Vector3( 0f, game_manager.joystick.Vertical, 0f );
+    
 
-            Vector3 movement = new Vector3( game_manager.joystick.Horizontal, game_manager.joystick.Vertical, 0f );
+        // // As in PolySphere game, Torque
+        // rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad;
+        // rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
 
-            // // As in PolySphere game, Torque
-            rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad;
-            rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
-            
-            // rotX = movement.x * Mathf.Deg2Rad;
-            // rotY = movement.y * Mathf.Deg2Rad;
+        rotX = movement.x * Mathf.Deg2Rad;
+        rotY = movement.y * Mathf.Deg2Rad;
 
-            if ( Math.Abs(rotX) > Math.Abs(rotY) )
-                rb.AddTorque (Vector3.down * -rotX * rotationSpeed * Time.fixedDeltaTime);
-            else
-                rb.AddTorque (Vector3.right * rotY * rotationSpeed * Time.fixedDeltaTime);
+        float signX = -1f;
+        float signY = 1f;
 
-            // rb.AddTorque (Vector3.down * -rotX);
-            // rb.AddTorque (Vector3.right * rotY);
-        }
+        if( rotX < 0 ) signX = 1;
+        if( rotY < 0 ) signY = -1;
+
+        if ( Math.Abs(rotX) > Math.Abs(rotY) && movement_x.magnitude > 2.75f )
+            rb.AddTorque (Vector3.down * signX * rotationSpeed * Time.fixedDeltaTime);
+        else if( movement_y.magnitude > 2.75f  )
+            rb.AddTorque (Vector3.right * signY * rotationSpeed * Time.fixedDeltaTime);
+
+        // rb.AddTorque (Vector3.down * -rotX);
+        // rb.AddTorque (Vector3.right * rotY);
+    
 
     }
     
