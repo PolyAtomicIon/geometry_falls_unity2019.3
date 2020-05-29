@@ -100,8 +100,10 @@ MonoBehaviour:
   render: {fileID: 0}
   rotation_duration: 0.35
   rotationSpeed: 5000
+  rotationSpeed2: 800
   angular_drag: 0.45
   divisor: 0.75
+  multiplier: 45
   value_t: 4.6
   hold_time: 0
   hold_time_limit: 15
