@@ -54,6 +54,9 @@ public class Player : MonoBehaviour, IPooledObject
     
     public float value_t = 2f;
 
+    public int hold_time = 0;
+    public int hold_time_limit = 20;
+
     public void increment_score(){
         score += 1;
     }
@@ -113,49 +116,53 @@ public class Player : MonoBehaviour, IPooledObject
 
     void Update(){
 
-        game_manager.fall_down_speed = rb.velocity.y;
-
         rb.angularDrag = angular_drag;
         
-        
         if( score >= (int) game_manager.object_in_level() ){
+            game_manager.fall_down_speed = rb.velocity.y;
             game_manager.start_next_level();
         }    
         
-
         if( Input.GetMouseButtonDown(0) ){
             dragging = true;
         }
         if( Input.GetMouseButtonUp(0) ){
             dragging = false;
         }
-        /*
-        if( rb.angularVelocity.magnitude < value_t ){
-            rb.angularVelocity = Vector3.zero;
-        }*/
-        
+
         if( rb.angularVelocity.magnitude < value_t ){
             rb.angularVelocity = Vector3.zero;
         }
 
-        // Vector3 movement = new Vector3( game_manager.joystick.Horizontal, game_manager.joystick.Vertical, 0f );
-        // Vector3 movement_x = new Vector3( game_manager.joystick.Horizontal, 0f, 0f );
-        // Vector3 movement_y = new Vector3( 0f, game_manager.joystick.Vertical, 0f );
+        Vector3 movement = new Vector3( game_manager.joystick.Horizontal, game_manager.joystick.Vertical, 0f );
+        Vector3 movement_x = new Vector3( game_manager.joystick.Horizontal, 0f, 0f );
+        Vector3 movement_y = new Vector3( 0f, game_manager.joystick.Vertical, 0f );
 
-        // Debug.Log(movement_y.magnitude);
+        Debug.Log(movement_y.magnitude);
+/*
+        if( movement_y.magnitude > 3f || movement_x.magnitude > 3f ){
+            dragging = false;
+        } 
+*/
+        if( dragging ){
 
-        // if(  movement_x.magnitude > movement_y.magnitude && movement_x.magnitude <= 1.75f ){
-        //     transform.RotateAround(Vector3.up, movement.x / divisor * Time.deltaTime);
-        // }
-        // else if(  movement_x.magnitude < movement_y.magnitude && movement_y.magnitude <= 1.75f ){
-        //     transform.RotateAround(Vector3.right, movement.y / divisor * Time.deltaTime);
-        // }	        
+            if(  movement_x.magnitude > movement_y.magnitude ){
+                transform.RotateAround(Vector3.up, movement.x / divisor * Time.deltaTime);
+            }
+            else if(  movement_x.magnitude < movement_y.magnitude ){
+                transform.RotateAround(Vector3.right, movement.y / divisor * Time.deltaTime);
+            }	        
+
+            hold_time += 1;
+
+        }
 
         // if( dragging ){
-            //float rotX2 = Input.GetAxis("Mouse X") * Mathf.Deg2Rad / 3f;
-            //float rotY2 = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad / 3f;
+        //     float rotX2 = Input.GetAxis("Mouse X") * Mathf.Deg2Rad;
+        //     float rotY2 = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
             
-            
+        //     transform.RotateAround(Vector3.up, rotX2 / divisor * Time.deltaTime); 
+        //     transform.RotateAround(Vector3.right,rotY2 / divisor * Time.deltaTime);
         // }
 
     }
