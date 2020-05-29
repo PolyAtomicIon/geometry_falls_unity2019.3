@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -645,8 +645,8 @@ MonoBehaviour:
   axisOptions: 0
   snapX: 0
   snapY: 0
-  background: {fileID: 0}
-  handle: {fileID: 0}
+  background: {fileID: 8135886328012664761}
+  handle: {fileID: 8135886327250250963}
   moveThreshold: 1
 --- !u!1 &677479530
 GameObject:
@@ -3109,14 +3109,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba0d0e7a039f526499c356a3c5cd6d3f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  handleRange: 1
+  handleRange: 3
   deadZone: 0
   axisOptions: 0
   snapX: 0
   snapY: 0
   background: {fileID: 8135886328012664761}
   handle: {fileID: 8135886327250250963}
-  moveThreshold: 1
+  moveThreshold: 3
 --- !u!114 &8135886327106113510
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3172,7 +3172,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &8135886327250250956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3180,7 +3180,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8135886327250250962}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
@@ -3292,7 +3292,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8135886328012664760}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
