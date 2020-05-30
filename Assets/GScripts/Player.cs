@@ -39,7 +39,7 @@ public class Player : MonoBehaviour, IPooledObject
     private int isHorizontal = -1; // 0 = forward, 1 = right, 3 = left;
     [SerializeField] private float rotation_duration = 0.8f;
     private float time = 5;
-    private float rotation_degree = 90f;
+    public float rotation_degree = 90f;
     private bool rotating = false;
     private float dissolveLevel;
 
@@ -64,6 +64,7 @@ public class Player : MonoBehaviour, IPooledObject
     }
 
     // Rotating Object
+    /*
     private void RotateY(int dir){
         rb.AddTorque (Vector3.right * dir * rotationSpeed * Time.fixedDeltaTime);
     }
@@ -92,6 +93,41 @@ public class Player : MonoBehaviour, IPooledObject
             RotateX(-1);    
         }
 
+    }
+    */
+
+    private IEnumerator Rotate( Vector3 angles, float duration = 1.0f )
+    {
+        rotating = true ;
+        Quaternion startRotation = transform.rotation ;
+        Quaternion endRotation = Quaternion.Euler( angles ) * startRotation ;
+
+        for( float t = 0 ; t < Time.deltaTime * 10; t+= Time.deltaTime )
+        {
+            transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
+            yield return null;
+        }
+
+        transform.rotation = endRotation;
+        rotating = false;
+    }
+    
+    public void rotate(int direction){
+
+        if( rotating ) return;
+
+        if( direction == 0 ){
+            StartCoroutine( Rotate( Vector3.right * rotation_degree, rotation_duration ) );
+        }
+        if( direction == 2 ){
+            StartCoroutine( Rotate( -Vector3.right * rotation_degree, rotation_duration ) );
+        }
+        if( direction == 3 ){
+            StartCoroutine( Rotate( Vector3.up * rotation_degree, rotation_duration ) );
+        }
+        if( direction == 1 ){
+            StartCoroutine( Rotate( -Vector3.up * rotation_degree, rotation_duration ) );
+        }
     }
 
     void Start(){
@@ -196,10 +232,13 @@ public class Player : MonoBehaviour, IPooledObject
             if( rotY < 0 )
                 signY = -1;
 
+            // rotX = Math.Min( 2.5f, Math.Abs(rotX) );
+            // rotY = Math.Min( 2.5f, Math.Abs(rotY) );
+
             if ( Math.Abs(rotX) > Math.Abs(rotY) )
-                rb.AddTorque (Vector3.down * signX * rotationSpeed2 * Time.fixedDeltaTime);
+                rb.AddTorque (Vector3.down * -rotX * 1.25f * rotationSpeed2 * Time.fixedDeltaTime);
             else if( Math.Abs(rotX) < Math.Abs(rotY) )
-                rb.AddTorque (Vector3.right * signY * rotationSpeed2 * Time.fixedDeltaTime);
+                rb.AddTorque (Vector3.right * rotY * rotationSpeed2 * Time.fixedDeltaTime);
             
             hold_time += 1;
         }
