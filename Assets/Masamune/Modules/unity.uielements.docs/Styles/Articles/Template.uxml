@@ -1,0 +1,46 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+>
+  <engine:Label class="box" text="Template" />
+  <engine:Article>
+    <engine:Label text="UIElements Expansions: Template provides template extensions for editor windows and inspectors." />
+    <engine:Label text="Built-in tags &quot;engine:Template&quot; allow you to add and remove templates from specific regions." />
+    <engine:Label text="First, define a template in a UXML file. The template can be defined as follows:" />
+    <engine:Div class="code">
+      <engine:Label text="&lt;engine:Template path=&quot;Assets/Masamune/UIElements.Expansions.Template/Assets/Styles/Articles/Template1.uxml&quot; name=&quot;Template1&quot; /&gt;" />
+    </engine:Div>
+    <engine:Label text="The &quot;path&quot; attribute specifies the path to the UXML file that you want to be a template, and the &quot;name&quot; attribute names the template." />
+    <engine:Label text="Then place the &quot;engine:AppendableContainer&quot; tag where you want to add the template." />
+    <engine:Div class="code">
+      <engine:Label text="&lt;engine:AppendableContainer template=&quot;Template1, Template1&quot; name=&quot;container&quot; /&gt;" />
+    </engine:Div>
+    <engine:Label text="If the name of the template defined in the &quot;template&quot; attribute is entered, the template is displayed with the name entered beforehand. Multiple definitions can be separated by commas. Name the AppendableContainer with the &quot;name&quot; attribute." />
+    <engine:Label text="If you want to add or remove elements from the UXML, use BindalbeButton." />
+    <engine:Div class="code">
+      <engine:Label text="&lt;editor:BindableButton target=&quot;container&quot; control=&quot;append&quot; value=&quot;Template1&quot; text=&quot;Add Template1&quot; /&gt;" />
+      <engine:Label text="&lt;editor:BindableButton target=&quot;container&quot; control=&quot;remove&quot; text=&quot;Remove&quot; /&gt;" />
+    </engine:Div>
+    <engine:Label text="For the &quot;target&quot; attribute, specify the name of the AppendableContainer. In addition, the control attribute contains a specific control tag. &quot;append&quot; means add, &quot;remove&quot; means delete. If &quot;append&quot;, then add the name of the template you want to add to the &quot;value&quot; attribute." />
+    <engine:Label text="If &quot;remove&quot;, the last added element is deleted." />
+    <engine:Label text="If you want to delete certain elements, we recommend using &quot;RemoveButton&quot; from within the template." />
+    <engine:Label text="To use &quot;RemoveButton&quot;, you must first surround the template elements with &quot;AppendableItem&quot;." />
+    <engine:Label text="Put &quot;RemoveButton&quot; in it. (In addition to &quot;RemoveButton&quot;, there are &quot;RemoveIconButton&quot; for icon fonts and &quot;RemoveLoalizeButton&quot; for translations.)" />
+    <engine:Div class="code">
+      <engine:Label text="&lt;engine:AppendableItem&gt;" />
+      <engine:Div class="indent">
+        <engine:Label text="Any contents" />
+        <engine:Label text="&lt;engine:RemoveButton text=&quot;Remove&quot; /&gt;" />
+      </engine:Div>
+      <engine:Label text="&lt;/engine:AppendableItem&gt;" />
+    </engine:Div>
+    <engine:Label text="This will remove elements from this template when the RemoveButton is pressed." />
+    <engine:Label text="You can also reorder elements by enclosing them in &quot;AppendableItem&quot; and setting the &quot;reorderable&quot; attribute of &quot;AppendableContainer&quot; to true." />
+    <engine:Label text="See the following page for details." />
+    <editor:BindableButton text="https://mathru.net/unity/2829/" assembly="UnityEngine" type="Application" method="OpenURL" value="https://mathru.net/unity/2829/" />
+  </engine:Article>
+    
+</engine:UXML>

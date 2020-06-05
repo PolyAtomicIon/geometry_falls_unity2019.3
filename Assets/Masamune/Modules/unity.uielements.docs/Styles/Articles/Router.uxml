@@ -1,0 +1,66 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+>
+  <engine:Label class="box" text="Router" />
+  <engine:Article>
+    <engine:Label text="UIElements Expansions: Router is an asset for adding routing functionality to UIElements inspectors and EditorWindows." />
+    <engine:Label text="Define UXML files and routing paths, switch between UXML files in a specific viewing area when you click a button, and achieve page transitions." />
+    <engine:Label text="There are three ways to define UXML files and routing paths:" />
+    <engine:Label text="1. Defined directly in uxml file" />
+    <engine:Div class="indent">
+      <engine:Label text="Define the uxml file and routing path using the Router tag. It is similar to the Unity native Template and Instance relationship." />
+      <engine:Div class="code">
+        <engine:Label text="&lt;engine:Router path=&quot;Assets/.../RouterTag1.uxml&quot; name=&quot;/uielements/router/router-tag-1&quot; /&gt;" />
+      </engine:Div>
+    </engine:Div>
+    <engine:Label text="2. Load the definition file using the Import tag" />
+    <engine:Div class="indent">
+      <engine:Label text="Use the Import tag to load a uxml file with many Router tags. This is useful when you want to keep routing definitions together in a single file." />
+      <engine:Div class="code">
+        <engine:Label text="// Import.uxml" />
+        <engine:Label text="&lt;engine:Router path=&quot;Assets/.../ImportTag1.uxml&quot; name=&quot;/uielements/router/import-tag-1&quot; /&gt;" />
+        <engine:Label text="&lt;engine:Router path=&quot;Assets/.../ImportTag2.uxml&quot; name=&quot;/uielements/router/import-tag-2&quot; /&gt;" />
+        <engine:Label text="&lt;engine:Router path=&quot;Assets/.../ImportTag3.uxml&quot; name=&quot;/uielements/router/import-tag-3&quot; /&gt;" />
+      </engine:Div>
+      <engine:Div class="code">
+        <engine:Label text="&lt;engine:Import path=&quot;Assets/.../Import.uxml&quot; /&gt;" />
+      </engine:Div>
+    </engine:Div>
+    <engine:Label text="3. Include the path attribute in the UXML tag of the uxml file being loaded" />
+    <engine:Div class="indent">
+      <engine:Label text="You can write routing paths directly in the imported uxml file, which is useful if you want to manage individual files." />
+      <engine:Div class="code">
+        <engine:Label text="&lt;engine:UXML" />
+        <engine:Div class="indent">
+          <engine:Label text="xmlns:xsi=&quot;http://www.w3.org/2001/XMLSchema-instance&quot;" />
+          <engine:Label text="xmlns:engine=&quot;UnityEngine.UIElements&quot;" />
+          <engine:Label text="xmlns:editor=&quot;UnityEditor.UIElements&quot;" />
+          <engine:Label text="xsi:noNamespaceSchemaLocation=&quot;../../../../../../UIElementsSchema/UIElements.xsd&quot;" />
+          <engine:Label text="path=&quot;/uielements/router&quot;" />
+        </engine:Div>
+        <engine:Label text="&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="Something UXML tags" />
+        </engine:Div>
+        <engine:Label text="&lt;/engine:UXML&gt;" />
+      </engine:Div>
+    </engine:Div>
+    <engine:Label text="The Page tag specifies the area to display the contents of the routed uxml file." />
+    <engine:Label text="You can specify the default display path in the path attribute and name it in the name attribute." />
+    <engine:Div class="code">
+      <engine:Label text="&lt;engine:Page path=&quot;/uielements/router&quot; name=&quot;main&quot; /&gt;" />
+    </engine:Div>
+    <engine:Label text="Use the RoutableButton or BindableButton to toggle the display." />
+    <engine:Label text="You can use target with path to switch between areas on the specified Page." />
+    <engine:Div class="code">
+      <engine:Label text="&lt;engine:RoutableButton text=&quot;ImportTag1&quot; path=&quot;/uielements/router/import-tag-1&quot; target=&quot;main&quot; /&gt;" />
+    </engine:Div>
+    <engine:Label text="See the following page for details." />
+    <editor:BindableButton text="https://mathru.net/unity/2306/" assembly="UnityEngine" type="Application" method="OpenURL" value="https://mathru.net/unity/2306/" />
+  </engine:Article>
+    
+</engine:UXML>

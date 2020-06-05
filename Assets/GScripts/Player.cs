@@ -63,39 +63,6 @@ public class Player : MonoBehaviour, IPooledObject
         score += 1;
     }
 
-    // Rotating Object
-    /*
-    private void RotateY(int dir){
-        rb.AddTorque (Vector3.right * dir * rotationSpeed * Time.fixedDeltaTime);
-    }
-    private void RotateX(int dir){ 
-        rb.AddTorque (Vector3.down * dir * rotationSpeed * Time.fixedDeltaTime);
-    }
-
-    public void rotate(int direction){
-
-        //if( rotating ) return;
-
-        // up
-        if( direction == 0 ){
-            RotateY(1);
-        }
-        // down
-        if( direction == 2 ){
-            RotateY(-1);
-        }
-        // right
-        if( direction == 1 ){
-            RotateX(1);
-        }
-        // left
-        if( direction == 3 ){
-            RotateX(-1);    
-        }
-
-    }
-    */
-
     private IEnumerator Rotate( Vector3 angles, float duration = 1.0f )
     {
         rotating = true ;
@@ -147,6 +114,7 @@ public class Player : MonoBehaviour, IPooledObject
         Start();
         // speed = 25f;
         game_manager = FindObjectOfType<Manager>();
+        game_manager.player = this;
         fall_down_speed = game_manager.fall_down_speed;
         fallDown(fall_down_speed);
     }

@@ -694,7 +694,18 @@ PlayerSettings:
   scriptingRuntimeVersion: 1
   gcIncremental: 0
   gcWBarrierValidation: 0
-  apiCompatibilityLevelPerPlatform: {}
+  apiCompatibilityLevelPerPlatform:
+    : 3
+    Android: 3
+    Lumin: 3
+    Nintendo Switch: 3
+    PS4: 3
+    Stadia: 3
+    Standalone: 3
+    WebGL: 3
+    XboxOne: 3
+    iPhone: 3
+    tvOS: 3
   m_RenderingPath: 1
   m_MobileRenderingPath: 1
   metroPackageName: Template_3D

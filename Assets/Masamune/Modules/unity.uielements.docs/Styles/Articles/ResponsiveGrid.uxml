@@ -1,0 +1,40 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+>
+  <engine:Label class="box" text="Responsive Grid" />
+  <engine:Article>
+    <engine:Label text="UIElements Expansions: Responsive Grid is an asset that allows EditorWindows and Inspectors that use UIElements to be responsive, allowing you to freely construct a layout that matches the window size." />
+    <engine:Label text="By specifying a class similar to the Web framework called Bootstrap, you can achieve a responsive structure." />
+    <engine:Div class="code">
+      <engine:Label text="&lt;engine:Div class=&quot;container&quot;&gt;" />
+      <engine:Div class="indent">
+        <engine:Label text="&lt;engine:Div class=&quot;row&quot;&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="&lt;engine:Div class=&quot;col-md-8&quot;&gt;" />
+          <engine:Div class="indent">
+            <engine:Label text="Any contents" />
+          </engine:Div>
+          <engine:Label text="&lt;/engine:Div&gt;" />
+          <engine:Label text="&lt;engine:Div class=&quot;col-md-4&quot;&gt;" />
+          <engine:Div class="indent">
+            <engine:Label text="Any contents" />
+          </engine:Div>
+          <engine:Label text="&lt;/engine:Div&gt;" />
+        </engine:Div>
+        <engine:Label text="&lt;/engine:Div&gt;" />
+      </engine:Div>
+      <engine:Label text="&lt;/engine:Div&gt;" />
+    </engine:Div>
+    <engine:Label text="See the following page to see the details of Bootstrap class." />
+    <editor:BindableButton text="https://www.w3schools.com/bootstrap/bootstrap_grid_basic.asp" assembly="UnityEngine" type="Application" method="OpenURL" value="https://www.w3schools.com/bootstrap/bootstrap_grid_basic.asp" />
+    <engine:Label text="Click the link below to check the operation of ResponsiveGrid." />
+    <editor:BindableButton text="Open sample" assembly="Assembly-CSharp-Editor" type="ResponsiveGridSample" method="Show" />
+    <engine:Label text="To check other Responsive Grid information, see the following page." />
+    <editor:BindableButton text="https://mathru.net/unity/2203/" assembly="UnityEngine" type="Application" method="OpenURL" value="https://mathru.net/unity/2203/" />
+  </engine:Article>
+    
+</engine:UXML>

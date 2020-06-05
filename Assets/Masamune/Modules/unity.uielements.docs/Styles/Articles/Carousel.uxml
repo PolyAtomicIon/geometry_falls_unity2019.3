@@ -1,0 +1,91 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+>
+  <engine:Label class="box" text="Carousel" />
+  <engine:Article>
+    <engine:Label text="UIElements Expansions: Carousel uses UIElements to provide carousel functionality for UnityEditor editor windows and inspectors." />
+    <engine:Label text="A carousel is a common component on the Web that switches images and content at regular intervals." />
+    <engine:Label text="You can place it at the top of the site and make the content you want to feature in the site look good." />
+    <engine:Label text="It's easy to use. First, put multiple Carousel tags under the Carousel Group." />
+    <engine:Label text="Then, by writing your favorite UXML tag under each Carousel tag, the design under the Carousel tag becomes the Carousel component." />
+    <engine:Div class="code">
+      <engine:Label text="&lt;engine:CarouselGroup name=&quot;carouselgroup&quot;&gt;" />
+      <engine:Div class="indent">
+        <engine:Label text="&lt;engine:Carousel name=&quot;carousel1&quot;&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="Carousel Contents 1" />
+        </engine:Div>
+        <engine:Label text="&lt;/engine:Carousel&gt;" />
+        <engine:Label text="&lt;engine:Carousel name=&quot;carousel2&quot;&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="Carousel Contents 2" />
+        </engine:Div>
+        <engine:Label text="&lt;/engine:Carousel&gt;" />
+        <engine:Label text="&lt;engine:Carousel name=&quot;carousel3&quot;&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="Carousel Contents 3" />
+        </engine:Div>
+        <engine:Label text="&lt;/engine:Carousel&gt;" />
+      </engine:Div>
+      <engine:Label text="&lt;/engine:CarouselGroup&gt;" />
+    </engine:Div>
+    <engine:Label text="You can also use the Template tag to display external UXML content." />
+    <engine:Div class="code">
+      <engine:Label text="&lt;engine:Template path=&quot;Any template path&quot; name=&quot;TemplateName&quot; /&gt;" />
+      <engine:Label text="&lt;engine:CarouselGroup name=&quot;carouselgroup&quot;&gt;" />
+      <engine:Div class="indent">
+        <engine:Label text="&lt;engine:Carousel name=&quot;carousel1&quot;&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="Carousel Contents 1" />
+        </engine:Div>
+        <engine:Label text="&lt;/engine:Carousel&gt;" />
+        <engine:Label text="&lt;engine:Carousel name=&quot;carousel2&quot;&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="Carousel Contents 2" />
+        </engine:Div>
+        <engine:Label text="&lt;/engine:Carousel&gt;" />
+        <engine:Label text="&lt;engine:Carousel template=&quot;TemplateName&quot; name=&quot;carousel3&quot; /&gt;" />
+      </engine:Div>
+      <engine:Label text="&lt;/engine:CarouselGroup&gt;" />
+    </engine:Div>
+    <engine:Label text="Carousels can be autoplayed by setting the autoplay attribute to true and specifying time (ms)." />
+    <engine:Div class="code">
+      <engine:Label text="&lt;engine:CarouselGroup autoplay=&quot;true&quot; time=&quot;5000&quot; name=&quot;carouselgroup&quot;&gt;" />
+      <engine:Div class="indent">
+        <engine:Label text="&lt;engine:Carousel name=&quot;carousel1&quot;&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="Carousel Contents 1" />
+        </engine:Div>
+        <engine:Label text="&lt;/engine:Carousel&gt;" />
+        <engine:Label text="&lt;engine:Carousel name=&quot;carousel2&quot;&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="Carousel Contents 2" />
+        </engine:Div>
+        <engine:Label text="&lt;/engine:Carousel&gt;" />
+        <engine:Label text="&lt;engine:Carousel name=&quot;carousel3&quot;&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="Carousel Contents 3" />
+        </engine:Div>
+        <engine:Label text="&lt;/engine:Carousel&gt;" />
+      </engine:Div>
+      <engine:Label text="&lt;/engine:CarouselGroup&gt;" />
+    </engine:Div>
+    <engine:Label text="If you don't want it to play automatically, you can use the BindalbeButton." />
+    <engine:Label text="You can switch the carousel to the next element and the previous element by setting the control attribute to next and prev for CarouselGroup." />
+    <engine:Div class="code">
+      <engine:Label text="&lt;editor:BindableButton text=&quot;Next&quot; target=&quot;carouselgroup&quot; control=&quot;next&quot; /&gt;" />
+      <engine:Label text="&lt;editor:BindableButton text=&quot;Prev&quot; target=&quot;carouselgroup&quot; control=&quot;prev&quot; /&gt;" />
+    </engine:Div>
+    <engine:Label text="You can also specify show for the control attribute for Carousel to display specific carousel elements." />
+    <engine:Div class="code">
+      <engine:Label text="&lt;editor:BindableButton text=&quot;Carousel 1&quot; target=&quot;carousel1&quot; control=&quot;show&quot; /&gt;" />
+    </engine:Div>
+    <engine:Label text="See the following page for details." />
+    <editor:BindableButton text="https://mathru.net/unity/2833/" assembly="UnityEngine" type="Application" method="OpenURL" value="https://mathru.net/unity/2833/" />
+  </engine:Article>
+    
+</engine:UXML>

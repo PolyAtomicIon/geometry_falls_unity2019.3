@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: e7cce41dede0280429a41defdb97c2a1
+timeCreated: 1496291390
+licenseType: Store
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 32
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 0
+  fontName: Noto Sans CJK SC
+  fontNames:
+  - Noto Sans CJK SC
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: 4b402468845c28041aea0fb1499d076d, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: font
+  assetBundleVariant: zh-cn

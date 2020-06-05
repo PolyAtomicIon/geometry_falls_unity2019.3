@@ -1,0 +1,35 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+>
+  <engine:Label class="box" text="UIElements Expansions Common Functions" />
+  <engine:Article>
+    <engine:Label text="The UIElements Expansions series offers the following functions in common." />
+    <engine:Label text="1. Global Style Sheet" />
+    <engine:Div class="indent">
+      <engine:Label text="The CSS that the USS file is based on is basically used by writing something common in the header of the web page." />
+      <engine:Label text="“Global Style Sheet” is a function that can use USS as a common style file." />
+      <engine:Label text="How to use is easy. Just edit Assets/Masamune/Modules/unity.style/Resources/EditorStyleInfo." />
+    </engine:Div>
+    <engine:Label text="2. Inspector design automatic assignment function" />
+    <engine:Div class="indent">
+      <engine:Label text="Before UIElements appeared, you had to write an editor script to change the design and placement of the inspector." />
+      <engine:Label text="With the advent of UXML, you can now write these designs as if you were writing HTML." />
+      <engine:Label text="However, in order to apply this and style sheets, it is necessary to create a short editor script." />
+      <engine:Label text="This asset eliminates the hassle." />
+      <engine:Label text="If you place a uxml file with the same name as the class you want to apply in the Assets folder (anywhere), the uxml file is automatically applied to the Inspector." />
+      <engine:Label text="Furthermore, if you place a uss file with the same name as the class to be applied to the Assets folder, the uss file can be applied only to the inspector of that component." />
+      <engine:Label text="In addition to components that inherit MonoBehaviour and ScriptableObject, you can also create your own classes with the [System.Serializable] attribute." />
+    </engine:Div>
+    <engine:Label text="3. Additional Tags / Features / Class" />
+    <engine:Div class="indent">
+      <engine:Label text="We've added some useful tags to the UIElements UXML tag." />
+      <engine:Label text="Please see the following page for details." />
+      <editor:BindableButton text="https://mathru.net/unity/2202/" assembly="UnityEngine" type="Application" method="OpenURL" value="https://mathru.net/unity/2202/" />
+    </engine:Div>
+  </engine:Article>
+    
+</engine:UXML>

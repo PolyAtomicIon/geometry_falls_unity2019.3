@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+>
+  <engine:Label class="box" text="CardView / CardList" />
+  <engine:Article>
+    <engine:Label text="UIElements Expansions: CardView / CardList is an asset that allows you to introduce Card type UI to EditorWindow and Inspector that use UIElements." />
+    <engine:Label text="It is also possible to display the bound objects, and if the bound objects are Lists or arrays, they can be displayed together." />
+    <engine:Label text="This Asset can be used by purchasing and importing from the Unity Asset Store." />
+    <engine:Label text="See the following page for the import method." />
+    <editor:BindableButton text="https://mathru.net/unity/2204/" assembly="UnityEngine" type="Application" method="OpenURL" value="https://mathru.net/unity/2204/" />
+    <engine:Label text="Usually, it is displayed as CardView by describing as follows." />
+    <engine:Div class="code">
+      <engine:Label text="&lt;editor:Card&gt;" />
+      <engine:Div class="indent">
+        <engine:Label text="Card contents" />
+      </engine:Div>
+      <engine:Label text="&lt;/editor:Card&gt;" />
+    </engine:Div>
+    <engine:Label text="If the object is bound, describe as follows." />
+    <engine:Div class="code">
+      <engine:Label text="&lt;editor:Card binding-path=&quot;Any binding object&quot;&gt;" />
+      <engine:Div class="indent">
+        <engine:Label text="Card contents" />
+      </engine:Div>
+      <engine:Label text="&lt;/editor:Card&gt;" />
+    </engine:Div>
+    <engine:Label text="If the bound object is a List or an array, the Card contents are duplicated and displayed as a list. In this case, the Card is responsive." />
+    <engine:Label text="You can also use templates." />
+    <engine:Div class="code">
+      <engine:Label text="&lt;engine:Template path=&quot;Any template path&quot; name=&quot;TemplateName&quot; /&gt;" />
+      <engine:Label text="&lt;editor:Card template=&quot;TemplateName&quot; binding-path=&quot;Any binding object&quot; /&gt;" />
+    </engine:Div>
+    <engine:Label text="In this case, the template with the specified name is expanded as the contents of the card." />
+    <engine:Label text="See the following page for details." />
+    <editor:BindableButton text="https://mathru.net/unity/2204/" assembly="UnityEngine" type="Application" method="OpenURL" value="https://mathru.net/unity/2204/" />
+  </engine:Article>
+    
+</engine:UXML>

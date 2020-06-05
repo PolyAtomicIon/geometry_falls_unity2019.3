@@ -1,0 +1,70 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+>
+  <engine:Label class="box" text="Tabs / Accordion" />
+  <engine:Article>
+    <engine:Label text="UIElements Expansions: Tabs / Accordion is an asset for adding some component functionality to UIElements inspectors and EditorWindows." />
+    <engine:Label text="1. Tabs Component" />
+    <engine:Div class="indent">
+      <engine:Label text="Provides a function to switch tabs." />
+      <engine:Label text="Basically, Tabs is adding only active / inactive functions to Button, but if you combine a template and a routing path (requires UIElements Expansions: Router), you can implement tab switching between pages." />
+      <engine:Label text="How to use is easy. Write the tag with a combination of TabGroup and Tab as shown below." />
+      <engine:Div class="code">
+        <engine:Label text="&lt;engine:TabGroup&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="&lt;engine:Tab text=&quot;Tab 1&quot; active=&quot;true&quot; /&gt;" />
+          <engine:Label text="&lt;engine:Tab text=&quot;Tab 2&quot; /&gt;" />
+          <engine:Label text="&lt;engine:Tab text=&quot;Tab 3&quot; /&gt;" />
+          <engine:Label text="&lt;engine:Tab text=&quot;Tab 4&quot; /&gt;" />
+        </engine:Div>
+        <engine:Label text="&lt;/engine:TabGroup&gt;" />
+      </engine:Div>
+      <engine:Label text="Tabs under TabGroup are all grouped. When any Tab is clicked, that Tab becomes active, and all other Tabs under TabGroup become inactive." />
+      <engine:Label text="If you set the active attribute of a tab to true, that tab will be activated by default." />
+    </engine:Div>
+    <engine:Label text="2. Accordion Component" />
+    <engine:Div class="indent">
+      <engine:Label text="Provides accordion functions." />
+      <engine:Label text="When one area of the accordion is activated, only that area will be displayed and the other areas will be hidden." />
+      <engine:Label text="The visibility of the area is animated." />
+      <engine:Label text="How to use is easy. Write the tag with a combination of AccordionGroup and Accordion as shown below." />
+      <engine:Div class="code">
+        <engine:Label text="&lt;engine:AccordionGroup&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="&lt;engine:Accordion name=&quot;accordion1&quot; active=&quot;true&quot; /&gt;" />
+          <engine:Div class="indent">
+            <engine:Label text="Accordion Content" />
+          </engine:Div>
+        <engine:Label text="&lt;/engine:Accordion&gt;" />
+          <engine:Label text="&lt;engine:Accordion name=&quot;accordion2&quot;&gt;" />
+          <engine:Div class="indent">
+            <engine:Label text="Accordion Content" />
+          </engine:Div>
+          <engine:Label text="&lt;/engine:Accordion&gt;" />
+          <engine:Label text="&lt;engine:Accordion name=&quot;accordion3&quot;&gt;" />
+          <engine:Div class="indent">
+            <engine:Label text="Accordion Content" />
+          </engine:Div>
+          <engine:Label text="&lt;/engine:Accordion&gt;" />
+        </engine:Div>
+        <engine:Label text="&lt;/engine:AccordionGroup&gt;" />
+      </engine:Div>
+      <engine:Label text="Accordions under AccordionGroup are all grouped. When any Accordion become active and all other Accordions under AccordionGroup become inactive." />
+      <engine:Label text="If you set the active attribute of a accordion to true, that accordion will be activated by default." />
+      <engine:Label text="Accordion control is performed using BindableButton." />
+      <engine:Label text="By specifying show in the control attribute of the BindableButton and specifying the Accordion name attribute in the target, the accordion specified in that target is activated." />
+      <engine:Div class="code">
+        <engine:Label text="&lt;editor:BindableButton text=&quot;Show Accordion 1&quot; control=&quot;show&quot; target=&quot;accordion1&quot;&gt;" />
+      </engine:Div>
+      
+
+    </engine:Div>
+    <engine:Label text="See the following page for details." />
+    <editor:BindableButton text="https://mathru.net/unity/2814/" assembly="UnityEngine" type="Application" method="OpenURL" value="https://mathru.net/unity/2814/" />
+  </engine:Article>
+    
+</engine:UXML>

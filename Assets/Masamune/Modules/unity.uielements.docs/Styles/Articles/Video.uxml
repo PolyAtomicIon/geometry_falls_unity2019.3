@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+>
+  <engine:Label class="box" text="Video" />
+  <engine:Article>
+    <engine:Label text="UIElements Expansions: Video is an asset for adding some component functionality to UIElements inspectors and EditorWindows." />
+    <engine:Label text="1. Video Component" />
+    <engine:Div class="indent">
+      <engine:Label text="Add video playback function to Unity editor." />
+      <engine:Label text="Since it can be described with UXML tags, you can play imported video clips in the inspector or editor window." />
+      <engine:Label text="How to use is easy. Write the tag with a Video as shown below." />
+      <engine:Div class="code">
+        <engine:Label text="&lt;editor:Video src=&quot;https://storage.googleapis.com/media.mathru.net/1/72f121ee110d7244240d26279aba9393.mp4&quot; autoplay=&quot;true&quot; name=&quot;main&quot; /&gt;" />
+      </engine:Div>
+      <engine:Label text="[src] attribute can use URL and path of Asset/xxx/xxx." />
+      <engine:Label text="[autoplay] attribute is added, the element starts playing as soon as it is displayed." />
+      <engine:Label text="Useful for editor tool tutorials and checking imported videos." />
+    </engine:Div>
+    <engine:Label text="2. Video Control Component" />
+    <engine:Div class="indent">
+      <engine:Label text="Components for controlling the video are also available." />
+      <engine:Label text="You can play / pause / stop the video." />
+      <engine:Label text="The design can be arranged freely because it can be described with UXML tags." />
+      <engine:Label text="How to use is easy. Write the tag with VideoIconButton or VideoButton as shown below." />
+      <engine:Div class="code">
+        <engine:Label text="&lt;editor:Video src=&quot;https://storage.googleapis.com/media.mathru.net/1/72f121ee110d7244240d26279aba9393.mp4&quot; name=&quot;main&quot; /&gt;" />
+        <engine:Label text="&lt;editor:VideoButton play-text=&quot;Play&quot; stop-text=&quot;Pause&quot; target=&quot;main&quot; pause=&quot;true&quot; /&gt;" />
+      </engine:Div>
+      <engine:Label text="Describe the text at the time of stop and playback with the [play-text] and [stop-text] attributes." />
+      <engine:Label text="Specify the video to be controlled by specifying the [target] attribute." />
+      <engine:Label text="Adding a [pause] attribute switches the [pause]. In the case of pause, press the button again to start playback from the time when it was stopped." />
+      
+
+    </engine:Div>
+    <engine:Label text="See the following page for details." />
+    <editor:BindableButton text="https://mathru.net/unity/2882/" assembly="UnityEngine" type="Application" method="OpenURL" value="https://mathru.net/unity/2882/" />
+  </engine:Article>
+    
+</engine:UXML>

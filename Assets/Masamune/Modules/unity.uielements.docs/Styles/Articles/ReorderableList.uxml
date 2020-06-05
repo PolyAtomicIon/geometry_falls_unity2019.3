@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+>
+  <engine:Label class="box" text="Reorderable List" />
+  <engine:Article>
+    <engine:Label text="UIElements Expansions: Reorderable List is an asset that makes it easy to use Reorderable List that can be implemented in IMGUI with UIElements." />
+    <engine:Label text="This Asset can be used by purchasing and importing from the Unity Asset Store." />
+    <engine:Label text="See the following page for the import method." />
+    <editor:BindableButton text="https://mathru.net/unity/342/" assembly="UnityEngine" type="Application" method="OpenURL" value="https://mathru.net/unity/342/" />
+    <engine:Label text="Basically, by writing the following tags in UXML, the bound List or Array is displayed as a Reorderable list." />
+    <engine:Label class="code" text="&lt;editor:ReorderableList binding-path=&quot;Any binding name&quot; /&gt;" />
+    <engine:Label text="See the following page for details." />
+    <editor:BindableButton text="https://mathru.net/unity/342/" assembly="UnityEngine" type="Application" method="OpenURL" value="https://mathru.net/unity/342/" />
+  </engine:Article>
+    
+</engine:UXML>

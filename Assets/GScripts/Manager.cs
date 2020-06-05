@@ -68,19 +68,46 @@ public class Manager : MonoBehaviour
     private int level = 1;
     private int score = 0;
 
-    public Joystick joystick;
-
     public float rotation_lvl = 2500f;
 
+    public Player player;
+
+    /*
+    generating positoins for obstacle, to
+    place obstacle and track player
+    */
+
+    public float gap = -90f;
+    public Vector3 gap_between;
+    public Vector3 obstacle_position;
+    public Vector3[] obstacle_positions = new Vector3[(int) Constants.object_in_level];
+    public int current_obstacle = 0;
+ 
+    private void generate_obstacle_positions(){
+        gap_between = new Vector3(0f, gap, 0f);
+        obstacle_position = new Vector3(0f, gap/2 + gap, 0f);
+
+        Debug.Log("SIZE OF OBS");
+        Debug.Log(obstacle_positions.Length);
+
+        for(int i=0; i < obstacle_positions.Length; i++){
+            obstacle_positions[i] = obstacle_position;
+            obstacle_position += gap_between;
+        }
+    }
+
+    /* End of generating obstacle positions */
     public int get_score()
     {
         return score;
     }
 
-
     public void change_tunnel_color(Color new_color){
         tunnel_color = new_color;
-        StartCoroutine( lerpColor( TunnelMaterial, TunnelMaterial.color, tunnel_color, 2f) );
+        TunnelMaterial.SetColor("_BaseColor", tunnel_color );
+
+        // smooth no need, because one static palette for one instance
+        //StartCoroutine( lerpColor( TunnelMaterial, TunnelMaterial.color, tunnel_color, 2f) );
     }
 
     public void start_next_level(){
@@ -89,11 +116,14 @@ public class Manager : MonoBehaviour
         
         UnloadAdditiveScene();
         LoadAdditiveScene();
-        
-        Vector3 pos_t = figure_plane.transform.position;
-        pos_t.y -= -95.1f;
-        // change color of tunnel 
-        figure_plane.transform.position = pos_t;
+
+        Vector3 plane_pos = obstacle_positions[0];
+        plane_pos.y -= 0.3f;
+
+        figure_plane.transform.position = plane_pos;
+
+        // current obstacle
+        current_obstacle = 0;
     }
 
     public void increment_score()
@@ -158,13 +188,6 @@ public class Manager : MonoBehaviour
 
     private void Awake(){
     }
-    
-    /*
-    private void StartNewLevelTransition(){
-        is_active_scene = true;
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
-    }
-    */
 
     IEnumerator Unload(){
         yield return 0.1f;
@@ -184,9 +207,19 @@ public class Manager : MonoBehaviour
     }
 
     void Start(){
+        
+        generate_obstacle_positions();
+
         LoadAdditiveScene();
         objectPooler = ObjectPooler.Instance;
         palette = ThreadSafeRandom.ThisThreadsRandom.Next(4);
+
+        /* Plane */
+        Vector3 plane_pos = obstacle_positions[0];
+        plane_pos.y -= 0.3f;
+
+        figure_plane.transform.position = plane_pos;
+
     }
 
     void Update()
@@ -195,8 +228,25 @@ public class Manager : MonoBehaviour
         // set level to Level Label UI
         LevelLabel.text = levelString();
 
-        // All this stuff for restart of the level
+        // if( figure_plane.transform.position.y < transform.position.y ){
+        //     Vector3 position_f = transform.position;
+        //     position_f.y -= 0.1f;
+        //     figure_plane.transform.position = position_f;
+        // }
 
+        if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - gap - 2.5f ){    
+            Vector3 position_f = obstacle_positions[current_obstacle];
+            position_f.y -= 0.3f;
+            figure_plane.transform.position = position_f;
+        }
+        
+        if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - 2.5f ){
+            player.increment_score();
+            increment_score();
+            current_obstacle++;
+        }
+        
+        // All this stuff for restart of the level
         if( Input.GetKeyDown("r") ){
             restartLevel();
         }

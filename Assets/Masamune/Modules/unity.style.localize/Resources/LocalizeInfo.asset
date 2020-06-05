@@ -1,0 +1,36 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1729557517, guid: aaf9425ea0dce4e46ad96788f6fa7658, type: 3}
+  m_Name: LocalizeInfo
+  m_EditorClassIdentifier: 
+  _forceSetSystemLanguage: 42
+  _sourceURL: https://docs.google.com/spreadsheets/d/1ZtjzaI5s4NvtIuTRFSlqwCT_ZEkh2LPDgkwkU-Em87w/edit
+  _downloadURL: https://docs.google.com/spreadsheets/d/1ZtjzaI5s4NvtIuTRFSlqwCT_ZEkh2LPDgkwkU-Em87w/export?format=csv&id=1ZtjzaI5s4NvtIuTRFSlqwCT_ZEkh2LPDgkwkU-Em87w
+  _localizeFont:
+  - _language: 22
+    _font: {fileID: 12800000, guid: 7a7347ed21f4ba54b871af1482161f3b, type: 3}
+  - _language: 6
+    _font: {fileID: 12800000, guid: e7cce41dede0280429a41defdb97c2a1, type: 3}
+  - _language: 40
+    _font: {fileID: 12800000, guid: e7cce41dede0280429a41defdb97c2a1, type: 3}
+  - _language: 41
+    _font: {fileID: 12800000, guid: 36a4fb1a5caceaf44a4508130184ac28, type: 3}
+  - _language: 23
+    _font: {fileID: 12800000, guid: 357ced5a4efcf8d40905ba297ae3ac5e, type: 3}
+  - _language: 1
+    _font: {fileID: 12800000, guid: a26fb76913180e642b4fcd8325f0605b, type: 3}
+  - _language: 36
+    _font: {fileID: 12800000, guid: 88c71a9ab81901846bbb7c723b0f0107, type: 3}
+  - _language: 10
+    _font: {fileID: 12800000, guid: 0a5a01ac1f942584581245f6cd5541ce, type: 3}
+  - _language: 42
+    _font: {fileID: 12800000, guid: 0a5a01ac1f942584581245f6cd5541ce, type: 3}

@@ -1,0 +1,85 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<engine:UXML
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:engine="UnityEngine.UIElements"
+    xmlns:editor="UnityEditor.UIElements"
+    xsi:noNamespaceSchemaLocation="../../../../../../UIElementsSchema/UIElements.xsd"
+>
+  <engine:Label class="box" text="Navigation" />
+  <engine:Article>
+    <engine:Label text="UIElements Expansions: Navigation is an asset for adding some component functionality to UIElements inspectors and EditorWindows." />
+    <engine:Label text="1. Navigation Component" />
+    <engine:Div class="indent">
+      <engine:Label text="Navigation features can be added to the editor window." />
+      <engine:Label text="A header bar with titles and menus often found on modern websites." />
+      <engine:Label text="Some menus display submenus when you mouse over them." />
+      <engine:Label text="How to use is easy. Write the tag with a Navigation as shown below." />
+      <engine:Div class="code">
+        <engine:Label text="&lt;editor:Navigation&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="Any content" />
+        </engine:Div>
+        <engine:Label text="&lt;/editor:Navigation&gt;" />
+      </engine:Div>
+      <engine:Label text="If you put a label etc. in the navigation tag, the title will be displayed." />
+      <engine:Label text="When you place a button component (such as Button or BindableButton), a menu will be displayed." />
+      <engine:Label text="If you use MenuGroup tag instead of button, you can create submenu." />
+      <engine:Div class="code">
+        <engine:Label text="&lt;editor:Navigation&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="&lt;engine:Label text=&quot;Title&quot; /&gt;" />
+          <engine:Label text="&lt;editor:BindableButton text=&quot;Menu1&quot; /&gt;" />
+          <engine:Label text="&lt;editor:MenuGroup  text=&quot;Menu2&quot;&gt;" />
+          <engine:Div class="indent">
+            <engine:Label text="&lt;editor:BindableButton text=&quot;Sub Menu1&quot; /&gt;" />
+            <engine:Label text="&lt;editor:BindableButton text=&quot;Sub Menu2&quot; /&gt;" />
+          </engine:Div>
+          <engine:Label text="&lt;/editor:MenuGroup&gt;" />
+        </engine:Div>
+        <engine:Label text="&lt;/editor:Navigation&gt;" />
+      </engine:Div>
+      <engine:Label text="Navigation is responsive and automatically switches to a drop-down menu when the window size decreases." />
+      <engine:Label text="The drop-down menu is a menu that appears when you press the upper right button." />
+    </engine:Div>
+    <engine:Label text="2. Side-Navigation Component" />
+    <engine:Div class="indent">
+      <engine:Label text="It is possible to use the side navigation often found in applications and the like." />
+      <engine:Label text="Press the button and a menu will appear from the left. During that time, other content is blacked out and cannot be touched." />
+      <engine:Label text="The visibility of the side-navigation is animated." />
+      <engine:Label text="How to use is easy. Write the tag with a Sidenav as shown below." />
+      <engine:Div class="code">
+        <engine:Label text="&lt;editor:Sidenav name=&quot;sidenav&quot;&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="Any content" />
+        </engine:Div>
+        <engine:Label text="&lt;/editor:Sidenav&gt;" />
+      </engine:Div>
+      <engine:Label text="Various tags can be included in the side-navigation. By including a scroll view, contents can be displayed even if the screen size is reduced." />
+      <engine:Label text="The side-navigation can be displayed from a script or BindableButton." />
+      <engine:Label text="By specifying show in the control attribute of the BindableButton and specifying the Side-navigation name attribute in the target, the side-navigation specified in that target is activated." />
+      <engine:Div class="code">
+        <engine:Label text="&lt;editor:BindableButton text=&quot;Show Side Navigation&quot; control=&quot;show&quot; target=&quot;sidenav&quot;&gt;" />
+      </engine:Div>
+      <engine:Label text="If you want to use it at the same time as Navigation, add the name of the side-navigation you want to operate to the [sidenav-target] attribute in the Navigation tag." />
+      <engine:Div class="code">
+        <engine:Label text="&lt;editor:Navigation sidenav-target=&quot;sidenav&quot;&gt;" />
+        <engine:Div class="indent">
+          <engine:Label text="&lt;engine:Label text=&quot;Title&quot; /&gt;" />
+          <engine:Label text="&lt;editor:BindableButton text=&quot;Menu&quot; /&gt;" />
+          <engine:Label text="&lt;editor:MenuGroup&gt;" />
+          <engine:Div class="indent">
+            <engine:Label text="&lt;editor:BindableButton text=&quot;Sub Menu1&quot; /&gt;" />
+            <engine:Label text="&lt;editor:BindableButton text=&quot;Sub Menu2&quot; /&gt;" />
+          </engine:Div>
+          <engine:Label text="&lt;/editor:MenuGroup&gt;" />
+        </engine:Div>
+        <engine:Label text="&lt;/editor:Navigation&gt;" />
+      </engine:Div>
+
+
+    </engine:Div>
+    <engine:Label text="See the following page for details." />
+    <editor:BindableButton text="https://mathru.net/unity/2827/" assembly="UnityEngine" type="Application" method="OpenURL" value="https://mathru.net/unity/2827/" />
+  </engine:Article>
+    
+</engine:UXML>

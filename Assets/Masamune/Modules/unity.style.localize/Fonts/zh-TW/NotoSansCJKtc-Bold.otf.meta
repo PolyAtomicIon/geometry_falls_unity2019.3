@@ -1,0 +1,21 @@
+fileFormatVersion: 2
+guid: 36a4fb1a5caceaf44a4508130184ac28
+timeCreated: 1496683018
+licenseType: Store
+TrueTypeFontImporter:
+  serializedVersion: 4
+  fontSize: 32
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 0
+  fontName: Noto Sans CJK TC
+  fontNames:
+  - Noto Sans CJK TC
+  fallbackFontReferences: []
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  userData: 
+  assetBundleName: font
+  assetBundleVariant: zh-tw
