@@ -37,7 +37,7 @@ public class ObjectPooler : MonoBehaviour
 {
 
     // player spawning point
-    Vector3 VectorZero = Vector3.zero;
+    public Vector3 VectorZero = Vector3.zero;
     
     private const int number_of_colors = 4;
 
@@ -98,7 +98,7 @@ public class ObjectPooler : MonoBehaviour
     public Materials materials;
 
     public Dictionary<string, Queue<GameObject>> poolDictionary;
-    private Dictionary<string, GameObject> modelsDictionary;
+    public Dictionary<string, GameObject> modelsDictionary;
 
     private int random_palette = 0;
     private int last_random_index = -1;
@@ -107,29 +107,10 @@ public class ObjectPooler : MonoBehaviour
 
     public int object_in_level = 5;
 
-    private void StartNewLevel(){
-        // here We will spawn random object and its obstacles
-
-        // int random_model_index = game_manager.get_next_random_model_index();
-        int random_model_index = 0;
-
-        if ( random_model_index == -1 ){
-            game_manager.max_models_number = models_tag.Count;
-            game_manager.create_random_models_indexes();
-            random_model_index = game_manager.get_next_random_model_index();
-        } 
-        
-        string random_model_tag = models_tag[random_model_index];
-
-        SpawnFromPool(random_model_tag, object_in_level);
-
-        // object has been spawned with it obstacles, done
-    }
-
     public void Start()
     {
         
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName("AdditiveScene"));
+        // SceneManager.SetActiveScene(SceneManager.GetSceneByName("AdditiveScene"));
 
         game_manager = FindObjectOfType<Manager>();
         object_in_level = (int) game_manager.object_in_level();
@@ -204,77 +185,9 @@ public class ObjectPooler : MonoBehaviour
             modelsDictionary.Add(pool.tag, model);
         }
 
-         StartNewLevel();
-
-    }
-
-    private void initialize_object(GameObject objectToSpawn, Vector3 position, bool model = false){
-        
-        objectToSpawn.SetActive(false);
-        objectToSpawn.SetActive(true);
-        objectToSpawn.transform.position = position;              
-            
-        Renderer rd = objectToSpawn.GetComponent<Renderer>();
-        
-        // if Obstacle
-        if( !model ){
-            // Random rotation
-            objectToSpawn.transform.eulerAngles = new Vector3(-90f, ThreadSafeRandom.ThisThreadsRandom.Next(4) * 90f, 0);
-                
-            rd.material = materials.materials_list[0];;
-        }
-
-        // If Model
-        if( model ){  
-            rd.material = materials.materials_list[1];
-        }
-
-        // Call the OnObjectSpwan, differs for player and obstacle.
-        IPooledObject pooledObj = objectToSpawn.GetComponent<IPooledObject>();
-        pooledObj.OnObjectSpawn();
-
-    }
-
-    private void set_materials_color(int palette_index){
-        // for obstacles
-        materials.materials_list[0].SetColor("_BaseColor", palettes[random_palette].colors[0]); 
     
-        // for Player, main objects material
-        float intensity =  0.8f;
-        
-        materials.materials_list[1].SetColor("_BaseColor", palettes[random_palette].colors[1]);    
-        materials.materials_list[1].EnableKeyword ("_EMISSION");
-        materials.materials_list[1].SetColor("_EmissionColor", palettes[random_palette].emission_colors[1] * intensity);
-    }
-
-    public void SpawnFromPool (string tag, int size = 0){
-        
-        Debug.Log(tag + " has been spawned");
-
-        // Get random palettes
-        random_palette = game_manager.palette;
-        Debug.Log("Palette number");
-        Debug.Log(random_palette);
-        set_materials_color(random_palette);
-        // end
-
-        // Change tunnel color, acces to Manger
-        game_manager.change_tunnel_color( palettes[random_palette].colors[0] );
-        
-        // player's model
-        GameObject model = modelsDictionary[tag];
-        initialize_object(model, VectorZero, true);        
-
-        // Place obstacles by positions from GAME MANAGER.cs
-        for(int i=0; i<size; i++){
-            GameObject obstacle = poolDictionary[tag].Dequeue();
-
-            initialize_object(obstacle, game_manager.obstacle_positions[i]);
-
-            poolDictionary[tag].Enqueue(obstacle);
-        }    
-        
-        
+        game_manager.max_models_number = models_tag.Count;
+        game_manager.create_random_models_indexes();
 
     }
 

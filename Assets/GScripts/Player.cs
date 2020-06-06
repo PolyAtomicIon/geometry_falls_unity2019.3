@@ -27,6 +27,10 @@ public class Player : MonoBehaviour, IPooledObject
         return transform.position.y;
     }
 
+    public float get_velocity_y_axis(){
+        return rb.velocity.y;
+    }
+
     private void fallDown(float speed){
         rb.velocity = new Vector3(0, speed, 0);
     }
@@ -123,11 +127,6 @@ public class Player : MonoBehaviour, IPooledObject
 
         rb.angularDrag = angular_drag;
         
-        if( score >= (int) game_manager.object_in_level() ){
-            game_manager.fall_down_speed = rb.velocity.y;
-            game_manager.start_next_level();
-        }    
-        
         if( Input.GetMouseButtonDown(0) ){
             dragging = true;
         }
@@ -218,6 +217,7 @@ public class Player : MonoBehaviour, IPooledObject
         Debug.Log(col.gameObject.name);    
         rb.velocity = new Vector3(0f, 0f, 0f);
         gameObject.SetActive(false);
+        game_manager.is_level_started = false;
         game_manager.game_over();
     }
 

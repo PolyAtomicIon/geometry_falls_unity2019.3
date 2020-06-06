@@ -83,6 +83,8 @@ public class Manager : MonoBehaviour
     public Vector3[] obstacle_positions = new Vector3[(int) Constants.object_in_level];
     public int current_obstacle = 0;
  
+    public bool is_level_started = false;
+    
     private void generate_obstacle_positions(){
         gap_between = new Vector3(0f, gap, 0f);
         obstacle_position = new Vector3(0f, gap/2 + gap, 0f);
@@ -146,7 +148,8 @@ public class Manager : MonoBehaviour
         next_model_index += 1;
         next_model_index %= max_models_number;
 
-        return res; 
+        // return res; 
+        return 0;
     }
 
     public void create_random_models_indexes(){
@@ -228,24 +231,29 @@ public class Manager : MonoBehaviour
         // set level to Level Label UI
         LevelLabel.text = levelString();
 
-        // if( figure_plane.transform.position.y < transform.position.y ){
-        //     Vector3 position_f = transform.position;
-        //     position_f.y -= 0.1f;
-        //     figure_plane.transform.position = position_f;
-        // }
+        // changed in LevelManager.cs & Player.cs -> on collision
+        if( is_level_started ){
 
-        if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - gap - 2.5f ){    
-            Vector3 position_f = obstacle_positions[current_obstacle];
-            position_f.y -= 0.3f;
-            figure_plane.transform.position = position_f;
+            if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - gap - 2.5f ){    
+                Vector3 position_f = obstacle_positions[current_obstacle];
+                position_f.y -= 0.3f;
+                figure_plane.transform.position = position_f;
+            }
+            
+            if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - 2.5f ){
+                player.increment_score();
+                increment_score();
+                current_obstacle++;
+            }
+
         }
         
-        if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - 2.5f ){
-            player.increment_score();
-            increment_score();
-            current_obstacle++;
-        }
         
+        if( current_obstacle >= (int) object_in_level() ){
+            fall_down_speed = player.get_velocity_y_axis();
+            start_next_level();
+        }    
+
         // All this stuff for restart of the level
         if( Input.GetKeyDown("r") ){
             restartLevel();
