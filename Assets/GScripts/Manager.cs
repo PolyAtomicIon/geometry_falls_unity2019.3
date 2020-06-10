@@ -12,7 +12,7 @@ public class Manager : MonoBehaviour
     public enum Constants
     {
         max_touches = 25,
-        object_in_level = 8,
+        object_in_level = 12,
         obstacles_on_scene = 50
     }
     
@@ -72,7 +72,7 @@ public class Manager : MonoBehaviour
 
     public Player player;
 
-    /*
+    /*  
     generating positoins for obstacle, to
     place obstacle and track player
     */
@@ -82,6 +82,8 @@ public class Manager : MonoBehaviour
     public Vector3 obstacle_position;
     public Vector3[] obstacle_positions = new Vector3[(int) Constants.object_in_level];
     public int current_obstacle = 0;
+
+    public List<GameObject> obstacles_array = new List<GameObject>();
  
     public bool is_level_started = false;
     
@@ -89,13 +91,43 @@ public class Manager : MonoBehaviour
         gap_between = new Vector3(0f, gap, 0f);
         obstacle_position = new Vector3(0f, gap/2 + gap, 0f);
 
-        Debug.Log("SIZE OF OBS");
+        Debug.Log("SIZE OF OBS");   
         Debug.Log(obstacle_positions.Length);
 
         for(int i=0; i < obstacle_positions.Length; i++){
             obstacle_positions[i] = obstacle_position;
             obstacle_position += gap_between;
         }
+    }
+
+    private void rearrange_obstacles_array(){
+
+        int length = obstacles_array.Count;
+
+        Debug.Log("LENGTH of the array");
+        Debug.Log(length);
+
+        // Remove objects.
+        obstacles_array.Reverse();
+
+        for(int i = length - 1; i >= length - objectPooler.number_each_prefab; i--){
+            obstacles_array.RemoveAt(i);  
+        }
+        
+        obstacles_array.Reverse();
+        // Done
+
+        // Add objects
+
+        for(int i = 1; i <= objectPooler.number_each_prefab; i++){
+            GameObject obstacle = objectPooler.objectPool.Dequeue();
+            obstacles_array.Add(obstacle);
+            objectPooler.objectPool.Enqueue(obstacle);
+        }
+
+        obstacles_array.Shuffle();
+
+
     }
 
     /* End of generating obstacle positions */
@@ -113,9 +145,14 @@ public class Manager : MonoBehaviour
     }
 
     public void start_next_level(){
-        level+=1;
+
+        level += 1;
+
         Debug.Log("RELOAD THE SCENE");
         
+        // reareange array of obstacles, add harder one, delete easy ones
+        rearrange_obstacles_array();
+
         UnloadAdditiveScene();
         LoadAdditiveScene();
 
@@ -138,6 +175,7 @@ public class Manager : MonoBehaviour
         Debug.Log(level);
     }
 
+    public int current_model_index = -1;
     public int get_next_random_model_index(){
 
         if( random_models_indexes.Count == 0 )
@@ -148,8 +186,15 @@ public class Manager : MonoBehaviour
         next_model_index += 1;
         next_model_index %= max_models_number;
 
-        // return res; 
-        return 0;
+        return res; 
+        // return 0;
+    }
+
+    public int get_current_random_model_index(){
+        if( current_model_index == -1 ){
+            current_model_index = get_next_random_model_index();
+        }
+        return current_model_index;
     }
 
     public void create_random_models_indexes(){
@@ -223,6 +268,7 @@ public class Manager : MonoBehaviour
 
         figure_plane.transform.position = plane_pos;
 
+
     }
 
     void Update()
@@ -236,6 +282,11 @@ public class Manager : MonoBehaviour
 
             if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - gap - 2.5f ){    
                 Vector3 position_f = obstacle_positions[current_obstacle];
+                
+                if( current_obstacle + 1 >= (int) object_in_level() ){
+                    position_f = obstacle_positions[0];
+                }
+
                 position_f.y -= 0.3f;
                 figure_plane.transform.position = position_f;
             }
@@ -248,8 +299,7 @@ public class Manager : MonoBehaviour
 
         }
         
-        
-        if( current_obstacle >= (int) object_in_level() ){
+        if( current_obstacle >= (int) object_in_level()-1 ){
             fall_down_speed = player.get_velocity_y_axis();
             start_next_level();
         }    
@@ -258,7 +308,6 @@ public class Manager : MonoBehaviour
         if( Input.GetKeyDown("r") ){
             restartLevel();
         }
-        
 
     }
 

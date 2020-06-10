@@ -33,7 +33,7 @@ public class MainPage : MonoBehaviour {
     }
 
     public void StartPractice (){
-        SceneManager.LoadScene(1);
+        SceneManager.LoadScene("Base");
     }
 
     public void StartEvents (){

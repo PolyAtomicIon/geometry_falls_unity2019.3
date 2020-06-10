@@ -21,12 +21,12 @@ public class LevelManager : MonoBehaviour
         // int random_model_index = game_manager.get_next_random_model_index();
         int random_model_index = 0;
 
-        random_model_index = game_manager.get_next_random_model_index();
+        random_model_index = game_manager.get_current_random_model_index();
         
         string random_model_tag = objectPooler.models_tag[random_model_index];
 
-        SpawnFromPool(random_model_tag, objectPooler.object_in_level);
         game_manager.is_level_started = true;
+        SpawnFromPool(random_model_tag, objectPooler.object_in_level);
 
         // object has been spawned with it obstacles, done
     }
@@ -75,7 +75,7 @@ public class LevelManager : MonoBehaviour
         objectPooler.materials.materials_list[0].SetColor("_BaseColor", objectPooler.palettes[random_palette].colors[0]); 
     
         // for Player, main objects material
-        float intensity =  0.8f;
+        float intensity =  -2f;
         
         objectPooler.materials.materials_list[1].SetColor("_BaseColor", objectPooler.palettes[random_palette].colors[1]);    
         objectPooler.materials.materials_list[1].EnableKeyword ("_EMISSION");
@@ -101,15 +101,9 @@ public class LevelManager : MonoBehaviour
         initialize_object(model, objectPooler.VectorZero, true);        
 
         // Place obstacles by positions from GAME MANAGER.cs
-        for(int i=0; i<size; i++){
-            GameObject obstacle = objectPooler.poolDictionary[tag].Dequeue();
 
-            initialize_object(obstacle, game_manager.obstacle_positions[i]);
-
-            objectPooler.poolDictionary[tag].Enqueue(obstacle);
-        }    
-        
-        
+        for(int i = 0; i < size-1; i++)
+            initialize_object(game_manager.obstacles_array[i], game_manager.obstacle_positions[i]);
 
     }
 

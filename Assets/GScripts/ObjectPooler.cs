@@ -88,8 +88,6 @@ public class ObjectPooler : MonoBehaviour
 
     public int max_complexity_value = 3;
 
-    public int number_each_prefab = 3;
-
     public List<Pool> models;
      
     public List<string> models_tag;  
@@ -97,7 +95,7 @@ public class ObjectPooler : MonoBehaviour
     public List<Palette> palettes;
     public Materials materials;
 
-    public Dictionary<string, Queue<GameObject>> poolDictionary;
+    // public Dictionary<string, Queue<GameObject>> poolDictionary;
     public Dictionary<string, GameObject> modelsDictionary;
 
     private int random_palette = 0;
@@ -105,7 +103,11 @@ public class ObjectPooler : MonoBehaviour
 
     public Manager game_manager;
 
-    public int object_in_level = 5;
+    public int object_in_level = 12;
+    public int number_each_prefab = 0;
+    
+    // place where all obstacles are stored 
+    public Queue<GameObject> objectPool = new Queue<GameObject>();
 
     public void Start()
     {
@@ -113,82 +115,72 @@ public class ObjectPooler : MonoBehaviour
         // SceneManager.SetActiveScene(SceneManager.GetSceneByName("AdditiveScene"));
 
         game_manager = FindObjectOfType<Manager>();
+        
+        game_manager.max_models_number = models.Count;
+        game_manager.create_random_models_indexes();
+
+
         object_in_level = (int) game_manager.object_in_level();
+        number_each_prefab = object_in_level / 3;
 
-        // get prefabs from folder;
-        // In build this is not working, LOL
-
-        // for(int i = 0; i < models.Count; i++){
-        //     models[i].prefab = ( Resources.Load("Levels/" + models[i].tag + "/" + models[i].tag) ) as GameObject;
-
-        //     for(int j = 1; j <= models[i].size; j++){
-
-        //         string pos = j.ToString();
-        //         if( j == 1 ) pos = "";
-
-        //         GameObject temp = ( Resources.Load("Levels/" + models[i].tag + "/" + "obstacle_" + models[i].tag + pos + "_prefab" ) ) as GameObject;
-
-        //         models[i].obstacles_prefab.Add(temp);
-        //     }
-
-        // }
-        // end
-        // actually no need!
-
-
-        poolDictionary = new Dictionary<string, Queue<GameObject>>();
+        // poolDictionary = new Dictionary<string, Queue<GameObject>>();
         modelsDictionary = new Dictionary<string, GameObject>();
 
         // Add all gameobjects here, then we will shuffle, sorted by obstacle complexity
         List<GameObject>[] temp_gameobjects = new List<GameObject>[max_complexity_value+1];
 
         // create for every type of prefab 'number_each_prefab' clones
-        foreach(Pool pool in models){
+        Pool pool = models[game_manager.get_current_random_model_index()];
+        
+        // clean all obstacles
+        for (int i = 0; i <= max_complexity_value; i++)
+            temp_gameobjects[i] = new List<GameObject>();
+        
+        // the first type of obstacle will appear 3*number_each_prefab times
+        // second one will appear 2*number_each_prefab times
+        // other will appear only number_each_prefab times
 
-            // clean all obstacles
-            for (int i = 0; i <= max_complexity_value; i++)
-                temp_gameobjects[i] = new List<GameObject>();
+        int multiplier = 3;
 
-            Queue<GameObject> objectPool = new Queue<GameObject>();
-
-
-            foreach (Obstacle obstacle in pool.obstacles_prefab){
-                
-                for(int j = 0; j < number_each_prefab; j++){
-                    GameObject obstacle_prefab = Instantiate(obstacle.prefab) as GameObject;
-                    obstacle_prefab.SetActive(false);
-                    // Random
-                    temp_gameobjects[obstacle.complexity].Add(obstacle_prefab);
-                    // not random
-                    // temp_gameobjects[1].Add(obstacle_prefab);
-                }
-
+        foreach (Obstacle obstacle in pool.obstacles_prefab){
+            
+            for(int j = 0; j < number_each_prefab * multiplier; j++){
+                GameObject obstacle_prefab = Instantiate(obstacle.prefab) as GameObject;
+                obstacle_prefab.SetActive(false);
+                // Random
+                temp_gameobjects[obstacle.complexity].Add(obstacle_prefab);
             }
 
-            // Shuffle, add them to Queue
-            for(int i=1; i<=max_complexity_value; i++){
+            if( multiplier > 1 )
+                multiplier -= 1;
 
-                temp_gameobjects[i].Shuffle();
-            
-                foreach(GameObject prefab in temp_gameobjects[i])
-                    objectPool.Enqueue(prefab);
-            
-            }
-            
-            poolDictionary.Add(pool.tag, objectPool);
-            // end
-
-            // Player's model, add tag, add to dictionary
-            models_tag.Add(pool.tag);
-            GameObject model = Instantiate(pool.prefab) as GameObject;
-            model.SetActive(false);
-            modelsDictionary.Add(pool.tag, model);
         }
 
-    
-        game_manager.max_models_number = models_tag.Count;
-        game_manager.create_random_models_indexes();
+        // Shuffle, add them to Queue
+        for(int i=1; i<=max_complexity_value; i++){
+            foreach(GameObject prefab in temp_gameobjects[i])
+                objectPool.Enqueue(prefab);
+        }
+        
+        // create obstacles_array
+        for(int i=1; i<=object_in_level; i++){
+            GameObject obstacle = objectPool.Dequeue();
+            game_manager.obstacles_array.Add(obstacle);
+            objectPool.Enqueue(obstacle);
+        }
 
+        //poolDictionary.Add(pool.tag, objectPool);
+        // end
+
+        // Player's model, add tag, add to dictionary
+        
+        foreach(Pool pl in models)
+            models_tag.Add(pl.tag);
+
+        GameObject model = Instantiate(pool.prefab) as GameObject;
+        model.SetActive(false);
+        modelsDictionary.Add(pool.tag, model);
+    
     }
 
     void Update()

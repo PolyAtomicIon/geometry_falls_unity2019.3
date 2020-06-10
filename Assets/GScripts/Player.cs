@@ -138,69 +138,15 @@ public class Player : MonoBehaviour, IPooledObject
             rb.angularVelocity = Vector3.zero;
         }
 
-            // Vector3 movement = new Vector3( game_manager.joystick.Horizontal, game_manager.joystick.Vertical, 0f );
-            // Vector3 movement_x = new Vector3( game_manager.joystick.Horizontal, 0f, 0f );
-            // Vector3 movement_y = new Vector3( 0f, game_manager.joystick.Vertical, 0f );
-
-/*
-        if( movement_y.magnitude > 3f || movement_x.magnitude > 3f ){
-            dragging = false;
-        } 
-*/
-        // if( dragging ){
-
-        //     if(  movement_x.magnitude > movement_y.magnitude ){
-        //         transform.RotateAround(Vector3.up, movement.x / divisor * Time.deltaTime);
-        //     }
-        //     else if(  movement_x.magnitude < movement_y.magnitude ){
-        //         transform.RotateAround(Vector3.right, movement.y / divisor * Time.deltaTime);
-        //     }	        
-
-        //     hold_time += 1;
-
-        // }
-        /*
-        if( dragging ){
-            float rotX2 = Input.GetAxis("Mouse X"); // * Mathf.Deg2Rad;
-            float rotY2 = Input.GetAxis("Mouse Y"); // * Mathf.Deg2Rad;
-            
-            Debug.Log(rotX2);
-
-            if( Math.Abs(rotX2) > Math.Abs(rotY2) && Math.Abs(rotX2) > 0.1f )
-                transform.Rotate(Vector3.up, rotX2 * multiplier * Time.deltaTime); 
-            else if( Math.Abs(rotX2) < Math.Abs(rotY2) && Math.Abs(rotY2) > 0.1f  )
-                transform.Rotate(Vector3.right, rotY2 * multiplier * Time.deltaTime);
-        
-            hold_time += 1;
-        }*/
-
     }
 
     void FixedUpdate(){
         
         if( dragging ){
-
-            // Vector3 movement = new Vector3( game_manager.joystick.Horizontal, game_manager.joystick.Vertical, 0f );
-            // Vector3 movement_x = new Vector3( game_manager.joystick.Horizontal, 0f, 0f );
-            // Vector3 movement_y = new Vector3( 0f, game_manager.joystick.Vertical, 0f );
             
             // As in PolySphere game, Torque
             rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad;
             rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
-            
-            // rotX = movement.x * Mathf.Deg2Rad;
-            // rotY = movement.y * Mathf.Deg2Rad;
-
-            int signX = -1;
-            int signY = 1;
-
-            if( rotX < 0 )
-                signX = 1;
-            if( rotY < 0 )
-                signY = -1;
-
-            // rotX = Math.Min( 2.5f, Math.Abs(rotX) );
-            // rotY = Math.Min( 2.5f, Math.Abs(rotY) );
 
             if ( Math.Abs(rotX) > Math.Abs(rotY) )
                 rb.AddTorque (Vector3.down * -rotX * 1.25f * rotationSpeed2 * Time.fixedDeltaTime);
