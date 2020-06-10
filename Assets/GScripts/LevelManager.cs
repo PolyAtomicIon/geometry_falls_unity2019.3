@@ -75,7 +75,7 @@ public class LevelManager : MonoBehaviour
         objectPooler.materials.materials_list[0].SetColor("_BaseColor", objectPooler.palettes[random_palette].colors[0]); 
     
         // for Player, main objects material
-        float intensity =  -2f;
+        float intensity = 0.01f;
         
         objectPooler.materials.materials_list[1].SetColor("_BaseColor", objectPooler.palettes[random_palette].colors[1]);    
         objectPooler.materials.materials_list[1].EnableKeyword ("_EMISSION");
