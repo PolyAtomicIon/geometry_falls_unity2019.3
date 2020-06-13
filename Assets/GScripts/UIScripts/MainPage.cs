@@ -11,9 +11,31 @@ public class MainPage : MonoBehaviour {
 
     private int currentWindowIndex = 0;
 
+    private string auth_token;
+
+    public void set_token(string a){
+        auth_token = a;
+    }
+
+    public string get_token(){
+        return auth_token;
+    }
+
     // show window
-    public void showWindow (int windowIndex = 0){
-        windows[ currentWindowIndex ].SetActive(false);
+    // 0 - Menu
+    // 1 - Events
+    // 2 - Coupons
+    // 3 - Authorization
+    // 4 - Sign Up
+    // 5 - Login
+    // 6 - Error
+    public void showWindow (int windowIndex = 0, int closeWindow = -1){
+       
+        if( closeWindow != -1 )
+            windows[ closeWindow ].SetActive(false);
+        else
+            windows[ currentWindowIndex ].SetActive(true);
+            
         windows[ windowIndex ].SetActive(true);
         currentWindowIndex = windowIndex;
     }

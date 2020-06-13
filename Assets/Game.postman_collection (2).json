@@ -1,0 +1,273 @@
+{
+	"info": {
+		"_postman_id": "1d8cb27c-916e-4d72-a515-728c5928d654",
+		"name": "Game",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Registration",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "some@mail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						},
+						{
+							"key": "phone",
+							"value": "+77015350079",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/api/core/register/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"core",
+						"register",
+						""
+					]
+				},
+				"description": "В данном API необходимо передать \nemail\npassword\nphone\nЕсли в ответ получена код 201 CREATED значит юзер создан, в тело ответа вернется email, phone юзера\n\nПример ответа;\n{\n    \"email\": \"some@mail.com\",\n    \"phone\": \"+77015350079\"\n}"
+			},
+			"response": []
+		},
+		{
+			"name": "Login",
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "email",
+							"value": "some@mail.com",
+							"type": "text"
+						},
+						{
+							"key": "password",
+							"value": "123456",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "127.0.0.1:8000/api/core/obtain-token/",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"core",
+						"obtain-token",
+						""
+					]
+				},
+				"description": "В данном API нужно передать \nemail\npassword\nВ случае успеха(200), в ответ придет token, который нужно в дальнейшем в запросах в качестве ключа аутетификации\nToken вставляется в Header-е запроса под ключ \"Authorization\" в значении ключа передается \"Token {ваш ключ}\"\nПример \"Authorization\": \"Token 76e5e892c09dadedfbfe5665ce31875ec3d54064\"\n\nПример ответа;\n{\n    \"token\": \"76e5e892c09dadedfbfe5665ce31875ec3d54064\"\n}"
+			},
+			"response": []
+		},
+		{
+			"name": "Events List",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 76e5e892c09dadedfbfe5665ce31875ec3d54064",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/game/events/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"game",
+						"events",
+						""
+					]
+				},
+				"description": "Данный API возвращает список event-ов (событии)\nПример ответа;\n[\n    {\n        \"id\": 1,\n        \"name\": \"Лето\",\n        \"start_date\": \"2020-06-01T00:00:00+06:00\",\n        \"end_date\": \"2020-07-31T00:00:00+06:00\",\n        \"active\": true\n    },\n    {\n        \"id\": 2,\n        \"name\": \"Зима\",\n        \"start_date\": \"2020-12-01T00:00:00+06:00\",\n        \"end_date\": \"2020-03-31T00:00:00+06:00\",\n        \"active\": false\n    }\n]"
+			},
+			"response": []
+		},
+		{
+			"name": "Events Detail",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 76e5e892c09dadedfbfe5665ce31875ec3d54064",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/game/events/1/?",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"game",
+						"events",
+						"1",
+						""
+					],
+					"query": [
+						{
+							"key": "",
+							"value": null
+						}
+					]
+				},
+				"description": "Данный API возвращает отдельный event\nПример ответа;\n{\n    \"id\": 1,\n    \"name\": \"Лето\",\n    \"start_date\": \"2020-06-01T00:00:00+06:00\",\n    \"end_date\": \"2020-07-31T00:00:00+06:00\",\n    \"active\": true,\n    \"levels\": 1\n}"
+			},
+			"response": []
+		},
+		{
+			"name": "Event Present",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 76e5e892c09dadedfbfe5665ce31875ec3d54064",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "level",
+							"value": "1",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/game/events/1/present/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"game",
+						"events",
+						"1",
+						"present",
+						""
+					]
+				},
+				"description": "Данный API используется для получения приза, по конкретному ивенту\n\nв url запроса указан ID event-а в формате /api/game/events/{ID event-а}/present/\n\nВ теле запроса нужно указать количество уровней, которые закончил юзер за игру в ивенте\n\nВ ответ придет два элемента presents и present\n\npresents = это массив из возможных призов для данного результата\npresent = это приз, который выйграл юзер, в случае проигрыша это поле будет null\n\nПример ответа\n\n{\n    \"presents\": [\n        {\n            \"value\": 50,\n            \"provider\": {\n                \"id\": 1,\n                \"name\": \"KFC\"\n            },\n            \"win\": true\n        }\n    ],\n    \"present\": {\n        \"id\": 1,\n        \"key\": \"0EUjD9h7Juu9Qd8VtuusPsL4ycJWNW6z\",\n        \"value\": 50,\n        \"provider\": {\n            \"id\": 1,\n            \"name\": \"KFC\"\n        }\n    }\n}"
+			},
+			"response": []
+		},
+		{
+			"name": "Present List",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Token 76e5e892c09dadedfbfe5665ce31875ec3d54064",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/game/presents/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"game",
+						"presents",
+						""
+					]
+				},
+				"description": "Данный API возвращает список призов юзера (presents) \n\nПример ответа; \n\n[\n    {\n        \"id\": 1,\n        \"key\": \"0EUjD9h7Juu9Qd8VtuusPsL4ycJWNW6z\",\n        \"value\": 50,\n        \"provider\": {\n            \"id\": 1,\n            \"name\": \"KFC\"\n        }\n    }\n]"
+			},
+			"response": []
+		},
+		{
+			"name": "Present Detail",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"type": "text",
+						"value": "Token 76e5e892c09dadedfbfe5665ce31875ec3d54064"
+					}
+				],
+				"url": {
+					"raw": "http://127.0.0.1:8000/api/game/presents/",
+					"protocol": "http",
+					"host": [
+						"127",
+						"0",
+						"0",
+						"1"
+					],
+					"port": "8000",
+					"path": [
+						"api",
+						"game",
+						"presents",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
