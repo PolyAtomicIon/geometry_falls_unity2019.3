@@ -46,7 +46,8 @@ public class authorization : MonoBehaviour {
                 manager.windows[6].SetActive(false);
                 
                 // show Login UI
-                manager.showWindow(5, 4);
+                // manager.showWindow(5, 4);
+                manager.showWindow(5);
             }
         }
     }
@@ -96,7 +97,8 @@ public class authorization : MonoBehaviour {
 
                 Get_Token(www);
                 // show Menu
-                manager.showWindow(0, 5);
+                // manager.showWindow(0, 5);
+                manager.showWindow(0);
             }
         }
     }

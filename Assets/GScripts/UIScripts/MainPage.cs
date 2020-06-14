@@ -9,18 +9,7 @@ public class MainPage : MonoBehaviour {
     public GameObject coupunInformationWindow;
     public GameObject sideBar;
 
-    private int currentWindowIndex = 0;
-
-    private string auth_token;
-
-    public void set_token(string a){
-        auth_token = a;
-    }
-
-    public string get_token(){
-        return auth_token;
-    }
-
+    public int currentWindowIndex = 0;
     // show window
     // 0 - Menu
     // 1 - Events
@@ -29,15 +18,21 @@ public class MainPage : MonoBehaviour {
     // 4 - Sign Up
     // 5 - Login
     // 6 - Error
-    public void showWindow (int windowIndex = 0, int closeWindow = -1){
-       
-        if( closeWindow != -1 )
-            windows[ closeWindow ].SetActive(false);
-        else
-            windows[ currentWindowIndex ].SetActive(true);
+    public void showWindow (int windowIndex = 0){
+        windows[ currentWindowIndex ].SetActive(false);
             
         windows[ windowIndex ].SetActive(true);
         currentWindowIndex = windowIndex;
+    }
+
+    public void set_token(string a){
+        PlayerPrefs.SetString("auth_token", a);
+    }
+
+    public string get_token(){
+        if( !PlayerPrefs.HasKey("auth_token") )
+            return null;
+        return PlayerPrefs.GetString("auth_token");
     }
 
     // coupon information window, xor operatio, if opened close, else open
