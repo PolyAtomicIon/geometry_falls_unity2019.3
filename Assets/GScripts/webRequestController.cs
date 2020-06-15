@@ -62,14 +62,15 @@ public class webRequestController : MonoBehaviour
     // to check if events information parsed and initialized
     bool events_initialized = false;
 
-    List<Event> events = new List<Event>();
+    Dictionary<int, Event> events = new Dictionary<int, Event>();
     public GameObject event_panel;
     public Button event_prefab;
-    string base_event_url = "http://94.247.128.162/api/game/events/";
+    public string base_event_url = "http://94.247.128.162/api/game/events/";
 
     public void EventButtonClicked(int id){
         Debug.Log("clicked");
         Debug.Log(id);
+        manager.EventInformationWindow(events[id]);
         return;
     }
 
@@ -81,17 +82,22 @@ public class webRequestController : MonoBehaviour
         event_prefab_go.onClick.AddListener(delegate{EventButtonClicked(cur_event.id);});
 
         event_prefab_go.GetComponent<RectTransform>().anchoredPosition = position;
+        event_prefab_go.GetComponent<RectTransform>().localScale  = new Vector3(1, 1, 1);
+
+        event_prefab_go.GetComponent<RectTransform>().SetLeft(64f);
+        event_prefab_go.GetComponent<RectTransform>().SetRight(64f);
+        
     }
 
     void CreateEventButtons(){
 
         Vector3 cur_position = new Vector3(0, -96, 0);
-        Vector3 gap_between = new Vector3(0, -160, 0);
+        Vector3 gap_between = new Vector3(0, -176, 0);
 
         Debug.Log(events.Count);
 
-        foreach(Event e in events){
-            instantiateEventButton(e, cur_position);
+        foreach (KeyValuePair<int, Event> e in events){
+            instantiateEventButton(e.Value, cur_position);
             cur_position += gap_between;
         }
 
@@ -100,7 +106,7 @@ public class webRequestController : MonoBehaviour
     void CreateEvent(UnityWebRequest res){
 
         JSONNode events_info = JSONNode.Parse(res.downloadHandler.text);
-        
+        Debug.Log(events_info);
         for(int i = 0; i < events_info.Count; i++){
 
             // get data
@@ -115,7 +121,7 @@ public class webRequestController : MonoBehaviour
             // create Button
             Event cur_event = new Event(ID, e_name, start, end, is_active);
 
-            events.Add(cur_event);
+            events[ID] = cur_event;
         }
 
         CreateEventButtons();
@@ -126,14 +132,15 @@ public class webRequestController : MonoBehaviour
     {
         
         // if not logged in, go to Authorization UI 
-        if( manager.get_token() == null ){
+        Debug.Log(manager.get_token());
+        if( manager.get_token() == "" ){
             manager.showWindow(3);
             yield return false;
         }
 
         using (UnityWebRequest www = UnityWebRequest.Get(base_event_url))
         {   
-            Debug.Log(manager.get_token());
+
             www.SetRequestHeader("Authorization", manager.get_token());
             yield return www.SendWebRequest();
 
@@ -155,28 +162,37 @@ public class webRequestController : MonoBehaviour
     // to check if coupons information parsed and initialized
     bool coupons_initialized = false;
     
-    List<Coupon> coupons = new List<Coupon>();
+    Dictionary<int, Coupon> coupons = new Dictionary<int, Coupon>();
 
     public GameObject coupon_panel;
     public Button coupon_prefab;
-    string base_coupon_url = "http://94.247.128.162//api/game/presents/";
+    string base_coupon_url = "http://94.247.128.162/api/game/presents/";
+
+    public void coupons_clear(){
+        coupons.Clear();
+    }
 
     public void CouponButtonClicked(int id){
         Debug.Log("clicked");
         Debug.Log(id);
+        manager.CouponInformationWindow(coupons[id]);
         return;
     }
 
     void instantiateCouponButton(Coupon cur_coupon, Vector3 position){
-        coupon_prefab.GetComponentsInChildren<TMP_Text>()[0].text = cur_coupon.provider_name;
+        coupon_prefab.GetComponentsInChildren<TMP_Text>()[0].text = cur_coupon.id.ToString();
         Button coupon_prefab_go = Instantiate(coupon_prefab) as Button;
-
         coupon_prefab_go.transform.parent = coupon_panel.transform;
 
         coupon_prefab_go.onClick.AddListener(delegate{CouponButtonClicked(cur_coupon.id);});
 
         coupon_prefab_go.GetComponent<RectTransform>().anchoredPosition = position;
+        coupon_prefab_go.GetComponent<RectTransform>().localScale  = new Vector3(1, 1, 1);
+
+        coupon_prefab_go.GetComponent<RectTransform>().SetLeft(64f);
+        coupon_prefab_go.GetComponent<RectTransform>().SetRight(64f);
     }
+
 
     void CreateCouponButtons(){
 
@@ -185,8 +201,8 @@ public class webRequestController : MonoBehaviour
 
         Debug.Log(coupons.Count);
 
-        foreach(Coupon c in coupons){
-            instantiateCouponButton(c, cur_position);
+        foreach (KeyValuePair<int, Coupon> c in coupons){
+            instantiateCouponButton(c.Value, cur_position);
             cur_position += gap_between;
         }
 
@@ -195,7 +211,7 @@ public class webRequestController : MonoBehaviour
     void CreateCoupon(UnityWebRequest res){
 
         JSONNode coupons_info = JSONNode.Parse(res.downloadHandler.text);
-
+        
         for(int i = 0; i < coupons_info.Count; i++){
 
             // get data
@@ -203,14 +219,15 @@ public class webRequestController : MonoBehaviour
             string e_key = coupons_info[i]["key"];
             int Value = coupons_info[i]["value"];
             int provider_ID = coupons_info[i]["provider"]["id"];
-            string provider_Name = coupons_info[i]["end_date"]["name"];
+            string provider_Name = coupons_info[i]["provider"]["name"];
             
             // Debug.Log(provider_Name);
 
             // create Button
             Coupon cur_coupon = new Coupon(ID, e_key, Value, provider_ID, provider_Name);
 
-            coupons.Add(cur_coupon);
+            
+            coupons[ID] = cur_coupon;
         }
 
         CreateCouponButtons();
@@ -221,7 +238,7 @@ public class webRequestController : MonoBehaviour
     {
         
         // if not logged in, go to Authorization UI 
-        if( manager.get_token() == null ){
+        if( manager.get_token() == "" ){
             manager.showWindow(3);
             yield return false;
         }
@@ -246,6 +263,34 @@ public class webRequestController : MonoBehaviour
         }
 
     }
+
+    // IEnumerator GetCoupon(string email = "", string phone = "", string password = "")
+    // {
+    //     WWWForm form = new WWWForm();
+    //     form.AddField("email", email);
+    //     form.AddField("password", password);
+    //     form.AddField("phone", phone);
+
+    //     using (UnityWebRequest www = UnityWebRequest.Post(base_register_url, form))
+    //     {
+    //         yield return www.SendWebRequest();
+
+    //         if (www.isNetworkError || www.isHttpError)
+    //         {
+    //             Debug.Log(www.error);
+    //             manager.windows[6].SetActive(true);
+    //         }
+    //         else
+    //         {
+    //             Debug.Log("Form upload complete!");
+    //             manager.windows[6].SetActive(false);
+                
+    //             // show Login UI
+    //             // manager.showWindow(5, 4);
+    //             manager.showWindow(5);
+    //         }
+    //     }
+    // }
 
     void Start(){
 
