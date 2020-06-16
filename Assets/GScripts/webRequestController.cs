@@ -12,6 +12,9 @@ public class Event{
     public string start_date, end_date;
     public bool active;
 
+    public int value;
+    public int levels;
+
     public Event() { }
 
     public Event(int ID, string e_name, string start, string end, bool is_active)
@@ -67,9 +70,44 @@ public class webRequestController : MonoBehaviour
     public Button event_prefab;
     public string base_event_url = "http://94.247.128.162/api/game/events/";
 
+
+    IEnumerator GetEventDetails(int id)
+    {
+        
+        // if not logged in, go to Authorization UI 
+        Debug.Log(manager.get_token());
+        if( manager.get_token() == "" ){
+            manager.showWindow(3);
+            yield return false;
+        }
+
+        using (UnityWebRequest www = UnityWebRequest.Get(base_event_url + id.ToString() + "/?"))
+        {   
+
+            www.SetRequestHeader("Authorization", manager.get_token());
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+                manager.windows[6].SetActive(true);
+                events_initialized = false;
+            }
+            else
+            {   
+                Debug.Log("Request sent!");
+                JSONNode details = JSONNode.Parse(www.downloadHandler.text);
+                events[id].levels = details["levels"];
+                events[id].value = details["value"];
+            }
+        }
+
+    }
+
     public void EventButtonClicked(int id){
         Debug.Log("clicked");
         Debug.Log(id);
+        StartCoroutine(GetEventDetails(id));
         manager.EventInformationWindow(events[id]);
         return;
     }

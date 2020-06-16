@@ -93,29 +93,6 @@ public class MainPage : MonoBehaviour {
         SceneManager.LoadScene("Base");
     }
 
-
-    IEnumerator GetEventDetails(int id)
-    {
-        using (UnityWebRequest www = UnityWebRequest.Get(controller.base_event_url + "/" + id.ToString()))
-        {
-            www.SetRequestHeader("Authorization", get_token());
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log(www.error);
-                windows[6].SetActive(true);
-            }
-            else
-            {
-                Debug.Log("Request sent!");
-                
-                JSONNode event_info = JSONNode.Parse(www.downloadHandler.text);
-                levels = event_info["levels"];
-            }
-        }
-    }
-
     IEnumerator TEMPGIVEPRIZE(int id)
     {
         WWWForm form = new WWWForm();
@@ -140,7 +117,6 @@ public class MainPage : MonoBehaviour {
     }
 
     public void StartEvent(int id){
-        StartCoroutine(GetEventDetails(id));
         StartCoroutine(TEMPGIVEPRIZE(id));
     }
 
