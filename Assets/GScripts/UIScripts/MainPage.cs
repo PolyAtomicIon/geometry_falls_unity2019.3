@@ -75,9 +75,12 @@ public class MainPage : MonoBehaviour {
 
         eventInformationWindow.SetActive( true );
         eventInformationWindow.GetComponentsInChildren<TMP_Text>()[0].text = cur_event.name;
-        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[1].text = cur_event.start_date + '\n' + cur_event.end_date;
-        // eventInformationWindow.GetComponentsInChildren<TMP_Text>()[2].text = cur_event.value.ToString();
+        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[1].text = cur_event.provider_name;
+        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[2].text = cur_event.start_date + '\n' + cur_event.end_date;
+        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[3].text = cur_event.value.ToString();
+        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[4].text = cur_event.levels.ToString();
         eventInformationWindow.GetComponentsInChildren<Button>()[0].onClick.AddListener(delegate{StartEvent(cur_event.id);});
+    
     }
 
     public void CloseEventInformationWindow (){
@@ -90,6 +93,8 @@ public class MainPage : MonoBehaviour {
     }
 
     public void StartPractice (){
+        // set id to -1, to say it is practice
+        PlayerPrefs.SetInt("id", -1);
         SceneManager.LoadScene("Base");
     }
 
@@ -117,7 +122,11 @@ public class MainPage : MonoBehaviour {
     }
 
     public void StartEvent(int id){
-        StartCoroutine(TEMPGIVEPRIZE(id));
+        // StartCoroutine(TEMPGIVEPRIZE(id));
+        // send id of event to player prefs
+        PlayerPrefs.SetInt("id", id);
+        // load game
+        SceneManager.LoadScene("Base");
     }
 
     void Start(){

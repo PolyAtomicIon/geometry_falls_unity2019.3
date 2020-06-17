@@ -6,6 +6,8 @@ using Random=System.Random;
 using Random2=UnityEngine.Random;
 using TMPro;
 using UnityEngine.UI;
+using UnityEngine.Networking;
+using SimpleJSON;
 
 public class Manager : MonoBehaviour
 {   
@@ -206,10 +208,64 @@ public class Manager : MonoBehaviour
         random_models_indexes.Shuffle();
     }
 
+    public string get_token(){
+        if( !PlayerPrefs.HasKey("auth_token") )
+            return "";
+        return PlayerPrefs.GetString("auth_token");
+    }
+
+    IEnumerator GetPrize(int id, int levels_done)
+    {
+        WWWForm form = new WWWForm();
+        form.AddField("level", levels_done); 
+            
+        using (UnityWebRequest www = UnityWebRequest.Post("http://94.247.128.162/api/game/events/1/present/", form))
+        // using (UnityWebRequest www = UnityWebRequest.Get("http://94.247.128.162/api/game/events/"))
+        {
+            // Debug.Log(get_token());
+            www.SetRequestHeader("Authorization", get_token());
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+                // windows[6].SetActive(true);
+            }
+            else
+            {
+                Debug.Log("Request sent!");
+                JSONNode details = JSONNode.Parse(www.downloadHandler.text);
+                Debug.Log(details);
+                /*
+                {
+                "presents":[{
+                    "value":10,
+                    "provider": {"id":1,"name":"KFC"},
+                    "win":true}],
+                "present":{"id":1,"key":"P7XH8Vwx1z4s6yfF3XvXaxkhPm2A23LM","value":10,"provider":{"id":1,"name":"KFC"}}}
+
+
+                */
+            }
+        }
+    }
+
     public void game_over()
     {
         Debug.Log("game over!");
         
+        // get ID of Event
+        int id = PlayerPrefs.GetInt("id");
+
+        if( id != -1 ){
+            Debug.Log("Getting Prize");
+            Debug.Log(id);
+            StartCoroutine(GetPrize(id, level));
+        }
+        else{
+            Debug.Log("Chill, just practice");
+        }
+
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
 
         LevelLabel.enabled = false;

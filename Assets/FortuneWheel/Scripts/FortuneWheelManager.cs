@@ -46,7 +46,7 @@ public class FortuneWheelManager : MonoBehaviour
     	    _sectorsAngles = new float[] { 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360 };
     	
     	    int fullCircles = 5;
-    	    float randomFinalAngle = _sectorsAngles [UnityEngine.Random.Range (0, _sectorsAngles.Length)];
+    	    float randomFinalAngle = _sectorsAngles [3];
     	
     	    // Here we set up how many circles our wheel should rotate before stop
     	    _finalAngle = -(fullCircles * 360 + randomFinalAngle);

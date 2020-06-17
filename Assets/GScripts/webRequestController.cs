@@ -12,8 +12,9 @@ public class Event{
     public string start_date, end_date;
     public bool active;
 
-    public int value;
-    public int levels;
+    public int value = -1;
+    public int levels = -1;
+    public string provider_name = "NONE";
 
     public Event() { }
 
@@ -75,7 +76,7 @@ public class webRequestController : MonoBehaviour
     {
         
         // if not logged in, go to Authorization UI 
-        Debug.Log(manager.get_token());
+        // Debug.Log(manager.get_token());
         if( manager.get_token() == "" ){
             manager.showWindow(3);
             yield return false;
@@ -96,19 +97,24 @@ public class webRequestController : MonoBehaviour
             else
             {   
                 Debug.Log("Request sent!");
+
                 JSONNode details = JSONNode.Parse(www.downloadHandler.text);
+               
                 events[id].levels = details["levels"];
                 events[id].value = details["value"];
+                events[id].provider_name = details["provider_name"];
+                        
+                manager.EventInformationWindow(events[id]);
             }
+
         }
 
     }
 
     public void EventButtonClicked(int id){
-        Debug.Log("clicked");
-        Debug.Log(id);
+        // Debug.Log("clicked");
+        // Debug.Log(id);
         StartCoroutine(GetEventDetails(id));
-        manager.EventInformationWindow(events[id]);
         return;
     }
 
@@ -132,7 +138,7 @@ public class webRequestController : MonoBehaviour
         Vector3 cur_position = new Vector3(0, -96, 0);
         Vector3 gap_between = new Vector3(0, -176, 0);
 
-        Debug.Log(events.Count);
+        // Debug.Log(events.Count);
 
         foreach (KeyValuePair<int, Event> e in events){
             instantiateEventButton(e.Value, cur_position);
@@ -144,7 +150,7 @@ public class webRequestController : MonoBehaviour
     void CreateEvent(UnityWebRequest res){
 
         JSONNode events_info = JSONNode.Parse(res.downloadHandler.text);
-        Debug.Log(events_info);
+        // Debug.Log(events_info);
         for(int i = 0; i < events_info.Count; i++){
 
             // get data
@@ -170,7 +176,7 @@ public class webRequestController : MonoBehaviour
     {
         
         // if not logged in, go to Authorization UI 
-        Debug.Log(manager.get_token());
+        // Debug.Log(manager.get_token());
         if( manager.get_token() == "" ){
             manager.showWindow(3);
             yield return false;
@@ -211,8 +217,8 @@ public class webRequestController : MonoBehaviour
     }
 
     public void CouponButtonClicked(int id){
-        Debug.Log("clicked");
-        Debug.Log(id);
+        // Debug.Log("clicked");
+        // Debug.Log(id);
         manager.CouponInformationWindow(coupons[id]);
         return;
     }
@@ -237,7 +243,7 @@ public class webRequestController : MonoBehaviour
         Vector3 cur_position = new Vector3(0, -96, 0);
         Vector3 gap_between = new Vector3(0, -160, 0);
 
-        Debug.Log(coupons.Count);
+        // Debug.Log(coupons.Count);
 
         foreach (KeyValuePair<int, Coupon> c in coupons){
             instantiateCouponButton(c.Value, cur_position);
@@ -283,7 +289,7 @@ public class webRequestController : MonoBehaviour
 
         using (UnityWebRequest www = UnityWebRequest.Get(base_coupon_url))
         {   
-            Debug.Log(manager.get_token());
+            // Debug.Log(manager.get_token());
             www.SetRequestHeader("Authorization", manager.get_token());
             yield return www.SendWebRequest();
 
