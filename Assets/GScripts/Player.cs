@@ -62,6 +62,8 @@ public class Player : MonoBehaviour, IPooledObject
     public int hold_time = 0;
     public int hold_time_limit = 20;
 
+    float currentAngleY;
+
     public void increment_score(){
         score += 1;
     }
@@ -120,12 +122,11 @@ public class Player : MonoBehaviour, IPooledObject
         game_manager.player = this;
         fall_down_speed = game_manager.fall_down_speed;
         fallDown(fall_down_speed);
+        rb.angularDrag = angular_drag;
     }
 
     void Update(){
 
-        rb.angularDrag = angular_drag;
-        
         if( Input.GetMouseButtonDown(0) ){
             dragging = true;
         }
@@ -137,6 +138,9 @@ public class Player : MonoBehaviour, IPooledObject
             rb.angularVelocity = Vector3.zero;
         }
 
+        
+        currentAngleY = transform.rotation.eulerAngles.y;
+
     }
 
     void FixedUpdate(){
@@ -146,9 +150,20 @@ public class Player : MonoBehaviour, IPooledObject
             // As in PolySphere game, Torque
             rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad;
             rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
+            
+            // to solve problem with mirroring
+            int dirX = 1;
+
+            if( Math.Abs(currentAngleY) >= 90f && Math.Abs(currentAngleY) <= 180f ){
+                dirX = -1;
+            }
+
+            Debug.Log("OPPA ");
+            Debug.Log(currentAngleY);
+            Debug.Log(dirX);
 
             if ( Math.Abs(rotX) > Math.Abs(rotY) )
-                rb.AddTorque (Vector3.down * -rotX * 1.25f * rotationSpeed2 * Time.fixedDeltaTime);
+                rb.AddTorque (Vector3.down * -rotX * dirX * 1.25f * rotationSpeed2 * Time.fixedDeltaTime);
             else if( Math.Abs(rotX) < Math.Abs(rotY) )
                 rb.AddTorque (Vector3.right * rotY * rotationSpeed2 * Time.fixedDeltaTime);
             

@@ -102,7 +102,7 @@ MonoBehaviour:
   rotation_duration: 0.35
   rotation_degree: 160
   rotationSpeed: 40000
-  rotationSpeed2: 40000
+  rotationSpeed2: 50000
   angular_drag: 0.45
   divisor: 0.75
   multiplier: 45
