@@ -68,10 +68,7 @@ public class SwipeDetector : MonoBehaviour
 
     private bool SwipeDistanceCheckMet()
     {
-        Debug.Log( player.hold_time );
-        bool check = player.hold_time < player.hold_time_limit && ( VerticalMovementDistance() > minDistanceForSwipe || HorizontalMovementDistance() > minDistanceForSwipe );
-        player.hold_time = 0;
-        return check;
+        return VerticalMovementDistance() > minDistanceForSwipe || HorizontalMovementDistance() > minDistanceForSwipe;
     }
 
     private float VerticalMovementDistance()
@@ -92,24 +89,6 @@ public class SwipeDetector : MonoBehaviour
             StartPosition = fingerDownPosition,
             EndPosition = fingerUpPosition
         };
-
-        /* define direction */
-
-        if( direction == SwipeDirection.Up ){
-            player.rotate(0);
-        }
-        if( direction == SwipeDirection.Down ){
-            player.rotate(2);
-        }
-        if( direction == SwipeDirection.Left ){
-            player.rotate(1);
-        }
-        if( direction == SwipeDirection.Right ){
-            player.rotate(3);
-        }
-
-        /* defined and rotated */
-
 
         OnSwipe(swipeData);
     }

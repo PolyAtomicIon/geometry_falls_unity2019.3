@@ -4,13 +4,17 @@ using UnityEngine;
  public class DetectDrag : MonoBehaviour 
  {
 
-    public RotateOnDragPlayer player;
+    public Player player;
 
-    void OnMouseDown(){
-        player.dragging = true;
+
+    void Start(){
+        player = FindObjectOfType<Player>();
     }
-    
-    void OnMouseUp(){
-        player.dragging = false;
+
+    void Update(){
+        Vector3 ps = player.transform.position;
+        ps.z -= 0.5f;
+        transform.position = ps;
     }
+
  }
