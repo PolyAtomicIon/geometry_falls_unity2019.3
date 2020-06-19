@@ -39,7 +39,6 @@ public class Player : MonoBehaviour, IPooledObject
         rb.velocity = new Vector3(0, speed, 0);
     }
 
-<<<<<<< HEAD
     // private void move_object(Vector3 direction){
     //     rb.MovePosition(transform.position + (direction * speed * Time.deltaTime));
     // }
@@ -64,10 +63,8 @@ public class Player : MonoBehaviour, IPooledObject
     public float divisor = 12f;
     public float multiplier = 75f;
     float rotX, rotY;
-=======
+
     public bool dragging = false;
->>>>>>> b925818ba18bc21f5f7213b4608aff0a940af0b1
-    
 
     public void increment_score(){
         score += 1;
@@ -143,8 +140,6 @@ public class Player : MonoBehaviour, IPooledObject
             transform.rotation = Quaternion.Slerp (transform.rotation, rotation, speed * Time.deltaTime);
         }
 
-    }
-
     // void Update(){
 
     //     if( Input.GetMouseButtonDown(0) ){
@@ -155,9 +150,8 @@ public class Player : MonoBehaviour, IPooledObject
     //     }
 
 
-        // if ( dragging ){
+        if ( dragging ){
             
-<<<<<<< HEAD
             // As in PolySphere game, Torque
             rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad * 1.25f;
             rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
@@ -180,7 +174,7 @@ public class Player : MonoBehaviour, IPooledObject
 
             hold_time += 1;
         }
-=======
+
         //     Vector3 mouseScreenPosition = new Vector3( Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z );
             
             // Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint( mouseScreenPosition );   
@@ -203,8 +197,8 @@ public class Player : MonoBehaviour, IPooledObject
 
         // }
 
-    // }
->>>>>>> b925818ba18bc21f5f7213b4608aff0a940af0b1
+    }
+
 
     
      void OnCollisionEnter (Collision col)
