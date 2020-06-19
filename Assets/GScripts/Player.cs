@@ -46,13 +46,13 @@ public class Player : MonoBehaviour, IPooledObject
         score += 1;
     }
     
-    void OnMouseDown(){
-        dragging = true;
-    }
+    // void OnMouseDown(){
+    //     dragging = true;
+    // }
     
-    void OnMouseUp(){
-        dragging = false;
-    }
+    // void OnMouseUp(){
+    //     dragging = false;
+    // }
 
     void Start(){
         speed = 6.5f;
@@ -85,6 +85,13 @@ public class Player : MonoBehaviour, IPooledObject
 
     
     void Update(){
+
+        if( Input.GetMouseButtonDown(0) ){
+            dragging = true;
+        }
+        if( Input.GetMouseButtonUp(0) ){
+            dragging = false;
+        }
 
         if( dragging ){
             Vector3 mouseScreenPosition = new Vector3( Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z );
