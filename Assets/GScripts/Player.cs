@@ -11,7 +11,8 @@ public class Player : MonoBehaviour, IPooledObject
     // private float angular_drag = 1.5f;
     private float fall_down_speed = -27f;
     public float acceleration = -0.075f;
-    public float speed;
+    [SerializeField]
+    private float speed;
     public Renderer render;
 
     // private float maxSpeed = 7f;
@@ -21,6 +22,10 @@ public class Player : MonoBehaviour, IPooledObject
     private Manager game_manager;
 
     private int score = 0;
+
+    float ScreenWidth;
+    float ScreenHeight;
+    float ScreenHeightOffset;
 
     public float get_position_y_axis(){
         return transform.position.y;
@@ -34,6 +39,7 @@ public class Player : MonoBehaviour, IPooledObject
         rb.velocity = new Vector3(0, speed, 0);
     }
 
+<<<<<<< HEAD
     // private void move_object(Vector3 direction){
     //     rb.MovePosition(transform.position + (direction * speed * Time.deltaTime));
     // }
@@ -58,51 +64,26 @@ public class Player : MonoBehaviour, IPooledObject
     public float divisor = 12f;
     public float multiplier = 75f;
     float rotX, rotY;
+=======
+    public bool dragging = false;
+>>>>>>> b925818ba18bc21f5f7213b4608aff0a940af0b1
     
-    public float value_t = 2f;
-
-    public int hold_time = 0;
-    public int hold_time_limit = 20;
 
     public void increment_score(){
         score += 1;
     }
-
-    private IEnumerator Rotate( Vector3 angles, float duration = 1.0f )
-    {
-        rotating = true ;
-        Quaternion startRotation = transform.rotation ;
-        Quaternion endRotation = Quaternion.Euler( angles ) * startRotation ;
-
-        for( float t = 0 ; t < Time.deltaTime * 10; t+= Time.deltaTime )
-        {
-            transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
-            yield return null;
-        }
-
-        transform.rotation = endRotation;
-        rotating = false;
-    }
     
-    public void rotate(int direction){
-
-        if( rotating ) return;
-
-        if( direction == 0 ){
-            StartCoroutine( Rotate( Vector3.right * rotation_degree, rotation_duration ) );
-        }
-        if( direction == 2 ){
-            StartCoroutine( Rotate( -Vector3.right * rotation_degree, rotation_duration ) );
-        }
-        if( direction == 3 ){
-            StartCoroutine( Rotate( Vector3.up * rotation_degree, rotation_duration ) );
-        }
-        if( direction == 1 ){
-            StartCoroutine( Rotate( -Vector3.up * rotation_degree, rotation_duration ) );
-        }
-    }
+    // void OnMouseDown(){
+    //     dragging = true;
+    // }
+    
+    // void OnMouseUp(){
+    //     dragging = false;
+    // }
 
     void Start(){
+        speed = 6.5f;
+
         Physics.gravity = new Vector3(0, acceleration, 0);    
 
         rb = GetComponent<Rigidbody>();
@@ -112,22 +93,26 @@ public class Player : MonoBehaviour, IPooledObject
         rb.centerOfMass = Vector3.zero;
         rb.inertiaTensorRotation = Quaternion.identity;
 
-        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ ;
+
+        ScreenHeight = Screen.height;
+        ScreenWidth = Screen.width;
+        ScreenHeightOffset = ScreenHeight / 100f;
+        Debug.Log(ScreenWidth);        
+        Debug.Log(ScreenHeight);
     }
 
     public void OnObjectSpawn(){
         Start();
-        // speed = 25f;
         game_manager = FindObjectOfType<Manager>();
         game_manager.player = this;
         fall_down_speed = game_manager.fall_down_speed;
         fallDown(fall_down_speed);
     }
 
+    
     void Update(){
 
-        rb.angularDrag = angular_drag;
-        
         if( Input.GetMouseButtonDown(0) ){
             dragging = true;
         }
@@ -137,16 +122,42 @@ public class Player : MonoBehaviour, IPooledObject
             dragX = false;
         }
 
-        if( rb.angularVelocity.magnitude < value_t ){
-            rb.angularVelocity = Vector3.zero;
+        if( dragging ){
+            Vector3 mouseScreenPosition = new Vector3( Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z );
+
+            if( Mathf.Abs(ScreenWidth / 2 - Mathf.Abs(mouseScreenPosition.x)) <= 150f && Mathf.Abs(ScreenHeight / 2 - mouseScreenPosition.y) <= 150f){
+                mouseScreenPosition.x = ScreenWidth / 2;
+                mouseScreenPosition.y = ScreenHeight / 2 - Mathf.Abs(ScreenHeight / 2 - mouseScreenPosition.y);
+            }
+
+            Debug.Log( mouseScreenPosition );            
+
+            Ray mouseRay = Camera.main.ScreenPointToRay( mouseScreenPosition );
+
+            float midPoint = (transform.position - Camera.main.transform.position).magnitude * 0.96f;
+            Vector3 finalState = mouseRay.origin + mouseRay.direction * midPoint;
+
+            // transform.LookAt(finalState);
+            
+            Quaternion rotation = Quaternion.LookRotation(finalState - transform.position);
+            transform.rotation = Quaternion.Slerp (transform.rotation, rotation, speed * Time.deltaTime);
         }
 
     }
 
-    void FixedUpdate(){
-        
-        if( dragging ){
+    // void Update(){
+
+    //     if( Input.GetMouseButtonDown(0) ){
+    //         dragging = true;
+    //     }
+    //     if( Input.GetMouseButtonUp(0) ){
+    //         dragging = false;
+    //     }
+
+
+        // if ( dragging ){
             
+<<<<<<< HEAD
             // As in PolySphere game, Torque
             rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad * 1.25f;
             rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
@@ -169,16 +180,43 @@ public class Player : MonoBehaviour, IPooledObject
 
             hold_time += 1;
         }
+=======
+        //     Vector3 mouseScreenPosition = new Vector3( Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z );
+            
+            // Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint( mouseScreenPosition );   
 
-    }
+        //     // mouseWorldPosition.z = 0f;
+
+        //     Debug.Log(mouseWorldPosition);
+
+        //     // if( Mathf.Abs(0f - Mathf.Abs(mouseWorldPosition.x)) <= 0.5f && Mathf.Abs(6.2f + mouseWorldPosition.z) <= 0.5f){
+        //     //     mouseWorldPosition.x = 0f;
+        //     // }
+
+        //     // Debug.Log(mouseWorldPosition);
+            
+        //     Vector3 relativePos = mouseWorldPosition - transform.position;
+        //     if( relativePos.magnitude > 0f ){
+        //         Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+        //         transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 4 * Time.deltaTime);
+        //     }
+
+        // }
+
+    // }
+>>>>>>> b925818ba18bc21f5f7213b4608aff0a940af0b1
+
     
      void OnCollisionEnter (Collision col)
     {
-        Debug.Log(col.gameObject.name);    
-        rb.velocity = new Vector3(0f, 0f, 0f);
-        gameObject.SetActive(false);
-        game_manager.is_level_started = false;
-        game_manager.game_over();
+        // 9th layer Obstacle, check inspector
+        if( col.gameObject.layer == 9 ){
+            Debug.Log(col.gameObject.name);    
+            rb.velocity = new Vector3(0f, 0f, 0f);
+            gameObject.SetActive(false);
+            game_manager.is_level_started = false;
+            game_manager.game_over();
+        }
     }
 
 }

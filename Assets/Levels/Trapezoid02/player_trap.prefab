@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: -8194196028098705464}
   - component: {fileID: -4433740958139317863}
   - component: {fileID: -4155466711679355330}
-  - component: {fileID: 4917684388841291043}
   m_Layer: 0
   m_Name: player_trap
   m_TagString: Untagged
@@ -128,27 +127,4 @@ MonoBehaviour:
   acceleration: -0.075
   speed: 0
   render: {fileID: 0}
-  rotation_duration: 0.35
-  rotation_degree: 160
-  rotationSpeed: 40000
-  rotationSpeed2: 40000
-  angular_drag: 0.45
-  divisor: 0.75
-  multiplier: 45
-  value_t: 8
-  hold_time: 0
-  hold_time_limit: 8
---- !u!114 &4917684388841291043
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5484417299442731736}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5569c274d4e51324aaae8e6f20d08376, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  detectSwipeOnlyAfterRelease: 1
-  player: {fileID: 0}
+  dragging: 0
