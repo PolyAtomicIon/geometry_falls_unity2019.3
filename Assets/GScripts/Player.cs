@@ -150,6 +150,7 @@ public class Player : MonoBehaviour, IPooledObject
             // As in PolySphere game, Torque
             rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad * 1.25f;
             rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
+            //d
 
             if ( Math.Abs(rotX) > Math.Abs(rotY) && !dragY ){
                 rb.AddTorque (Vector3.down * -rotX * rotationSpeed2 * Time.fixedDeltaTime);
