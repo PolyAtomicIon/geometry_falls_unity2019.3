@@ -17,19 +17,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Tutorial.unity
     guid: 2546bd40ddd5786428547362192d0495
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/Base.unity
     guid: 439f4e9d69b6c4b4cbb332182d16616d
   - enabled: 0
     path: Assets/Scenes/Challange.unity
     guid: 5489f7f035e8c3847919df513bf5e245
-  - enabled: 0
+  - enabled: 1
     path: Assets/Scenes/AdditiveScene.unity
     guid: 74cc5f1573d27e947b0571ac397ad970
   - enabled: 0
     path: Assets/FortuneWheel/Scenes/Sample.unity
     guid: 6511806e0cc8f4047bd321c6966ba270
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/DemoRotation.unity
     guid: 388d7e57585f5334cbd85ee78ec711d7
   m_configObjects: {}

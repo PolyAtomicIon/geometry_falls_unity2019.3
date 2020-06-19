@@ -11,7 +11,8 @@ public class Player : MonoBehaviour, IPooledObject
     // private float angular_drag = 1.5f;
     private float fall_down_speed = -27f;
     public float acceleration = -0.075f;
-    public float speed;
+    [SerializeField]
+    private float speed;
     public Renderer render;
 
     // private float maxSpeed = 7f;
@@ -21,6 +22,10 @@ public class Player : MonoBehaviour, IPooledObject
     private Manager game_manager;
 
     private int score = 0;
+
+    float ScreenWidth;
+    float ScreenHeight;
+    float ScreenHeightOffset;
 
     public float get_position_y_axis(){
         return transform.position.y;
@@ -42,7 +47,7 @@ public class Player : MonoBehaviour, IPooledObject
     }
     
     void OnMouseDown(){
-        dragging = false;
+        dragging = true;
     }
     
     void OnMouseUp(){
@@ -50,6 +55,8 @@ public class Player : MonoBehaviour, IPooledObject
     }
 
     void Start(){
+        speed = 6.5f;
+
         Physics.gravity = new Vector3(0, acceleration, 0);    
 
         rb = GetComponent<Rigidbody>();
@@ -59,7 +66,13 @@ public class Player : MonoBehaviour, IPooledObject
         rb.centerOfMass = Vector3.zero;
         rb.inertiaTensorRotation = Quaternion.identity;
 
-        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ ;
+
+        ScreenHeight = Screen.height;
+        ScreenWidth = Screen.width;
+        ScreenHeightOffset = ScreenHeight / 100f;
+        Debug.Log(ScreenWidth);        
+        Debug.Log(ScreenHeight);
     }
 
     public void OnObjectSpawn(){
@@ -70,33 +83,67 @@ public class Player : MonoBehaviour, IPooledObject
         fallDown(fall_down_speed);
     }
 
+    
     void Update(){
 
-        if ( dragging ){
-            
+        if( dragging ){
             Vector3 mouseScreenPosition = new Vector3( Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z );
-            
-            Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint( mouseScreenPosition );
 
-            mouseWorldPosition.y = Mathf.Min(8.5f, mouseWorldPosition.y);
-
-            // Debug.Log(mouseWorldPosition);
-
-            if( Mathf.Abs(0f - Mathf.Abs(mouseWorldPosition.x)) <= 0.5f && Mathf.Abs(6.2f + mouseWorldPosition.z) <= 0.5f){
-                mouseWorldPosition = new Vector3(0.0f, 9.9f, -6.2f);
+            if( Mathf.Abs(ScreenWidth / 2 - Mathf.Abs(mouseScreenPosition.x)) <= 150f && Mathf.Abs(ScreenHeight / 2 - mouseScreenPosition.y) <= 150f){
+                mouseScreenPosition.x = ScreenWidth / 2;
+                mouseScreenPosition.y = ScreenHeight / 2 - Mathf.Abs(ScreenHeight / 2 - mouseScreenPosition.y);
             }
 
-            // Debug.Log(mouseWorldPosition);
-            
-            Vector3 relativePos = mouseWorldPosition - transform.position;
-            if( relativePos.magnitude > 0f ){
-                Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
-                transform.rotation = rotation;
-            }
+            Debug.Log( mouseScreenPosition );            
 
+            Ray mouseRay = Camera.main.ScreenPointToRay( mouseScreenPosition );
+
+            float midPoint = (transform.position - Camera.main.transform.position).magnitude * 0.96f;
+            Vector3 finalState = mouseRay.origin + mouseRay.direction * midPoint;
+
+            // transform.LookAt(finalState);
+            
+            Quaternion rotation = Quaternion.LookRotation(finalState - transform.position);
+            transform.rotation = Quaternion.Slerp (transform.rotation, rotation, speed * Time.deltaTime);
         }
 
     }
+
+    // void Update(){
+
+    //     if( Input.GetMouseButtonDown(0) ){
+    //         dragging = true;
+    //     }
+    //     if( Input.GetMouseButtonUp(0) ){
+    //         dragging = false;
+    //     }
+
+
+        // if ( dragging ){
+            
+        //     Vector3 mouseScreenPosition = new Vector3( Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z );
+            
+            // Vector3 mouseWorldPosition = Camera.main.ScreenToWorldPoint( mouseScreenPosition );   
+
+        //     // mouseWorldPosition.z = 0f;
+
+        //     Debug.Log(mouseWorldPosition);
+
+        //     // if( Mathf.Abs(0f - Mathf.Abs(mouseWorldPosition.x)) <= 0.5f && Mathf.Abs(6.2f + mouseWorldPosition.z) <= 0.5f){
+        //     //     mouseWorldPosition.x = 0f;
+        //     // }
+
+        //     // Debug.Log(mouseWorldPosition);
+            
+        //     Vector3 relativePos = mouseWorldPosition - transform.position;
+        //     if( relativePos.magnitude > 0f ){
+        //         Quaternion rotation = Quaternion.LookRotation(relativePos, Vector3.up);
+        //         transform.rotation = Quaternion.Slerp (transform.rotation, rotation, 4 * Time.deltaTime);
+        //     }
+
+        // }
+
+    // }
 
     
      void OnCollisionEnter (Collision col)
