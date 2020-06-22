@@ -20,6 +20,8 @@ public class MainPage : MonoBehaviour {
     public AudioSource BackgroundMusic;
     public Color BgEnabledColor;
 
+    public Animator SplashScreenAnimator;
+
     private int levels = 0;
 
     public int currentWindowIndex = 0;
@@ -172,6 +174,9 @@ public class MainPage : MonoBehaviour {
             BackgroundMusic.volume = 0.0f;
             AudioBackgroundColor.color = new Color(0, 0, 0, 255);           
         }
+
+        // Syncing  Data or Loading Animation, no matter what is written as an argument
+        SplashScreenAnimator.Play("Login to Loading");
 
         controller = FindObjectOfType<webRequestController>();
     }

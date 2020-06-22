@@ -47,6 +47,11 @@ public class LevelManager : MonoBehaviour
         
         objectToSpawn.SetActive(false);
         objectToSpawn.SetActive(true);
+
+        // // because of transition between scenes
+        // if( model )
+        //     position.y -= 30f;
+
         objectToSpawn.transform.position = position;              
             
         Renderer rd = objectToSpawn.GetComponent<Renderer>();

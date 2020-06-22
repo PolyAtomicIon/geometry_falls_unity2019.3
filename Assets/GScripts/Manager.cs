@@ -96,6 +96,8 @@ public class Manager : MonoBehaviour
     
     public AudioSource bgMusic;
 
+    public Animator SplashScreenAnimator;
+
     public void SetAudio(){
         AudioListener audioListener = GetComponent<AudioListener>(); 
         audioListener.enabled = ( audioListener.enabled ^ true );
@@ -168,7 +170,7 @@ public class Manager : MonoBehaviour
         rearrange_obstacles_array();
 
         UnloadAdditiveScene();
-        StartCoroutine( LoadAdditiveScene() );
+        LoadAdditiveScene();
 
         Vector3 plane_pos = obstacle_positions[0];
         plane_pos.y -= 0.3f;
@@ -310,9 +312,6 @@ public class Manager : MonoBehaviour
         SceneManager.LoadScene("MainMenu");
     }
 
-    private void Awake(){
-    }
-
     IEnumerator Unload(){
         yield return 0.1f;
         
@@ -326,16 +325,24 @@ public class Manager : MonoBehaviour
         SceneManager.UnloadScene("AdditiveScene");
     }
 
-    private IEnumerator LoadAdditiveScene(){
+    private void LoadAdditiveScene(){
         SceneManager.LoadScene("AdditiveScene", LoadSceneMode.Additive);
-        yield return true;
+        // yield return true;
+    }
+
+    IEnumerator runLoadingAnimation(){
+        // Syncing  Data or Loading Animation, no matter what is written as an argument
+        SplashScreenAnimator.Play("Login to Loading");
+        yield return new WaitForSeconds(1);
+        LoadAdditiveScene();
     }
 
     void Start(){
+
+        StartCoroutine( runLoadingAnimation() );
         
         generate_obstacle_positions();
 
-        StartCoroutine( LoadAdditiveScene() );
         objectPooler = ObjectPooler.Instance;
         palette = ThreadSafeRandom.ThisThreadsRandom.Next(4);
 
