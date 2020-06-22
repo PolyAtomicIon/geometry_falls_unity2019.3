@@ -151,14 +151,14 @@ public class webRequestController : MonoBehaviour
 
         JSONNode events_info = JSONNode.Parse(res.downloadHandler.text);
         // Debug.Log(events_info);
-        for(int i = 0; i < events_info.Count; i++){
+        for(int i = 0; i < events_info["count"]; i++){
 
             // get data
-            int ID = events_info[i]["id"];
-            string e_name = events_info[i]["name"];
-            string start = events_info[i]["start_date"];
-            string end = events_info[i]["end_date"];
-            bool is_active = events_info[i]["end_date"];
+            int ID = events_info["results"][i]["id"];
+            string e_name = events_info["results"][i]["name"];
+            string start = events_info["results"][i]["start_date"];
+            string end = events_info["results"][i]["end_date"];
+            bool is_active = events_info["results"][i]["end_date"];
             
             // Debug.Log(ID);
 
@@ -256,14 +256,14 @@ public class webRequestController : MonoBehaviour
 
         JSONNode coupons_info = JSONNode.Parse(res.downloadHandler.text);
         
-        for(int i = 0; i < coupons_info.Count; i++){
+        for(int i = 0; i < coupons_info["count"]; i++){
 
             // get data
-            int ID = coupons_info[i]["id"];
-            string e_key = coupons_info[i]["key"];
-            int Value = coupons_info[i]["value"];
-            int provider_ID = coupons_info[i]["provider"]["id"];
-            string provider_Name = coupons_info[i]["provider"]["name"];
+            int ID = coupons_info["results"][i]["id"];
+            string e_key = coupons_info["results"][i]["key"];
+            int Value = coupons_info["results"][i]["value"];
+            int provider_ID = coupons_info["results"][i]["provider"]["id"];
+            string provider_Name = coupons_info["results"][i]["provider"]["name"];
             
             // Debug.Log(provider_Name);
 

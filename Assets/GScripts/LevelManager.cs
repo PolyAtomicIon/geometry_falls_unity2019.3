@@ -40,7 +40,7 @@ public class LevelManager : MonoBehaviour
         objectPooler = ObjectPooler.Instance;
 
         StartNewLevel();
-
+        
     }
 
     private void initialize_object(GameObject objectToSpawn, Vector3 position, bool model = false){
@@ -104,6 +104,9 @@ public class LevelManager : MonoBehaviour
 
         for(int i = 0; i < size-1; i++)
             initialize_object(game_manager.obstacles_array[i], game_manager.obstacle_positions[i]);
+        
+        // game_manager.progressionColor.material = objectPooler.materials.materials_list[0];
+
 
     }
 

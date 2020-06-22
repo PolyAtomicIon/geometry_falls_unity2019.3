@@ -16,6 +16,10 @@ public class MainPage : MonoBehaviour {
     public GameObject eventInformationWindow;
     public GameObject sideBar;
 
+    public Image AudioBackgroundColor; 
+    public AudioSource BackgroundMusic;
+    public Color BgEnabledColor;
+
     private int levels = 0;
 
     public int currentWindowIndex = 0;
@@ -127,6 +131,19 @@ public class MainPage : MonoBehaviour {
         PlayerPrefs.SetInt("id", id);
         // load game
         SceneManager.LoadScene("Base");
+    }
+
+    public void SetAudio(){
+        // BackgroundMusic.enabled = ( BackgroundMusic.enabled ^ true );
+        if( BackgroundMusic.volume == 0.6f )
+            BackgroundMusic.volume = 0.0f;
+        else
+            BackgroundMusic.volume = 0.6f;
+
+        if( BackgroundMusic.volume == 0.6f )
+            AudioBackgroundColor.color = BgEnabledColor;
+        else
+            AudioBackgroundColor.color = new Color(0, 0, 0, 255);
     }
 
     void Start(){

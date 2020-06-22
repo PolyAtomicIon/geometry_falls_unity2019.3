@@ -8,7 +8,7 @@ public class GameOver : MonoBehaviour
 
     public Manager game_manager;
 
-    public TextMeshProUGUI scoreLabel;
+    // public TextMeshProUGUI scoreLabel;
 
     public GameObject section;
 
@@ -19,17 +19,20 @@ public class GameOver : MonoBehaviour
         game_manager = FindObjectOfType<Manager>();
     }
 
-    public void game_over(int score){
+    public void game_over(int score, bool isEvent = false){
         
         Time.timeScale = 1f;
-        spinning_object.SetActive(true);
+
+        if( isEvent )
+            spinning_object.SetActive(true);
+
         section.SetActive(true);
 
-        string zero = "";
-        if( score < 10 ){
-            zero = "0";
-        }
-        scoreLabel.text = "Level: " + zero + score.ToString();
+        // string zero = "";
+        // if( score < 10 ){
+        //     zero = "0";
+        // }
+        // scoreLabel.text = "Level: " + zero + score.ToString();
     }
 // Test Comment
     void Update()

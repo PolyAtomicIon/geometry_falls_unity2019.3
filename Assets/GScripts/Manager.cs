@@ -50,6 +50,11 @@ public class Manager : MonoBehaviour
 
     ObjectPooler objectPooler;
     public TextMeshProUGUI LevelLabel;
+
+    // progression
+    public Slider progression;
+    public Image progressionColor;
+
     public GameOver gameOverSection;
 
     public Material DissolveMaterial;
@@ -89,6 +94,11 @@ public class Manager : MonoBehaviour
  
     public bool is_level_started = false;
     
+    public void SetAudio(){
+        AudioListener audioListener = GetComponent<AudioListener>(); 
+        audioListener.enabled = ( audioListener.enabled ^ true );
+    }
+
     private void generate_obstacle_positions(){
         gap_between = new Vector3(0f, gap, 0f);
         obstacle_position = new Vector3(0f, gap/2 + gap, 0f);
@@ -156,7 +166,7 @@ public class Manager : MonoBehaviour
         rearrange_obstacles_array();
 
         UnloadAdditiveScene();
-        LoadAdditiveScene();
+        StartCoroutine( LoadAdditiveScene() );
 
         Vector3 plane_pos = obstacle_positions[0];
         plane_pos.y -= 0.3f;
@@ -261,14 +271,16 @@ public class Manager : MonoBehaviour
             Debug.Log("Getting Prize");
             Debug.Log(id);
             StartCoroutine(GetPrize(id, level));
+            gameOverSection.game_over(level, true);
         }
         else{
             Debug.Log("Chill, just practice");
+            gameOverSection.game_over(level, false);
         }
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
 
-        LevelLabel.enabled = false;
+        // LevelLabel.enabled = false;
         gameOverSection.game_over(level);
         game_over_bool = true;
     }
@@ -279,6 +291,12 @@ public class Manager : MonoBehaviour
             zero = "0";
         }
         return "Level: " + zero + level.ToString();
+    }
+
+    private float levelProgression(){
+        int mx_sz = (int) object_in_level();
+        int cur_o = current_obstacle + 1;
+        return cur_o * 200.0f / mx_sz;
     }
 
     public void restartLevel(){
@@ -306,15 +324,16 @@ public class Manager : MonoBehaviour
         SceneManager.UnloadScene("AdditiveScene");
     }
 
-    private void LoadAdditiveScene(){
+    private IEnumerator LoadAdditiveScene(){
         SceneManager.LoadScene("AdditiveScene", LoadSceneMode.Additive);
+        yield return true;
     }
 
     void Start(){
         
         generate_obstacle_positions();
 
-        LoadAdditiveScene();
+        StartCoroutine( LoadAdditiveScene() );
         objectPooler = ObjectPooler.Instance;
         palette = ThreadSafeRandom.ThisThreadsRandom.Next(4);
 
@@ -324,7 +343,8 @@ public class Manager : MonoBehaviour
 
         figure_plane.transform.position = plane_pos;
 
-
+        objectPooler.palettes[palette].colors[1].a = 100;
+        progressionColor.color = objectPooler.palettes[palette].colors[1];
     }
 
     void Update()
@@ -332,6 +352,8 @@ public class Manager : MonoBehaviour
 
         // set level to Level Label UI
         LevelLabel.text = levelString();
+
+        progression.value = levelProgression();
 
         // changed in LevelManager.cs & Player.cs -> on collision
         if( is_level_started ){
