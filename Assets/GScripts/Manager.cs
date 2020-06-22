@@ -94,6 +94,8 @@ public class Manager : MonoBehaviour
  
     public bool is_level_started = false;
     
+    public AudioSource bgMusic;
+
     public void SetAudio(){
         AudioListener audioListener = GetComponent<AudioListener>(); 
         audioListener.enabled = ( audioListener.enabled ^ true );
@@ -345,6 +347,11 @@ public class Manager : MonoBehaviour
 
         objectPooler.palettes[palette].colors[1].a = 100;
         progressionColor.color = objectPooler.palettes[palette].colors[1];
+
+        if( PlayerPrefs.GetInt("isAudio") == 0 ){
+            bgMusic.volume = 0.0f;
+        } 
+
     }
 
     void Update()

@@ -11,10 +11,16 @@ public class Event{
     public string name;
     public string start_date, end_date;
     public bool active;
+    public bool played;
 
     public int value = -1;
     public int levels = -1;
     public string provider_name = "NONE";
+
+    public string description = "Waiting for data";
+
+    public int presents_total;
+    public int presents_left;
 
     public Event() { }
 
@@ -22,8 +28,38 @@ public class Event{
     {
         id = ID;
         name = e_name;
+        
+        // Date
+        // 2020-06-01T00:00:00
+        // 2020-08-31T00:00:00
+        // 1. split by T
+        // 2. Split by -
+        // 3. Get year
+        // 4. get dd and mm 1
+        // 5. get dd and mm 2
+        // 6. get time 1 and 2
+        // 7. Deadline = dd2 mm2 yyyy
+        // 8. Details = dd1.mm1 - dd2.mm2.yyyy 
+
         start_date = start;
         end_date = end;
+        
+        string[] st_d = start_date.Split('T');
+        string[] st_1 = st_d[0].Split('-');
+
+        string yyyy = st_1[0];
+        string dd1 = st_1[2];
+        string mm1 = st_1[1];
+
+        st_d = end_date.Split('T');
+        string[] st_2 = st_d[0].Split('-');
+
+        string dd2 = st_2[2];
+        string mm2 = st_2[1];
+
+        start_date = dd1 + '.' + mm1;
+        end_date = dd2 + '.' + mm2 + '.' + yyyy;
+
         active = is_active;
     }
 
@@ -101,9 +137,13 @@ public class webRequestController : MonoBehaviour
                 JSONNode details = JSONNode.Parse(www.downloadHandler.text);
                
                 events[id].levels = details["levels"];
-                events[id].value = details["value"];
-                events[id].provider_name = details["provider_name"];
-                        
+                events[id].played = details["played"];
+                events[id].presents_total = details["presents_total"];
+                events[id].presents_total = details["presents_total"];
+                events[id].presents_left = details["presents_left"];
+                    
+                // events[id].description = details["description"];
+
                 manager.EventInformationWindow(events[id]);
             }
 
@@ -119,7 +159,10 @@ public class webRequestController : MonoBehaviour
     }
 
     void instantiateEventButton(Event cur_event, Vector3 position){
+
         event_prefab.GetComponentsInChildren<TMP_Text>()[0].text = cur_event.name;
+        event_prefab.GetComponentsInChildren<TMP_Text>()[2].text = cur_event.end_date;
+
         Button event_prefab_go = Instantiate(event_prefab) as Button;
         event_prefab_go.transform.parent = event_panel.transform;
 
@@ -128,8 +171,8 @@ public class webRequestController : MonoBehaviour
         event_prefab_go.GetComponent<RectTransform>().anchoredPosition = position;
         event_prefab_go.GetComponent<RectTransform>().localScale  = new Vector3(1, 1, 1);
 
-        event_prefab_go.GetComponent<RectTransform>().SetLeft(64f);
-        event_prefab_go.GetComponent<RectTransform>().SetRight(64f);
+        event_prefab_go.GetComponent<RectTransform>().SetLeft(16f);
+        event_prefab_go.GetComponent<RectTransform>().SetRight(16f);
         
     }
 
@@ -307,34 +350,6 @@ public class webRequestController : MonoBehaviour
         }
 
     }
-
-    // IEnumerator GetCoupon(string email = "", string phone = "", string password = "")
-    // {
-    //     WWWForm form = new WWWForm();
-    //     form.AddField("email", email);
-    //     form.AddField("password", password);
-    //     form.AddField("phone", phone);
-
-    //     using (UnityWebRequest www = UnityWebRequest.Post(base_register_url, form))
-    //     {
-    //         yield return www.SendWebRequest();
-
-    //         if (www.isNetworkError || www.isHttpError)
-    //         {
-    //             Debug.Log(www.error);
-    //             manager.windows[6].SetActive(true);
-    //         }
-    //         else
-    //         {
-    //             Debug.Log("Form upload complete!");
-    //             manager.windows[6].SetActive(false);
-                
-    //             // show Login UI
-    //             // manager.showWindow(5, 4);
-    //             manager.showWindow(5);
-    //         }
-    //     }
-    // }
 
     void Start(){
 

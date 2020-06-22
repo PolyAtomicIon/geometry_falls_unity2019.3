@@ -79,16 +79,29 @@ public class MainPage : MonoBehaviour {
 
         eventInformationWindow.SetActive( true );
         eventInformationWindow.GetComponentsInChildren<TMP_Text>()[0].text = cur_event.name;
-        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[1].text = cur_event.provider_name;
-        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[2].text = cur_event.start_date + '\n' + cur_event.end_date;
-        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[3].text = cur_event.value.ToString();
-        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[4].text = cur_event.levels.ToString();
-        eventInformationWindow.GetComponentsInChildren<Button>()[0].onClick.AddListener(delegate{StartEvent(cur_event.id);});
-    
+        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[1].text = cur_event.description;
+
+
+        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[2].text = cur_event.start_date + " - " + cur_event.end_date;
+
+        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[3].text = cur_event.presents_left.ToString() + "/" + cur_event.presents_total.ToString() + " coupons left";
+        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[4].text = "Levels " + cur_event.levels.ToString();
+
+        if( !cur_event.played ){
+            eventInformationWindow.GetComponentsInChildren<Button>()[0].onClick.AddListener(delegate{StartEvent(cur_event.id);});
+            eventInformationWindow.GetComponentsInChildren<Button>()[0].enabled = true;
+        }
+        // if already played this game, disable button, show an error
+        else{
+            eventInformationWindow.GetComponentsInChildren<Button>()[0].enabled = false;
+            windows[7].SetActive(true);
+        }
+
     }
 
     public void CloseEventInformationWindow (){
         eventInformationWindow.SetActive( false );
+        windows[7].SetActive(false);
     }
 
     // side bar, with music stuff
@@ -140,13 +153,26 @@ public class MainPage : MonoBehaviour {
         else
             BackgroundMusic.volume = 0.6f;
 
-        if( BackgroundMusic.volume == 0.6f )
+        if( BackgroundMusic.volume == 0.6f ){
+            PlayerPrefs.SetInt("isAudio", 1);
             AudioBackgroundColor.color = BgEnabledColor;
-        else
-            AudioBackgroundColor.color = new Color(0, 0, 0, 255);
+        }
+        else{
+            PlayerPrefs.SetInt("isAudio", 0);
+            AudioBackgroundColor.color = new Color(0, 0, 0, 255);            
+        }
     }
 
     void Start(){
+        
+        // BG Music 
+        if( !PlayerPrefs.HasKey("isAudio") )
+            PlayerPrefs.SetInt("isAudio", 1);
+        else if( PlayerPrefs.GetInt("isAudio") == 0 ){
+            BackgroundMusic.volume = 0.0f;
+            AudioBackgroundColor.color = new Color(0, 0, 0, 255);           
+        }
+
         controller = FindObjectOfType<webRequestController>();
     }
 
