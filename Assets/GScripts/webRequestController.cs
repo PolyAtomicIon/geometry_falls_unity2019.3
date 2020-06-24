@@ -5,6 +5,7 @@ using UnityEngine.Networking;
 using SimpleJSON;
 using TMPro;
 using UnityEngine.UI;
+using System;
 
 public class Event{
     public int id;
@@ -21,6 +22,10 @@ public class Event{
 
     public int presents_total;
     public int presents_left;
+
+    public int days_left;
+
+    public string date_information;
 
     public Event() { }
 
@@ -41,11 +46,15 @@ public class Event{
         // 7. Deadline = dd2 mm2 yyyy
         // 8. Details = dd1.mm1 - dd2.mm2.yyyy 
 
+        DateTime localDate = DateTime.Now;
+
         start_date = start;
         end_date = end;
         
         string[] st_d = start_date.Split('T');
         string[] st_1 = st_d[0].Split('-');
+
+        DateTime date1 = DateTime.ParseExact(st_d[0], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
 
         string yyyy = st_1[0];
         string dd1 = st_1[2];
@@ -54,11 +63,24 @@ public class Event{
         st_d = end_date.Split('T');
         string[] st_2 = st_d[0].Split('-');
 
+        DateTime date2 = DateTime.ParseExact(st_d[0], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
+
         string dd2 = st_2[2];
         string mm2 = st_2[1];
 
         start_date = dd1 + '.' + mm1;
         end_date = dd2 + '.' + mm2 + '.' + yyyy;
+
+        int st_days_left = date1.Subtract(localDate).Days;
+
+        days_left = date2.Subtract(date1).Days;
+        // Debug.Log("DAYS BT");
+        // Debug.Log(days_left);
+
+        if( st_days_left > 0 )
+            date_information = "Do nachalo\n ostalos'" + st_days_left.ToString() + " dnya";
+        else
+            date_information = "Do konsa\n ostalos'" + days_left.ToString() + " dnei";
 
         active = is_active;
     }
@@ -161,7 +183,7 @@ public class webRequestController : MonoBehaviour
     void instantiateEventButton(Event cur_event, Vector3 position){
 
         event_prefab.GetComponentsInChildren<TMP_Text>()[0].text = cur_event.name;
-        event_prefab.GetComponentsInChildren<TMP_Text>()[2].text = cur_event.end_date;
+        event_prefab.GetComponentsInChildren<TMP_Text>()[2].text = cur_event.date_information;
 
         Button event_prefab_go = Instantiate(event_prefab) as Button;
         event_prefab_go.transform.parent = event_panel.transform;
@@ -179,7 +201,7 @@ public class webRequestController : MonoBehaviour
     void CreateEventButtons(){
 
         Vector3 cur_position = new Vector3(0, -96, 0);
-        Vector3 gap_between = new Vector3(0, -176, 0);
+        Vector3 gap_between = new Vector3(0, -176-16, 0);
 
         // Debug.Log(events.Count);
 

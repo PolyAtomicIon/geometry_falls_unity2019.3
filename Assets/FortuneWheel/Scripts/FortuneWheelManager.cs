@@ -21,6 +21,8 @@ public class FortuneWheelManager : MonoBehaviour
     public int CurrentCoinsAmount = 1000;	// Started coins amount. In your project it can be set up from CoinsManager or from PlayerPrefs and so on
     public int PreviousCoinsAmount;		// For wasted coins animation
 
+	public Manager game_manager;
+
     private void Awake ()
     {
         PreviousCoinsAmount = CurrentCoinsAmount;
@@ -116,14 +118,8 @@ public class FortuneWheelManager : MonoBehaviour
 
     void Update ()
     {
-        // Make turn button non interactable if user has not enough money for the turn
-    	if (_isStarted || CurrentCoinsAmount < TurnCost) {
-    	    TurnButton.interactable = false;
-    	    TurnButton.GetComponent<Image>().color = new Color(255, 255, 255, 0.5f);
-    	} else {
-    	    TurnButton.interactable = true;
-    	    TurnButton.GetComponent<Image>().color = new Color(255, 255, 255, 1);
-    	}
+		TurnButton.interactable = true;
+		TurnButton.GetComponent<Image>().color = new Color(255, 255, 255, 1);
 
     	if (!_isStarted)
     	    return;
@@ -140,7 +136,7 @@ public class FortuneWheelManager : MonoBehaviour
     	    _startAngle = _finalAngle % 360;
     
     	    GiveAwardByAngle ();
-    	    StartCoroutine(HideCoinsDelta ());
+			//StartCoroutine(HideCoinsDelta ());
     	}
     
     	// Calculate current position using linear interpolation

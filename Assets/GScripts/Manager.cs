@@ -250,6 +250,11 @@ public class Manager : MonoBehaviour
                 Debug.Log("Request sent!");
                 JSONNode details = JSONNode.Parse(www.downloadHandler.text);
                 Debug.Log(details);
+
+                // 1. GET LIST OF PRESENTS
+                // 2. Get index of present
+                // 3. SEND INFO TO FORTUNE WHEEL
+
                 /*
                 {
                 "presents":[{
@@ -333,7 +338,7 @@ public class Manager : MonoBehaviour
     IEnumerator runLoadingAnimation(){
         // Syncing  Data or Loading Animation, no matter what is written as an argument
         SplashScreenAnimator.Play("Login to Loading");
-        yield return new WaitForSeconds(1);
+        yield return new WaitForSeconds(0.75f);
         LoadAdditiveScene();
     }
 
