@@ -35,6 +35,14 @@ public class FortuneWheelManager : MonoBehaviour
 		spinning_object.SetActive(false);
 	}
 
+	public void ParsedData(){
+		
+		for(int i=0; i<12; i++){
+			text_values[i].text = game_manager.values_randomizer[i].ToString();
+		}
+
+	}
+
     public void TurnWheel ()
     {
 		
@@ -47,10 +55,6 @@ public class FortuneWheelManager : MonoBehaviour
 
 		Debug.Log(game_manager.present_id);
 		int p_id = game_manager.present_id;
-
-		for(int i=0; i<12; i++){
-			text_values[i].text = game_manager.values_randomizer[i].ToString();
-		}
 
 		int fullCircles = 5;
 		float randomFinalAngle = _sectorsAngles [(12 - p_id) % 12];

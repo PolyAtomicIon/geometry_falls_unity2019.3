@@ -1570,11 +1570,7 @@ MonoBehaviour:
   spinning_object: {fileID: 2478925550183680535}
   TurnButton: {fileID: 1385491910863854922}
   Circle: {fileID: 1385491909936520980}
-  CoinsDeltaText: {fileID: 1385491909440952004}
-  CurrentCoinsText: {fileID: 5642326461030520947}
   TurnCost: 300
-  CurrentCoinsAmount: 1000
-  PreviousCoinsAmount: 0
   game_manager: {fileID: 932153424}
   text_values:
   - {fileID: 1385491909273733680}
@@ -1636,6 +1632,7 @@ MonoBehaviour:
   is_level_started: 0
   bgMusic: {fileID: 919360593}
   SplashScreenAnimator: {fileID: 45038186}
+  FortuneWheelManager: {fileID: 932153423}
   values_randomizer: 
   present_id: -1
   current_model_index: -1

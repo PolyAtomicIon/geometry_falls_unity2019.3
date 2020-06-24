@@ -102,6 +102,7 @@ public class Manager : MonoBehaviour
 
     public Animator SplashScreenAnimator;
 
+    public FortuneWheelManager FortuneWheelManager;
     public List<int> values_randomizer;
     public int present_id = -1;
 
@@ -306,6 +307,9 @@ public class Manager : MonoBehaviour
                     }
                 }
 
+                FortuneWheelManager.ParsedData();
+                
+                gameOverSection.game_over(level, true);
                 /*
                 {
                     "presents": [{
@@ -343,7 +347,6 @@ public class Manager : MonoBehaviour
             Debug.Log("Getting Prize");
             Debug.Log(id);
             StartCoroutine(GetPrize(id, level));
-            gameOverSection.game_over(level, true);
         }
         else{
             Debug.Log("Chill, just practice");
