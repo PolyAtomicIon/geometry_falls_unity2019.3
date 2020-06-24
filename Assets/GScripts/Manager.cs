@@ -9,6 +9,10 @@ using UnityEngine.UI;
 using UnityEngine.Networking;
 using SimpleJSON;
 
+class LevelResult{
+    public int level;
+}
+
 public class Manager : MonoBehaviour
 {   
     public enum Constants
@@ -97,6 +101,9 @@ public class Manager : MonoBehaviour
     public AudioSource bgMusic;
 
     public Animator SplashScreenAnimator;
+
+    public List<int> values_randomizer;
+    public int present_id = -1;
 
     public void SetAudio(){
         AudioListener audioListener = GetComponent<AudioListener>(); 
@@ -232,17 +239,25 @@ public class Manager : MonoBehaviour
     {
         WWWForm form = new WWWForm();
         form.AddField("level", levels_done); 
-            
-        using (UnityWebRequest www = UnityWebRequest.Post("http://94.247.128.162/api/game/events/1/present/", form))
-        // using (UnityWebRequest www = UnityWebRequest.Get("http://94.247.128.162/api/game/events/"))
+
+        string url = "http://94.247.128.162/api/game/events/" + id.ToString() + "/present/";
+
+        // Debug.Log( "LEVELS done " + levels_done.ToString());
+        // Debug.Log( url );
+
+        using (UnityWebRequest www = UnityWebRequest.Post(url, form ))
         {
-            // Debug.Log(get_token());
+            Debug.Log(get_token());
+            
             www.SetRequestHeader("Authorization", get_token());
+            
             yield return www.SendWebRequest();
 
             if (www.isNetworkError || www.isHttpError)
             {
-                Debug.Log(www.error);
+                Debug.Log(www.error);Debug.Log(www.isNetworkError);Debug.Log(www.isHttpError);
+                JSONNode details = JSONNode.Parse(www.downloadHandler.text);
+                Debug.Log(details);
                 // windows[6].SetActive(true);
             }
             else
@@ -255,15 +270,63 @@ public class Manager : MonoBehaviour
                 // 2. Get index of present
                 // 3. SEND INFO TO FORTUNE WHEEL
 
+                int present_value = 0;
+
+                for(int i=0; i<details["presents"].Count; i++)
+                    if( details["presents"][i]["win"] ){
+                        present_value = details["presents"][i]["value"];
+                        values_randomizer.Add( details["presents"][i]["value"] );
+                        break;
+                    }
+
+                for(int i=0; i<details["presents"].Count; i++){
+                    if( values_randomizer.Count >= 11 ) break;
+                    if( details["presents"][i]["win"] ){
+                        continue;
+                    }
+                    values_randomizer.Add( details["presents"][i]["value"] );
+                }
+
+                values_randomizer.Add(0);
+
+                int tmp_id = 0;
+
+                while( values_randomizer.Count < 12 ){
+                    values_randomizer.Add(values_randomizer[tmp_id]);
+                    tmp_id++;
+                    tmp_id %= values_randomizer.Count;
+                }
+                Debug.Log(values_randomizer);
+                values_randomizer.Shuffle();
+
+                for(int i=0; i<12; i++){
+                    if( present_value == values_randomizer[i] ){
+                        present_id = i;
+                        break;
+                    }
+                }
+
                 /*
                 {
-                "presents":[{
-                    "value":10,
-                    "provider": {"id":1,"name":"KFC"},
-                    "win":true}],
-                "present":{"id":1,"key":"P7XH8Vwx1z4s6yfF3XvXaxkhPm2A23LM","value":10,"provider":{"id":1,"name":"KFC"}}}
-
-
+                    "presents": [{
+                        "id": 1,
+                        "value": 10,
+                        "provider": {
+                            "id": 1,
+                            "name": "KFC"
+                        },
+                        "win": true
+                    }],
+                    "present": {
+                        "id": 2,
+                        "key": "8x2OgcrpjZOOoZcP2Qw1KKkalYzU9u15",
+                        "value": 10,
+                        "provider": {
+                            "id": 1,
+                            "name": "KFC"
+                        }
+                    }
+                }
                 */
             }
         }
@@ -275,7 +338,7 @@ public class Manager : MonoBehaviour
         
         // get ID of Event
         int id = PlayerPrefs.GetInt("id");
-
+     
         if( id != -1 ){
             Debug.Log("Getting Prize");
             Debug.Log(id);
