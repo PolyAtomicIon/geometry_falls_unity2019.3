@@ -132,8 +132,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   UIManagerAsset: {fileID: 11400000, guid: ed935159a86a1be4cbc1c44848b24daf, type: 2}
   audioObject: {fileID: 8108719123886645497}
-  enableHoverSound: 1
-  enableClickSound: 1
+  enableHoverSound: 0
+  enableClickSound: 0
 --- !u!95 &8138679430718882889
 Animator:
   serializedVersion: 3

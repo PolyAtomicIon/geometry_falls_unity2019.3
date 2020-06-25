@@ -13,7 +13,10 @@ public class MainPage : MonoBehaviour {
 
     public List<GameObject> windows;
     public GameObject couponInformationWindow;
+    public List<TMP_Text> coupon_info_texts;
     public GameObject eventInformationWindow;
+    public List<TMP_Text> event_info_texts;
+    public Button EventStartButton;
     public GameObject sideBar;
 
     public Image AudioBackgroundColor; 
@@ -66,9 +69,9 @@ public class MainPage : MonoBehaviour {
     // coupon information window, xor operatio, if opened close, else open
     public void CouponInformationWindow (Coupon cur_coupon){
         couponInformationWindow.SetActive( true );
-        couponInformationWindow.GetComponentsInChildren<TMP_Text>()[0].text = cur_coupon.provider_name;
-        couponInformationWindow.GetComponentsInChildren<TMP_Text>()[1].text = cur_coupon.key;
-        couponInformationWindow.GetComponentsInChildren<TMP_Text>()[2].text = cur_coupon.value.ToString() + "%";
+        coupon_info_texts[0].text = cur_coupon.provider_name;
+        coupon_info_texts[1].text = cur_coupon.key;
+        coupon_info_texts[2].text = cur_coupon.value.ToString() + "%";
     }
 
     public void CloseCouponInformationWindow (){
@@ -80,23 +83,26 @@ public class MainPage : MonoBehaviour {
         // Level and Value should be added to infomration panel, we have to make request to get details
 
         eventInformationWindow.SetActive( true );
-        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[0].text = cur_event.name;
-        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[1].text = cur_event.description;
+        event_info_texts[0].text = cur_event.name;
+        event_info_texts[1].text = cur_event.description;
 
 
-        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[2].text = cur_event.start_date + " - " + cur_event.end_date;
+        event_info_texts[2].text = cur_event.start_date + " - " + cur_event.end_date;
 
-        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[3].text = cur_event.presents_left.ToString() + "/" + cur_event.presents_total.ToString() + " coupons left";
-        eventInformationWindow.GetComponentsInChildren<TMP_Text>()[4].text = "Levels " + cur_event.levels.ToString();
+        event_info_texts[3].text = cur_event.presents_left.ToString() + "/" + cur_event.presents_total.ToString();
+        event_info_texts[4].text = cur_event.levels.ToString();
 
-        if( !cur_event.played ){
-            eventInformationWindow.GetComponentsInChildren<Button>()[0].onClick.AddListener(delegate{StartEvent(cur_event.id);});
-            eventInformationWindow.GetComponentsInChildren<Button>()[0].enabled = true;
+        if( !cur_event.played && !cur_event.active ){
+            EventStartButton.onClick.AddListener(delegate{StartEvent(cur_event.id);});
+            EventStartButton.enabled = true;
         }
         // if already played this game, disable button, show an error
         else{
-            eventInformationWindow.GetComponentsInChildren<Button>()[0].enabled = false;
-            windows[7].SetActive(true);
+            EventStartButton.enabled = false;
+            if( cur_event.played )
+                windows[7].SetActive(true);
+            else
+                windows[8].SetActive(true);
         }
 
     }
@@ -104,6 +110,7 @@ public class MainPage : MonoBehaviour {
     public void CloseEventInformationWindow (){
         eventInformationWindow.SetActive( false );
         windows[7].SetActive(false);
+        windows[8].SetActive(false);
     }
 
     // side bar, with music stuff
