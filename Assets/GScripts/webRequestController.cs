@@ -34,6 +34,9 @@ public class Event{
         id = ID;
         name = e_name;
         
+        Debug.Log(start);
+        Debug.Log(end); 
+
         // Date
         // 2020-06-01T00:00:00
         // 2020-08-31T00:00:00
@@ -73,14 +76,14 @@ public class Event{
 
         int st_days_left = date1.Subtract(localDate).Days;
 
-        days_left = date2.Subtract(date1).Days;
+        days_left = date2.Subtract(localDate).Days;
         // Debug.Log("DAYS BT");
         // Debug.Log(days_left);
 
         if( st_days_left > 0 )
-            date_information = "Do nachalo\n ostalos'" + st_days_left.ToString() + " dnya";
+            date_information = "Do starta\n'" + st_days_left.ToString() + " dnya";
         else
-            date_information = "Do konsa\n ostalos'" + days_left.ToString() + " dnei";
+            date_information = "Do konsa\n" + days_left.ToString() + " dnei";
 
         active = is_active;
     }
@@ -289,7 +292,7 @@ public class webRequestController : MonoBehaviour
     }
 
     void instantiateCouponButton(Coupon cur_coupon, Vector3 position){
-        coupon_prefab.GetComponentsInChildren<TMP_Text>()[0].text = cur_coupon.id.ToString();
+        coupon_prefab.GetComponentsInChildren<TMP_Text>()[0].text = cur_coupon.provider_name.ToString();
         Button coupon_prefab_go = Instantiate(coupon_prefab) as Button;
         coupon_prefab_go.transform.parent = coupon_panel.transform;
 

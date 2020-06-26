@@ -92,7 +92,7 @@ public class MainPage : MonoBehaviour {
         event_info_texts[3].text = cur_event.presents_left.ToString() + "/" + cur_event.presents_total.ToString();
         event_info_texts[4].text = cur_event.levels.ToString();
 
-        if( !cur_event.played && !cur_event.active ){
+        if( !cur_event.played && cur_event.active ){
             EventStartButton.onClick.AddListener(delegate{StartEvent(cur_event.id);});
             EventStartButton.enabled = true;
         }
