@@ -45,6 +45,9 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
 
     private bool dragging = false;
     private bool dragging2 = true;
+    private bool dragX = false;
+    private bool dragY = false;
+    
     
     
     public float rotationSpeed = 5000f;
@@ -125,6 +128,8 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
         }
         if( Input.GetMouseButtonUp(0) ){
             dragging = false;
+            dragY = false;
+            dragX = false;
         }
 
         if( rb.angularVelocity.magnitude < value_t ){
@@ -138,17 +143,31 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
         if( dragging ){
             
             // As in PolySphere game, Torque
-            rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad;
+            rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad * 1.25f;
             rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
 
-            if ( Math.Abs(rotX) > Math.Abs(rotY) )
-                rb.AddTorque (Vector3.down * -rotX * 1.25f * rotationSpeed2 * Time.fixedDeltaTime);
-            else if( Math.Abs(rotX) < Math.Abs(rotY) )
+            if ( Math.Abs(rotX) > Math.Abs(rotY) && !dragY ){
+                rb.AddTorque (Vector3.down * -rotX * rotationSpeed2 * Time.fixedDeltaTime);
+                dragX = true;
+                dragY = false;
+            }
+            else if( Math.Abs(rotX) < Math.Abs(rotY) && !dragX ){
                 rb.AddTorque (Vector3.right * rotY * rotationSpeed2 * Time.fixedDeltaTime);
-            
+                dragY = true;
+                dragX = false;
+            }
+            else{
+                dragX = false;
+                dragY = false;
+            }
+
             hold_time += 1;
         }
 
+    }
+
+    public void DisableObject(){
+        gameObject.SetActive(false);  
     }
     
      void OnCollisionEnter (Collision col)

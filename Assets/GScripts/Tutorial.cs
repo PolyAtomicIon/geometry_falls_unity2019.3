@@ -10,9 +10,12 @@ using UnityEngine.UI;
 public class Tutorial : MonoBehaviour
 {   
 
-    public GameObject swipe;
-    public GameObject dragVertical;
-    public GameObject dragHorizontal;
+    public GameObject swipeRight;
+    public GameObject swipeLeft;
+    public GameObject dragVerticalUp;
+    public GameObject dragVerticalDown;
+    public GameObject dragHorizontalRight;
+    public GameObject dragHorizontalLeft;
 
     private bool is_active_scene = true;
     float ScreenWidth = Screen.width;
@@ -56,36 +59,55 @@ public class Tutorial : MonoBehaviour
 
         float p_pos_y = player.get_position_y_axis();
 
-        if( p_pos_y < -700f ){
+        if( p_pos_y < -900f ){
             Finish.SetActive(true);
         }
 
-        if( p_pos_y < -775f ){
-            finish_tutorial();
+        if( p_pos_y < -970f ){
+            player.DisableObject();
         }
 
         if( p_pos_y > -135f ){
-            dragVertical.SetActive(true);
-            dragHorizontal.SetActive(false);
-            swipe.SetActive(false);
+            dragVerticalDown.SetActive(true);
         }
 
-        else if( p_pos_y < -135f && p_pos_y > -240f ){
-            dragVertical.SetActive(false);
-            dragHorizontal.SetActive(true);
-            swipe.SetActive(false);
+        else if( p_pos_y < -135f && p_pos_y > -225f ){
+            dragVerticalDown.SetActive(false);
+            dragVerticalUp.SetActive(true);
         }
         
-        else if( p_pos_y < -240f && p_pos_y > -400f ){
-            dragVertical.SetActive(false);
-            dragHorizontal.SetActive(false);
-            swipe.SetActive(true);
+        else if( p_pos_y < -225f && p_pos_y > -415f ){
+            dragVerticalUp.SetActive(false);
+            dragHorizontalRight.SetActive(true);
         }
 
+        else if( p_pos_y < -415f && p_pos_y > -505f ){
+            dragHorizontalRight.SetActive(false);
+            dragVerticalUp.SetActive(true);
+        }
+
+        else if( p_pos_y < -505f && p_pos_y > -595f ){
+            dragVerticalUp.SetActive(false);
+            dragHorizontalLeft.SetActive(true);
+        }
+
+        else if( p_pos_y < -595f && p_pos_y > -685f ){
+            dragHorizontalLeft.SetActive(false);
+            swipeRight.SetActive(true);
+        }
+        
+        else if( p_pos_y < -685f && p_pos_y > -775f ){
+            swipeRight.SetActive(false);
+            swipeLeft.SetActive(true);
+        }
+
+        else if( p_pos_y < -775f && p_pos_y > -865f ){
+            swipeLeft.SetActive(false);
+            dragHorizontalRight.SetActive(true);
+        }
+        
         else{
-            dragVertical.SetActive(false);
-            dragHorizontal.SetActive(false);
-            swipe.SetActive(false);
+            dragHorizontalRight.SetActive(false);
         }
 
     }

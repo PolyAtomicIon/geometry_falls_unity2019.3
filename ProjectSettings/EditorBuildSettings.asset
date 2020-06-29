@@ -20,7 +20,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Base.unity
     guid: 439f4e9d69b6c4b4cbb332182d16616d
-  - enabled: 1
+  - enabled: 0
     path: Assets/Scenes/Challange.unity
     guid: 5489f7f035e8c3847919df513bf5e245
   - enabled: 1

@@ -18,7 +18,7 @@ public class Event{
     public int levels = -1;
     public string provider_name = "NONE";
 
-    public string description = "Waiting for data";
+    public string description = "Жду данные";
 
     public int presents_total;
     public int presents_left;
@@ -81,9 +81,9 @@ public class Event{
         // Debug.Log(days_left);
 
         if( st_days_left > 0 )
-            date_information = "Do starta\n'" + st_days_left.ToString() + " dnya";
+            date_information = "До старта\n'" + st_days_left.ToString() + " дня";
         else
-            date_information = "Do konsa\n" + days_left.ToString() + " dnei";
+            date_information = "До конца\n" + days_left.ToString() + " дней";
 
         active = is_active;
     }
@@ -226,7 +226,7 @@ public class webRequestController : MonoBehaviour
             string e_name = events_info["results"][i]["name"];
             string start = events_info["results"][i]["start_date"];
             string end = events_info["results"][i]["end_date"];
-            bool is_active = events_info["results"][i]["end_date"];
+            bool is_active = events_info["results"][i]["active"];
             
             // Debug.Log(ID);
 
@@ -301,8 +301,8 @@ public class webRequestController : MonoBehaviour
         coupon_prefab_go.GetComponent<RectTransform>().anchoredPosition = position;
         coupon_prefab_go.GetComponent<RectTransform>().localScale  = new Vector3(1, 1, 1);
 
-        coupon_prefab_go.GetComponent<RectTransform>().SetLeft(64f);
-        coupon_prefab_go.GetComponent<RectTransform>().SetRight(64f);
+        coupon_prefab_go.GetComponent<RectTransform>().SetLeft(16f);
+        coupon_prefab_go.GetComponent<RectTransform>().SetRight(16f);
     }
 
 

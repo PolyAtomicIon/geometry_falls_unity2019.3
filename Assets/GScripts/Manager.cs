@@ -365,7 +365,7 @@ public class Manager : MonoBehaviour
         if( level < 10 ){
             zero = "0";
         }
-        return "Level: " + zero + level.ToString();
+        return "УРОВЕНЬ: " + zero + level.ToString();
     }
 
     private float levelProgression(){
