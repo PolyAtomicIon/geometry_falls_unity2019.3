@@ -34,8 +34,8 @@ public class Event{
         id = ID;
         name = e_name;
         
-        Debug.Log(start);
-        Debug.Log(end); 
+        // Debug.Log(start);
+        // Debug.Log(end); 
 
         // Date
         // 2020-06-01T00:00:00
@@ -164,10 +164,15 @@ public class webRequestController : MonoBehaviour
                 events[id].levels = details["levels"];
                 events[id].played = details["played"];
                 events[id].presents_total = details["presents_total"];
-                events[id].presents_total = details["presents_total"];
                 events[id].presents_left = details["presents_left"];
                     
-                // events[id].description = details["description"];
+                string description = details["description"];
+
+                if( description != null && description.Length > 64 ){
+                    description = description.Substring(0, 64) + "..."; 
+                }
+                
+                events[id].description = description;
 
                 manager.EventInformationWindow(events[id]);
             }

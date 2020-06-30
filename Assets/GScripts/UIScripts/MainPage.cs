@@ -63,7 +63,7 @@ public class MainPage : MonoBehaviour {
         foreach (Transform child in controller.coupon_panel.transform)
             GameObject.Destroy(child.gameObject);
 
-        showWindow(0);
+        showWindow(5);
     }
 
     // coupon information window, xor operatio, if opened close, else open
@@ -85,15 +85,22 @@ public class MainPage : MonoBehaviour {
         eventInformationWindow.SetActive( true );
         event_info_texts[0].text = cur_event.name;
         event_info_texts[1].text = cur_event.description;
-
+        
+        Debug.Log(cur_event.description);
+        if( cur_event.description == "" || cur_event.description == null ){
+            event_info_texts[1].gameObject.SetActive(false);
+        }
+        else{
+            event_info_texts[1].gameObject.SetActive(true);
+        }
 
         event_info_texts[2].text = cur_event.start_date + " - " + cur_event.end_date;
 
         event_info_texts[3].text = cur_event.presents_left.ToString() + "/" + cur_event.presents_total.ToString();
         event_info_texts[4].text = cur_event.levels.ToString();
 
-        Debug.Log("ACTIVE?");
-        Debug.Log(cur_event.active);
+        // Debug.Log("ACTIVE?");
+        // Debug.Log(cur_event.active);
 
         if( !cur_event.played && cur_event.active ){
             EventStartButton.onClick.AddListener(delegate{StartEvent(cur_event.id);});

@@ -106,6 +106,14 @@ public class Manager : MonoBehaviour
     public List<int> values_randomizer;
     public int present_id = -1;
 
+    bool is_present = false;
+    public GameObject couponInformation;
+
+    public void GiveAward(){
+        if( is_present )
+            couponInformation.SetActive(true);
+    }
+
     public void SetAudio(){
         AudioListener audioListener = GetComponent<AudioListener>(); 
         audioListener.enabled = ( audioListener.enabled ^ true );
@@ -115,8 +123,8 @@ public class Manager : MonoBehaviour
         gap_between = new Vector3(0f, gap, 0f);
         obstacle_position = new Vector3(0f, gap/2 + gap, 0f);
 
-        Debug.Log("SIZE OF OBS");   
-        Debug.Log(obstacle_positions.Length);
+        // Debug.Log("SIZE OF OBS");   
+        // Debug.Log(obstacle_positions.Length);
 
         for(int i=0; i < obstacle_positions.Length; i++){
             obstacle_positions[i] = obstacle_position;
@@ -128,8 +136,8 @@ public class Manager : MonoBehaviour
 
         int length = obstacles_array.Count;
 
-        Debug.Log("LENGTH of the array");
-        Debug.Log(length);
+        // Debug.Log("LENGTH of the array");
+        // Debug.Log(length);
 
         // Remove objects.
         obstacles_array.Reverse();
@@ -172,7 +180,7 @@ public class Manager : MonoBehaviour
 
         level += 1;
 
-        Debug.Log("RELOAD THE SCENE");
+        // Debug.Log("RELOAD THE SCENE");
         
         // reareange array of obstacles, add harder one, delete easy ones
         rearrange_obstacles_array();
@@ -193,10 +201,10 @@ public class Manager : MonoBehaviour
     {
         score += 1;
 
-        Debug.Log("Score: ");
-        Debug.Log(score);
-        Debug.Log("level: ");
-        Debug.Log(level);
+        // Debug.Log("Score: ");
+        // Debug.Log(score);
+        // Debug.Log("level: ");
+        // Debug.Log(level);
     }
 
     public int current_model_index = -1;
@@ -222,7 +230,7 @@ public class Manager : MonoBehaviour
     }
 
     public void create_random_models_indexes(){
-        Debug.Log(max_models_number);
+        // Debug.Log(max_models_number);
 
         for(int i=0; i<max_models_number; i++)
             random_models_indexes.Add(i);
@@ -256,7 +264,7 @@ public class Manager : MonoBehaviour
 
             if (www.isNetworkError || www.isHttpError)
             {
-                Debug.Log(www.error);Debug.Log(www.isNetworkError);Debug.Log(www.isHttpError);
+                // Debug.Log(www.error);Debug.Log(www.isNetworkError);Debug.Log(www.isHttpError);
                 JSONNode details = JSONNode.Parse(www.downloadHandler.text);
                 Debug.Log(details);
                 // windows[6].SetActive(true);
@@ -277,6 +285,7 @@ public class Manager : MonoBehaviour
                     if( details["presents"][i]["win"] ){
                         present_value = details["presents"][i]["value"];
                         values_randomizer.Add( details["presents"][i]["value"] );
+                        is_present = true;
                         break;
                     }
 
@@ -297,7 +306,7 @@ public class Manager : MonoBehaviour
                     tmp_id++;
                     tmp_id %= values_randomizer.Count;
                 }
-                Debug.Log(values_randomizer);
+                // Debug.Log(values_randomizer);
                 values_randomizer.Shuffle();
 
                 for(int i=0; i<12; i++){
@@ -310,6 +319,12 @@ public class Manager : MonoBehaviour
                 FortuneWheelManager.ParsedData();
                 
                 gameOverSection.game_over(level, true);
+
+                if( details["present"] != null ){
+                    couponInformation.GetComponentsInChildren<TMP_Text>()[2].text = details["present"]["provider"]["name"];
+                    couponInformation.GetComponentsInChildren<TMP_Text>()[3].text = details["present"]["value"];
+                }
+
                 /*
                 {
                     "presents": [{

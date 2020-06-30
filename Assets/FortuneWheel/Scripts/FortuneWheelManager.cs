@@ -65,69 +65,7 @@ public class FortuneWheelManager : MonoBehaviour
 		_finalAngle = -(fullCircles * 360 + randomFinalAngle);
 		_isStarted = true;
 	
-		/*
-		PreviousCoinsAmount = CurrentCoinsAmount;
-	
-		// Decrease money for the turn
-		CurrentCoinsAmount -= TurnCost;
-	
-		// Show wasted coins
-		CoinsDeltaText.text = "-" + TurnCost;
-		CoinsDeltaText.gameObject.SetActive (true);
-		*/
-		
-		// Animate coins
-		//StartCoroutine (HideCoinsDelta ());
-		//StartCoroutine (UpdateCoinsAmount ());
-	
     }
-
-    // private void GiveAwardByAngle ()
-    // {
-	// 	Debug.Log(_startAngle);
-    // 	// Here you can set up rewards for every sector of wheel
-    // 	switch ((int)_startAngle) {
-    // 	case 0:
-    // 	    RewardCoins (1000);
-    // 	    break;
-    // 	case -330:
-    // 	    RewardCoins (200);
-    // 	    break;
-    // 	case -300:
-    // 	    RewardCoins (100);
-    // 	    break;
-    // 	case -270:
-    // 	    RewardCoins (500);
-    // 	    break;
-    // 	case -240:
-    // 	    RewardCoins (300);
-    // 	    break;
-    // 	case -210:
-    // 	    RewardCoins (100);
-    // 	    break;
-    // 	case -180:
-    // 	    RewardCoins (900);
-    // 	    break;
-    // 	case -150:
-    // 	    RewardCoins (200);
-    // 	    break;
-    // 	case -120:
-    // 	    RewardCoins (100);
-    // 	    break;
-    // 	case -90:
-    // 	    RewardCoins (700);
-    // 	    break;
-    // 	case -60:
-    // 	    RewardCoins (300);
-    // 	    break;
-    // 	case -30:
-    // 	    RewardCoins (100);
-    // 	    break;
-    // 	default:
-    // 	    RewardCoins (300);
-    // 	    break;
-    //     }
-    // }
 
     void Update ()
     {
@@ -148,6 +86,8 @@ public class FortuneWheelManager : MonoBehaviour
     
 			// GIVE AWARD!!!!!!!! BEKA
 
+            game_manager.GiveAward();
+
     	    // GiveAwardByAngle ();
 			//StartCoroutine(HideCoinsDelta ());
     	}
@@ -163,37 +103,4 @@ public class FortuneWheelManager : MonoBehaviour
     	Circle.transform.eulerAngles = new Vector3 (0, 0, angle);
     }
 
-
-	//	USELESS FUNCTOINS
-
-    // private void RewardCoins (int awardCoins)
-    // {
-    //     CurrentCoinsAmount += awardCoins;
-    //     CoinsDeltaText.text = "+" + awardCoins;
-    //     CoinsDeltaText.gameObject.SetActive (true);
-    //     StartCoroutine (UpdateCoinsAmount ());
-    // }
-
-    // private IEnumerator HideCoinsDelta ()
-    // {
-    //     yield return new WaitForSeconds (1f);
-	// CoinsDeltaText.gameObject.SetActive (false);
-    // }
-
-    // private IEnumerator UpdateCoinsAmount ()
-    // {
-    // 	// Animation for increasing and decreasing of coins amount
-    // 	const float seconds = 0.5f;
-    // 	float elapsedTime = 0;
-    
-    // 	while (elapsedTime < seconds) {
-    // 	    CurrentCoinsText.text = Mathf.Floor(Mathf.Lerp (PreviousCoinsAmount, CurrentCoinsAmount, (elapsedTime / seconds))).ToString ();
-    // 	    elapsedTime += Time.deltaTime;
-    
-    // 	    yield return new WaitForEndOfFrame ();
-    //     }
-    
-    // 	PreviousCoinsAmount = CurrentCoinsAmount;
-    // 	CurrentCoinsText.text = CurrentCoinsAmount.ToString ();
-    // }
 }
