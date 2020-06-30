@@ -107,6 +107,8 @@ public class Coupon{
     public int provider_id;
     public string provider_name;
 
+    public Sprite background;
+
     public Coupon() { }
 
     public Coupon(int ID, string e_key, int Value, int provider_ID, string provider_Name)
@@ -227,9 +229,9 @@ public class webRequestController : MonoBehaviour
 
     }
 
-    IEnumerator GetTexture(int id, string url) {
+    IEnumerator GetTextureEvent(int id, string url) {
         Debug.Log(url);
-        UnityWebRequest www = UnityWebRequestTexture.GetTexture("https://i.pinimg.com/originals/62/82/0d/62820d6edf9b7f496875ccd24be0cbb0.jpg");
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
         yield return www.SendWebRequest();
 
         if(www.isNetworkError || www.isHttpError) {
@@ -241,7 +243,6 @@ public class webRequestController : MonoBehaviour
             Sprite bg = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
             
             events[id].background = bg;
-            events[id].name = "WTF";
         }
     }
 
@@ -267,11 +268,11 @@ public class webRequestController : MonoBehaviour
 
             events[ID] = cur_event;
 
-            StartCoroutine( GetTexture(ID, url) );
+            StartCoroutine( GetTextureEvent(ID, url) );
 
         }
 
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         
         CreateEventButtons();
     }
@@ -339,6 +340,10 @@ public class webRequestController : MonoBehaviour
 
         coupon_prefab_go.GetComponent<RectTransform>().SetLeft(16f);
         coupon_prefab_go.GetComponent<RectTransform>().SetRight(16f);
+
+        if( cur_coupon.background != null )
+            coupon_prefab_go.transform.Find("Content/Background").GetComponent<Image>().sprite = cur_coupon.background;
+
     }
 
 
@@ -355,8 +360,24 @@ public class webRequestController : MonoBehaviour
         }
 
     }
+    IEnumerator GetTextureCoupon (int id, string url) {
+        Debug.Log(url);
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
+        yield return www.SendWebRequest();
 
-    void CreateCoupon(UnityWebRequest res){
+        if(www.isNetworkError || www.isHttpError) {
+            Debug.Log(www.error);
+            Debug.Log("WHAT?");
+        }
+        else {
+            Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            Sprite bg = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+            
+            coupons[id].background = bg;
+        }
+    }    
+    
+    IEnumerator CreateCoupon(UnityWebRequest res){
 
         JSONNode coupons_info = JSONNode.Parse(res.downloadHandler.text);
         
@@ -369,14 +390,20 @@ public class webRequestController : MonoBehaviour
             int provider_ID = coupons_info["results"][i]["provider"]["id"];
             string provider_Name = coupons_info["results"][i]["provider"]["name"];
             
+            // string url = events_info["results"][i]["image"];
+            string url = "http://94.247.128.162/media/events/images/jake-the-dog.png";
+
             // Debug.Log(provider_Name);
 
             // create Button
             Coupon cur_coupon = new Coupon(ID, e_key, Value, provider_ID, provider_Name);
 
-            
+            StartCoroutine( GetTextureCoupon(ID, url) );
+
             coupons[ID] = cur_coupon;
         }
+
+        yield return new WaitForSeconds(1f);
 
         CreateCouponButtons();
 
@@ -406,7 +433,7 @@ public class webRequestController : MonoBehaviour
             else
             {   
                 Debug.Log("Request sent!");
-                CreateCoupon(www);
+                StartCoroutine( CreateCoupon(www) );
             }
         }
 
