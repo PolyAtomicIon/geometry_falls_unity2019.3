@@ -108,10 +108,13 @@ public class Manager : MonoBehaviour
 
     bool is_present = false;
     public GameObject couponInformation;
+    public GameObject couponInformation2;
 
     public void GiveAward(){
         if( is_present )
             couponInformation.SetActive(true);
+        else
+            couponInformation2.SetActive(true);
     }
 
     public void SetAudio(){
@@ -321,8 +324,8 @@ public class Manager : MonoBehaviour
                 gameOverSection.game_over(level, true);
 
                 if( details["present"] != null ){
-                    couponInformation.GetComponentsInChildren<TMP_Text>()[2].text = details["present"]["provider"]["name"];
-                    couponInformation.GetComponentsInChildren<TMP_Text>()[3].text = details["present"]["value"];
+                    couponInformation.GetComponentsInChildren<TMP_Text>()[3].text = details["present"]["provider"]["name"];
+                    couponInformation.GetComponentsInChildren<TMP_Text>()[5].text = details["present"]["value"];
                 }
 
                 /*
