@@ -63,7 +63,8 @@ public class MainPage : MonoBehaviour {
         foreach (Transform child in controller.coupon_panel.transform)
             GameObject.Destroy(child.gameObject);
 
-        showWindow(5);
+        // showWindow(5);
+        SceneManager.LoadScene("MainMenu");
     }
 
     // coupon information window, xor operatio, if opened close, else open

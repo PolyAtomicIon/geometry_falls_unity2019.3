@@ -1,9 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
 
-namespace Michsky.UI.Shift
-{
+// namespace Michsky.UI.Shift
+// {
     public class ChapterButton : MonoBehaviour
     {
         [Header("RESOURCES")]
@@ -40,8 +42,10 @@ namespace Michsky.UI.Shift
                 titleObj = gameObject.transform.Find("Content/Texts/Title").GetComponent<TextMeshProUGUI>();
                 descriptionObj = gameObject.transform.Find("Content/Texts/Description").GetComponent<TextMeshProUGUI>();
 
-                backgroundImageObj.sprite = backgroundImage;
-                titleObj.text = buttonTitle;
+                if( titleObj != null ){
+                    backgroundImageObj.sprite = backgroundImage;
+                    titleObj.text = buttonTitle;
+                }
                 descriptionObj.text = buttonDescription;
             }
 
@@ -73,5 +77,5 @@ namespace Michsky.UI.Shift
                 }
             }
         }
-    }
+    // }
 }

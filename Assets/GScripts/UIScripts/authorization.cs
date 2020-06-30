@@ -73,6 +73,8 @@ public class authorization : MonoBehaviour {
         Debug.Log("TOKEN - DELETE THIS LINE");
         Debug.Log(token);
         manager.set_token("Token " + token);
+                
+        SceneManager.LoadScene("MainMenu");
     }
 
     IEnumerator Login(string email = "", string password = "")
@@ -98,7 +100,7 @@ public class authorization : MonoBehaviour {
                 Get_Token(www);
                 // show Menu
                 // manager.showWindow(0, 5);
-                manager.showWindow(0);
+                // manager.showWindow(0);
             }
         }
     }
@@ -113,6 +115,7 @@ public class authorization : MonoBehaviour {
         Debug.Log(password);
 
         StartCoroutine( Login(email, password) );
+
 
     }
 

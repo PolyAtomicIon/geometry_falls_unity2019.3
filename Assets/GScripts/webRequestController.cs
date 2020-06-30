@@ -14,6 +14,8 @@ public class Event{
     public bool active;
     public bool played;
 
+    public Sprite background;
+
     public int value = -1;
     public int levels = -1;
     public string provider_name = "NONE";
@@ -59,7 +61,6 @@ public class Event{
 
         DateTime date1 = DateTime.ParseExact(st_d[0], "yyyy-MM-dd", System.Globalization.CultureInfo.InvariantCulture);
 
-        string yyyy = st_1[0];
         string dd1 = st_1[2];
         string mm1 = st_1[1];
 
@@ -70,6 +71,7 @@ public class Event{
 
         string dd2 = st_2[2];
         string mm2 = st_2[1];
+        string yyyy = st_2[0];
 
         start_date = dd1 + '.' + mm1;
         end_date = dd2 + '.' + mm2 + '.' + yyyy;
@@ -123,7 +125,6 @@ public class webRequestController : MonoBehaviour
 {
 
     public MainPage manager;
-
     // to check if events information parsed and initialized
     bool events_initialized = false;
 
@@ -132,6 +133,7 @@ public class webRequestController : MonoBehaviour
     public Button event_prefab;
     public string base_event_url = "http://94.247.128.162/api/game/events/";
 
+    string cur_token = "";
 
     IEnumerator GetEventDetails(int id)
     {
@@ -188,6 +190,8 @@ public class webRequestController : MonoBehaviour
         return;
     }
 
+    Sprite BG;
+
     void instantiateEventButton(Event cur_event, Vector3 position){
 
         event_prefab.GetComponentsInChildren<TMP_Text>()[0].text = cur_event.name;
@@ -204,6 +208,9 @@ public class webRequestController : MonoBehaviour
         event_prefab_go.GetComponent<RectTransform>().SetLeft(16f);
         event_prefab_go.GetComponent<RectTransform>().SetRight(16f);
         
+        if( cur_event.background != null )
+            event_prefab_go.transform.Find("Content/Background").GetComponent<Image>().sprite = cur_event.background;
+
     }
 
     void CreateEventButtons(){
@@ -220,7 +227,25 @@ public class webRequestController : MonoBehaviour
 
     }
 
-    void CreateEvent(UnityWebRequest res){
+    IEnumerator GetTexture(int id, string url) {
+        Debug.Log(url);
+        UnityWebRequest www = UnityWebRequestTexture.GetTexture("https://i.pinimg.com/originals/62/82/0d/62820d6edf9b7f496875ccd24be0cbb0.jpg");
+        yield return www.SendWebRequest();
+
+        if(www.isNetworkError || www.isHttpError) {
+            Debug.Log(www.error);
+            Debug.Log("WHAT?");
+        }
+        else {
+            Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
+            Sprite bg = Sprite.Create(texture, new Rect(0.0f, 0.0f, texture.width, texture.height), new Vector2(0.5f, 0.5f), 100.0f);
+            
+            events[id].background = bg;
+            events[id].name = "WTF";
+        }
+    }
+
+    IEnumerator CreateEvent(UnityWebRequest res){
 
         JSONNode events_info = JSONNode.Parse(res.downloadHandler.text);
         // Debug.Log(events_info);
@@ -233,16 +258,22 @@ public class webRequestController : MonoBehaviour
             string end = events_info["results"][i]["end_date"];
             bool is_active = events_info["results"][i]["active"];
             
+            string url = events_info["results"][i]["image"];
+
             // Debug.Log(ID);
 
             // create Button
             Event cur_event = new Event(ID, e_name, start, end, is_active);
 
             events[ID] = cur_event;
+
+            StartCoroutine( GetTexture(ID, url) );
+
         }
 
+        yield return new WaitForSeconds(2f);
+        
         CreateEventButtons();
-
     }
 
     IEnumerator GetEvents()
@@ -270,7 +301,7 @@ public class webRequestController : MonoBehaviour
             else
             {   
                 Debug.Log("Request sent!");
-                CreateEvent(www);
+                StartCoroutine( CreateEvent(www) );
             }
         }
 
@@ -381,24 +412,39 @@ public class webRequestController : MonoBehaviour
 
     }
 
-    void Start(){
-
+    
+    public void GetData(){
+        events_initialized = true;
+        StartCoroutine( GetEvents() );
+        coupons_initialized = true;
+        StartCoroutine( GetCoupons() );  
+        cur_token = PlayerPrefs.GetString("auth_token");
     }
 
-    void Update()
-    {
-        
-        // if current Window on Event UI
-        if( manager.currentWindowIndex == 1 && !events_initialized ){
-            events_initialized = true;
-            StartCoroutine( GetEvents() );
+    void Start(){
+        if( PlayerPrefs.GetString("auth_token") == null || PlayerPrefs.GetString("auth_token") == "" ){
+            manager.showWindow(3);
         }
+        else{
+            GetData();
+        }
+    }
 
-        // if current Window on Coupon UI
-        if( manager.currentWindowIndex == 2 && !coupons_initialized ){
-            coupons_initialized = true;
-            StartCoroutine( GetCoupons() );
-        }
+    void LateUpdate()
+    {
+    
+        // // if current Window on Event UI
+        // if( !events_initialized ){
+        //     events_initialized = true;
+        //     StartCoroutine( GetEvents() );
+        // }
+
+        // // if current Window on Coupon UI
+        // if(!coupons_initialized ){
+        //     coupons_initialized = true;
+        //     StartCoroutine( GetCoupons() );
+        // }
+
 
     }
 }
