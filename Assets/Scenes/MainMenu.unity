@@ -791,6 +791,11 @@ PrefabInstance:
       propertyPath: m_CaretColor.b
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 114045031172512476, guid: 2c8d1949404e6c74f97f2d65cebd687d,
+        type: 3}
+      propertyPath: m_CharacterLimit
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 114327592001742052, guid: 2c8d1949404e6c74f97f2d65cebd687d,
         type: 3}
       propertyPath: m_Color.r
@@ -3219,7 +3224,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: ad5164624d3c0564c9c31ed766d63e38, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 48ad348113bba3447b09ee470ff7da79, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.6
   m_Pitch: 1
@@ -18936,6 +18941,11 @@ PrefabInstance:
       propertyPath: m_CaretColor.b
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 114045031172512476, guid: 2c8d1949404e6c74f97f2d65cebd687d,
+        type: 3}
+      propertyPath: m_CharacterLimit
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 114327592001742052, guid: 2c8d1949404e6c74f97f2d65cebd687d,
         type: 3}
       propertyPath: m_Color.r
@@ -19367,6 +19377,13 @@ MonoBehaviour:
   AudioBackgroundColor: {fileID: 5481143559429958781}
   BackgroundMusic: {fileID: 256472509}
   BgEnabledColor: {r: 0.42745098, g: 0.34901962, b: 0.43529412, a: 1}
+  audios:
+  - {fileID: 8300000, guid: c477281e7f4a5704b8521d7a27a836b6, type: 3}
+  - {fileID: 8300000, guid: 31d58f5556766b14fb5bc801cb7f648e, type: 3}
+  - {fileID: 8300000, guid: f3a6642c4d66cc843b973e9900966f5d, type: 3}
+  - {fileID: 8300000, guid: 67c0783adc3dd7d4baf807112d18f533, type: 3}
+  - {fileID: 8300000, guid: 120fc184d3c58264da8aa4e178521485, type: 3}
+  - {fileID: 8300000, guid: 48ad348113bba3447b09ee470ff7da79, type: 3}
   SplashScreenAnimator: {fileID: 145097017}
   currentWindowIndex: 0
 --- !u!114 &1274236928
@@ -27586,6 +27603,11 @@ PrefabInstance:
       propertyPath: m_CaretColor.b
       value: 0.8
       objectReference: {fileID: 0}
+    - target: {fileID: 114045031172512476, guid: 2c8d1949404e6c74f97f2d65cebd687d,
+        type: 3}
+      propertyPath: m_CharacterLimit
+      value: 64
+      objectReference: {fileID: 0}
     - target: {fileID: 114327592001742052, guid: 2c8d1949404e6c74f97f2d65cebd687d,
         type: 3}
       propertyPath: m_Color.r
@@ -32388,7 +32410,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 20
+  m_CharacterLimit: 64
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []
@@ -32484,7 +32506,7 @@ MonoBehaviour:
   m_CharacterValidation: 0
   m_RegexValue: 
   m_GlobalPointSize: 14
-  m_CharacterLimit: 20
+  m_CharacterLimit: 64
   m_OnEndEdit:
     m_PersistentCalls:
       m_Calls: []

@@ -99,6 +99,8 @@ public class Manager : MonoBehaviour
     public bool is_level_started = false;
     
     public AudioSource bgMusic;
+    public List<AudioClip> audios;
+    public List<AudioSource> soundEffects;
 
     public Animator SplashScreenAnimator;
 
@@ -109,6 +111,8 @@ public class Manager : MonoBehaviour
     bool is_present = false;
     public GameObject couponInformation;
     public GameObject couponInformation2;
+
+    public GameObject allLevelsPassed;
 
     public void GiveAward(){
         if( is_present )
@@ -179,9 +183,32 @@ public class Manager : MonoBehaviour
         //StartCoroutine( lerpColor( TunnelMaterial, TunnelMaterial.color, tunnel_color, 2f) );
     }
 
+    IEnumerator all_levels_passed(int id, int levels){
+        player.rb.velocity = new Vector3(0f, 0f, 0f);
+        // player.gameObject.SetActive(false);
+
+        allLevelsPassed.SetActive(true);
+
+        yield return new WaitForSeconds(1.75f);
+
+        StartCoroutine( GetPrize(id, levels) );
+    }
+
     public void start_next_level(){
 
+        int levels = PlayerPrefs.GetInt("levels");
+        int id = PlayerPrefs.GetInt("id");  
+
+        if( level > levels )
+            return;
+
         level += 1;
+        level = Mathf.Min(levels + 1, level);
+
+        if( level > levels ){
+            StartCoroutine( all_levels_passed(id, levels-1) ); 
+            return;
+        }
 
         // Debug.Log("RELOAD THE SCENE");
         
@@ -356,15 +383,20 @@ public class Manager : MonoBehaviour
 
     public void game_over()
     {
+        // sound
+        soundEffects[1].Play();
         Debug.Log("game over!");
         
         // get ID of Event
         int id = PlayerPrefs.GetInt("id");
+        int levels = PlayerPrefs.GetInt("levels");
      
         if( id != -1 ){
             Debug.Log("Getting Prize");
-            Debug.Log(id);
-            StartCoroutine(GetPrize(id, level));
+            // Debug.Log(id);
+            Debug.Log(level);
+            StartCoroutine(GetPrize(id, level-1));
+            // gameOverSection.game_over(level, true);
         }
         else{
             Debug.Log("Chill, just practice");
@@ -374,7 +406,6 @@ public class Manager : MonoBehaviour
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
 
         // LevelLabel.enabled = false;
-        gameOverSection.game_over(level);
         game_over_bool = true;
     }
     
@@ -444,6 +475,13 @@ public class Manager : MonoBehaviour
         objectPooler.palettes[palette].colors[1].a = 100;
         progressionColor.color = objectPooler.palettes[palette].colors[1];
 
+        // AUDIO Settings
+
+        int audioID = PlayerPrefs.GetInt("bgAudioID");
+        bgMusic.clip = audios[audioID];
+
+        bgMusic.Play();
+
         if( PlayerPrefs.GetInt("isAudio") == 0 ){
             bgMusic.volume = 0.0f;
         } 
@@ -475,6 +513,8 @@ public class Manager : MonoBehaviour
             if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - 2.5f ){
                 player.increment_score();
                 increment_score();
+                // sound
+                soundEffects[0].Play();
                 current_obstacle++;
             }
 

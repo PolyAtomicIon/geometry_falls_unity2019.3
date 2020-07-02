@@ -179,6 +179,7 @@ public class webRequestController : MonoBehaviour
                 events[id].description = description;
 
                 manager.EventInformationWindow(events[id]);
+                PlayerPrefs.SetInt("levels", events[id].levels);
             }
 
         }

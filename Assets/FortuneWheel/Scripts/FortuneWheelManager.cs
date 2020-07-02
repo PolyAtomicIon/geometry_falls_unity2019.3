@@ -67,6 +67,11 @@ public class FortuneWheelManager : MonoBehaviour
 	
     }
 
+	IEnumerator GiveAward(){
+		yield return new WaitForSeconds(1.5f);
+		game_manager.GiveAward();
+	}
+
     void Update ()
     {
 		TurnButton.interactable = true;
@@ -86,7 +91,7 @@ public class FortuneWheelManager : MonoBehaviour
     
 			// GIVE AWARD!!!!!!!! BEKA
 
-            game_manager.GiveAward();
+			StartCoroutine( GiveAward() );
 
     	    // GiveAwardByAngle ();
 			//StartCoroutine(HideCoinsDelta ());

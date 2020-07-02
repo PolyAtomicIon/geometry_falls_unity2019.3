@@ -22,6 +22,8 @@ public class MainPage : MonoBehaviour {
     public Image AudioBackgroundColor; 
     public AudioSource BackgroundMusic;
     public Color BgEnabledColor;
+    
+    public List<AudioClip> audios;
 
     public Animator SplashScreenAnimator;
 
@@ -135,29 +137,6 @@ public class MainPage : MonoBehaviour {
         SceneManager.LoadScene("Base");
     }
 
-    IEnumerator TEMPGIVEPRIZE(int id)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("level", 4); 
-            
-        using (UnityWebRequest www = UnityWebRequest.Post("http://94.247.128.162/api/game/events/1/present/", form))
-        {
-              
-            www.SetRequestHeader("Authorization", get_token());
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log(www.error);
-                windows[6].SetActive(true);
-            }
-            else
-            {
-                Debug.Log("Request sent!");
-            }
-        }
-    }
-
     public void StartEvent(int id){
         // StartCoroutine(TEMPGIVEPRIZE(id));
         // send id of event to player prefs
@@ -167,6 +146,7 @@ public class MainPage : MonoBehaviour {
     }
 
     public void SetAudio(){
+
         // BackgroundMusic.enabled = ( BackgroundMusic.enabled ^ true );
         if( BackgroundMusic.volume == 0.6f )
             BackgroundMusic.volume = 0.0f;
@@ -184,6 +164,14 @@ public class MainPage : MonoBehaviour {
     }
 
     void Start(){
+        
+
+        int id = ThreadSafeRandom.ThisThreadsRandom.Next(audios.Count);
+        PlayerPrefs.SetInt("bgAudioID", id);
+
+        BackgroundMusic.clip = audios[id];
+
+        BackgroundMusic.Play();
         
         // BG Music 
         if( !PlayerPrefs.HasKey("isAudio") )

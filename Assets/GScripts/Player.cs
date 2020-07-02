@@ -6,7 +6,7 @@ using System;
 public class Player : MonoBehaviour, IPooledObject
 {
 
-    private Rigidbody rb;
+    public Rigidbody rb;
     private Transform transform;
     // private float angular_drag = 1.5f;
     private float fall_down_speed = -27f;
