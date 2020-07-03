@@ -41,8 +41,17 @@ public class MainPage : MonoBehaviour {
     public void showWindow (int windowIndex = 0){
         windows[ currentWindowIndex ].SetActive(false);
             
-        windows[ windowIndex ].SetActive(true);
-        currentWindowIndex = windowIndex;
+        string token = PlayerPrefs.GetString("auth_token");
+
+        // Trying access Events and Coupons pages unauthorized
+        if( (windowIndex == 1 || windowIndex == 2) && (token == null || token == "") ){
+            windows[ 3 ].SetActive(true);
+            currentWindowIndex = 3;
+        }
+        else{
+            windows[ windowIndex ].SetActive(true);
+            currentWindowIndex = windowIndex;
+        }
 
         // close erroe window
         windows[ 6 ].SetActive(false);
