@@ -134,6 +134,7 @@ public class MainPage : MonoBehaviour {
     public void StartPractice (){
         // set id to -1, to say it is practice
         PlayerPrefs.SetInt("id", -1);
+        PlayerPrefs.SetInt("levels", 1000);
         SceneManager.LoadScene("Base");
     }
 

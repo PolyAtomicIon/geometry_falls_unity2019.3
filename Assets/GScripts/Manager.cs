@@ -184,7 +184,7 @@ public class Manager : MonoBehaviour
     }
 
     IEnumerator all_levels_passed(int id, int levels){
-        player.rb.velocity = new Vector3(0f, 0f, 0f);
+        // player.rb.velocity = new Vector3(0f, 0f, 0f);
         // player.gameObject.SetActive(false);
 
         allLevelsPassed.SetActive(true);
@@ -199,13 +199,16 @@ public class Manager : MonoBehaviour
         int levels = PlayerPrefs.GetInt("levels");
         int id = PlayerPrefs.GetInt("id");  
 
-        if( level > levels )
+        // To stop event game, if player passed all levels
+
+        if( level + 1 > levels && id != -1 )
             return;
 
         level += 1;
-        level = Mathf.Min(levels + 1, level);
+        if( id != -1 )
+            level = Mathf.Min(levels, level);
 
-        if( level > levels ){
+        if( level + 1 > levels && id != -1 ){
             StartCoroutine( all_levels_passed(id, levels-1) ); 
             return;
         }
@@ -292,24 +295,20 @@ public class Manager : MonoBehaviour
             
             yield return www.SendWebRequest();
 
-            if (www.isNetworkError || www.isHttpError)
-            {
-                // Debug.Log(www.error);Debug.Log(www.isNetworkError);Debug.Log(www.isHttpError);
-                JSONNode details = JSONNode.Parse(www.downloadHandler.text);
-                Debug.Log(details);
-                // windows[6].SetActive(true);
-            }
-            else
-            {
-                Debug.Log("Request sent!");
+            Debug.Log("Request sent!");
+        
+            int present_value = 0;
+
+            // Retrieave Data is no errors have been found
+            // Else just show empty randomizer
+            if ( !www.isNetworkError && !www.isHttpError ){
+
                 JSONNode details = JSONNode.Parse(www.downloadHandler.text);
                 Debug.Log(details);
 
                 // 1. GET LIST OF PRESENTS
                 // 2. Get index of present
                 // 3. SEND INFO TO FORTUNE WHEEL
-
-                int present_value = 0;
 
                 for(int i=0; i<details["presents"].Count; i++)
                     if( details["presents"][i]["win"] ){
@@ -326,58 +325,59 @@ public class Manager : MonoBehaviour
                     }
                     values_randomizer.Add( details["presents"][i]["value"] );
                 }
-
-                values_randomizer.Add(0);
-
-                int tmp_id = 0;
-
-                while( values_randomizer.Count < 12 ){
-                    values_randomizer.Add(values_randomizer[tmp_id]);
-                    tmp_id++;
-                    tmp_id %= values_randomizer.Count;
-                }
-                // Debug.Log(values_randomizer);
-                values_randomizer.Shuffle();
-
-                for(int i=0; i<12; i++){
-                    if( present_value == values_randomizer[i] ){
-                        present_id = i;
-                        break;
-                    }
-                }
-
-                FortuneWheelManager.ParsedData();
-                
-                gameOverSection.game_over(level, true);
-
+                    
                 if( details["present"] != null ){
                     couponInformation.GetComponentsInChildren<TMP_Text>()[3].text = details["present"]["provider"]["name"];
                     couponInformation.GetComponentsInChildren<TMP_Text>()[5].text = details["present"]["value"];
                 }
 
-                /*
-                {
-                    "presents": [{
+            }
+
+            values_randomizer.Add(0);
+
+            int tmp_id = 0;
+
+            while( values_randomizer.Count < 12 ){
+                values_randomizer.Add(values_randomizer[tmp_id]);
+                tmp_id++;
+                tmp_id %= values_randomizer.Count;
+            }
+            // Debug.Log(values_randomizer);
+            values_randomizer.Shuffle();
+
+            for(int i=0; i<12; i++){
+                if( present_value == values_randomizer[i] ){
+                    present_id = i;
+                    break;
+                }
+            }
+
+            FortuneWheelManager.ParsedData();
+            
+            gameOverSection.game_over(level, true);
+
+            /*
+            {
+                "presents": [{
+                    "id": 1,
+                    "value": 10,
+                    "provider": {
                         "id": 1,
-                        "value": 10,
-                        "provider": {
-                            "id": 1,
-                            "name": "KFC"
-                        },
-                        "win": true
-                    }],
-                    "present": {
-                        "id": 2,
-                        "key": "8x2OgcrpjZOOoZcP2Qw1KKkalYzU9u15",
-                        "value": 10,
-                        "provider": {
-                            "id": 1,
-                            "name": "KFC"
-                        }
+                        "name": "KFC"
+                    },
+                    "win": true
+                }],
+                "present": {
+                    "id": 2,
+                    "key": "8x2OgcrpjZOOoZcP2Qw1KKkalYzU9u15",
+                    "value": 10,
+                    "provider": {
+                        "id": 1,
+                        "name": "KFC"
                     }
                 }
-                */
             }
+            */
         }
     }
 
