@@ -399,7 +399,7 @@ public class webRequestController : MonoBehaviour
             // create Button
             Coupon cur_coupon = new Coupon(ID, e_key, Value, provider_ID, provider_Name);
 
-            StartCoroutine( GetTextureCoupon(ID, url) );
+            // StartCoroutine( GetTextureCoupon(ID, url) );
 
             coupons[ID] = cur_coupon;
         }
@@ -450,12 +450,19 @@ public class webRequestController : MonoBehaviour
     }
 
     void Start(){
-        if( PlayerPrefs.GetString("auth_token") == null || PlayerPrefs.GetString("auth_token") == "" ){
-            manager.showWindow(3);
-        }
-        else{
+
+        // if( PlayerPrefs.GetString("auth_token") == null || PlayerPrefs.GetString("auth_token") == "" ){
+        //     manager.showWindow(3);
+        // }
+        // else{
+        //     GetData();
+        // }
+
+        // if authorized get data, else nothing
+        if( !( PlayerPrefs.GetString("auth_token") == null || PlayerPrefs.GetString("auth_token") == "" ) ){
             GetData();
         }
+
     }
 
     void LateUpdate()
