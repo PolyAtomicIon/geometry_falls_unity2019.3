@@ -145,7 +145,7 @@ public class webRequestController : MonoBehaviour
         if( manager.get_token() == "" ){
             manager.showWindow(3);
             yield return false;
-        }
+        }   
 
         using (UnityWebRequest www = UnityWebRequest.Get(base_event_url + id.ToString() + "/?"))
         {   

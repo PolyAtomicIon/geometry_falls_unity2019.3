@@ -47,6 +47,7 @@ public class Tutorial : MonoBehaviour
     }
 
     public void start_game(){
+        PlayerPrefs.SetInt("id", -1);
         SceneManager.LoadScene("Base");
     }
 
