@@ -123,24 +123,31 @@ public class ObjectPooler : MonoBehaviour
         object_in_level = (int) game_manager.object_in_level();
         number_each_prefab = object_in_level / 3;
 
+        int id = PlayerPrefs.GetInt("id");
+
+        if( id == -1 ){
+            max_complexity_value = 2;
+            number_each_prefab *= 2;
+        }
+
         // poolDictionary = new Dictionary<string, Queue<GameObject>>();
         modelsDictionary = new Dictionary<string, GameObject>();
 
         // Add all gameobjects here, then we will shuffle, sorted by obstacle complexity
-        List<GameObject>[] temp_gameobjects = new List<GameObject>[max_complexity_value+1];
+        List<GameObject>[] temp_gameobjects = new List<GameObject>[10+1];
 
         // create for every type of prefab 'number_each_prefab' clones
         Pool pool = models[game_manager.get_current_random_model_index()];
         
         // clean all obstacles
-        for (int i = 0; i <= max_complexity_value; i++)
+        for (int i = 0; i <= 10; i++)
             temp_gameobjects[i] = new List<GameObject>();
         
         // the first type of obstacle will appear 3*number_each_prefab times
         // second one will appear 2*number_each_prefab times
         // other will appear only number_each_prefab times
 
-        int multiplier = 3;
+        int multiplier = 2;
 
         foreach (Obstacle obstacle in pool.obstacles_prefab){
             

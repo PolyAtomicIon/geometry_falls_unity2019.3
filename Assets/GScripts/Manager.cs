@@ -8,6 +8,7 @@ using TMPro;
 using UnityEngine.UI;
 using UnityEngine.Networking;
 using SimpleJSON;
+using System;   
 
 class LevelResult{
     public int level;
@@ -18,7 +19,7 @@ public class Manager : MonoBehaviour
     public enum Constants
     {
         max_touches = 25,
-        object_in_level = 12,
+        object_in_level = 9,
         obstacles_on_scene = 50
     }
     
@@ -196,20 +197,18 @@ public class Manager : MonoBehaviour
 
     public void start_next_level(){
 
+        if( game_over_bool ) return;
+
         int levels = PlayerPrefs.GetInt("levels");
         int id = PlayerPrefs.GetInt("id");  
 
         // To stop event game, if player passed all levels
 
-        if( level + 1 > levels && id != -1 )
-            return;
-
         level += 1;
-        if( id != -1 )
-            level = Mathf.Min(levels, level);
 
-        if( level + 1 > levels && id != -1 ){
-            StartCoroutine( all_levels_passed(id, levels-1) ); 
+        if( level > levels && id != -1 ){
+            game_over_bool = true;
+            StartCoroutine( all_levels_passed(id, levels) ); 
             return;
         }
 
@@ -410,6 +409,11 @@ public class Manager : MonoBehaviour
     }
     
     private string levelString(){
+
+        int levels = PlayerPrefs.GetInt("levels");
+
+        level = Math.Min(level, levels);
+
         string zero = "";
         if( level < 10 ){
             zero = "0";

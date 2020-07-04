@@ -7,7 +7,7 @@ public class startScene : MonoBehaviour
 {
 
     IEnumerator ShowLogo(){
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.15f);
         
         if( PlayerPrefs.GetInt("isLaunched") == 0 ){
             PlayerPrefs.SetInt("isLaunched", 1);
