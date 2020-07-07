@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -5008,7 +5008,7 @@ Light:
   m_BounceIntensity: 1
   m_ColorTemperature: 6570
   m_UseColorTemperature: 0
-  m_BoundingSphereOverride: {x: -0.8, y: 8, z: 6.4, w: -8.8}
+  m_BoundingSphereOverride: {x: 0, y: 0, z: 0, w: 0}
   m_UseBoundingSphereOverride: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
@@ -5453,7 +5453,7 @@ MonoBehaviour:
   figure_plane: {fileID: 725109364}
   max_models_number: 8
   palette: 0
-  fall_down_speed: -27
+  fall_down_speed: -50
   rotation_lvl: 2500
   player: {fileID: 0}
   gap: -90
@@ -5474,6 +5474,7 @@ MonoBehaviour:
   - {x: 0, y: 0, z: 0}
   current_obstacle: 0
   obstacles_array: []
+  obstacles_array_shuffled: []
   is_level_started: 0
   bgMusic: {fileID: 919360593}
   audios:

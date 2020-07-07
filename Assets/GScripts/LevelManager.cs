@@ -107,8 +107,8 @@ public class LevelManager : MonoBehaviour
 
         // Place obstacles by positions from GAME MANAGER.cs
 
-        for(int i = 0; i < size-1; i++)
-            initialize_object(game_manager.obstacles_array[i], game_manager.obstacle_positions[i]);
+        for(int i = 0; i < size; i++)
+            initialize_object(game_manager.obstacles_array_shuffled[i], game_manager.obstacle_positions[i]);
         
         // game_manager.progressionColor.material = objectPooler.materials.materials_list[0];
 

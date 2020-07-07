@@ -96,6 +96,7 @@ public class Manager : MonoBehaviour
     public int current_obstacle = 0;
 
     public List<GameObject> obstacles_array = new List<GameObject>();
+    public List<GameObject> obstacles_array_shuffled = new List<GameObject>();
  
     public bool is_level_started = false;
     
@@ -148,6 +149,11 @@ public class Manager : MonoBehaviour
         // Debug.Log(length);
 
         // Remove objects.
+
+        for(int i = 0; i < length; i++){
+            obstacles_array[i].SetActive(false);
+        }
+
         obstacles_array.Reverse();
 
         for(int i = length - 1; i >= length - objectPooler.number_each_prefab; i--){
@@ -165,7 +171,11 @@ public class Manager : MonoBehaviour
             objectPooler.objectPool.Enqueue(obstacle);
         }
 
-        obstacles_array.Shuffle();
+        obstacles_array_shuffled.Clear();
+        foreach(GameObject obs in obstacles_array)
+            obstacles_array_shuffled.Add(obs);
+
+        obstacles_array_shuffled.Shuffle();
 
 
     }
@@ -250,8 +260,8 @@ public class Manager : MonoBehaviour
         next_model_index += 1;
         next_model_index %= max_models_number;
 
-        return res; 
-        // return 0;
+        // return res; 
+        return 0;
     }
 
     public int get_current_random_model_index(){
@@ -422,7 +432,7 @@ public class Manager : MonoBehaviour
     }
 
     private float levelProgression(){
-        int mx_sz = (int) object_in_level();
+        int mx_sz = (int) object_in_level() + 1;
         int cur_o = current_obstacle + 1;
         return cur_o * 200.0f / mx_sz;
     }
@@ -506,7 +516,7 @@ public class Manager : MonoBehaviour
             if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - gap - 2.5f ){    
                 Vector3 position_f = obstacle_positions[current_obstacle];
                 
-                if( current_obstacle + 1 >= (int) object_in_level() ){
+                if( current_obstacle + 1 > (int) object_in_level() ){
                     position_f = obstacle_positions[0];
                 }
 
@@ -524,7 +534,7 @@ public class Manager : MonoBehaviour
 
         }
         
-        if( current_obstacle >= (int) object_in_level()-1 ){
+        if( current_obstacle + 1 > (int) object_in_level() ){
             fall_down_speed = player.get_velocity_y_axis();
             start_next_level();
         }    
