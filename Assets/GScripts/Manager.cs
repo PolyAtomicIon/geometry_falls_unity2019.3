@@ -260,8 +260,8 @@ public class Manager : MonoBehaviour
         next_model_index += 1;
         next_model_index %= max_models_number;
 
-        // return res; 
-        return 0;
+        return res; 
+        // return 0;
     }
 
     public int get_current_random_model_index(){
@@ -512,6 +512,8 @@ public class Manager : MonoBehaviour
 
         // changed in LevelManager.cs & Player.cs -> on collision
         if( is_level_started ){
+            
+            current_obstacle = Math.Min(current_obstacle, (int) obstacles_array.Count - 1);
 
             if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - gap - 2.5f ){    
                 Vector3 position_f = obstacle_positions[current_obstacle];
