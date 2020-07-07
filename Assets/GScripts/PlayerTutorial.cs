@@ -62,6 +62,8 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
     public int hold_time = 0;
     public int hold_time_limit = 20;
 
+    Vector3 cur_velocity;
+
     public void increment_score(){
         score += 1;
     }
@@ -125,6 +127,12 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
         
         if( Input.GetMouseButtonDown(0) ){
             dragging = true;
+            if( rb.IsSleeping() ){
+                EnableObject();
+                game_manager.DisableHints();
+                game_manager.cur_hint ++;
+                // Time.timeScale = 1;
+            }
         }
         if( Input.GetMouseButtonUp(0) ){
             dragging = false;
@@ -167,8 +175,21 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
     }
 
     public void DisableObject(){
-        gameObject.SetActive(false);  
+        // gameObject.SetActive(false);  
+        if( cur_velocity.magnitude == 0 )
+            cur_velocity = new Vector3(0, rb.velocity.y , 0);
+        // Time.timeScale = 0;
+        rb.Sleep();
+        // rb.velocity = new Vector3(0f, 0f, 0f);
     }
+
+    public void EnableObject(){
+        // gameObject.SetActive(false);  
+        rb.WakeUp();
+        rb.velocity = cur_velocity;
+        cur_velocity = new Vector3(0, 0, 0);
+    }
+    
     
      void OnCollisionEnter (Collision col)
     {
@@ -176,7 +197,7 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
         rb.velocity = new Vector3(0f, 0f, 0f);
         gameObject.SetActive(false);  
 
-        if( get_position_y_axis() > -450f )
+        if( get_position_y_axis() > -650f )
             game_manager.restartTutorial();
         else{
             game_manager.finish_tutorial();

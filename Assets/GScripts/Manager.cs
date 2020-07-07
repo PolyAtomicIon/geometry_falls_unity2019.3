@@ -105,6 +105,7 @@ public class Manager : MonoBehaviour
     public List<AudioSource> soundEffects;
 
     public Animator SplashScreenAnimator;
+    public GameObject Loader;
 
     public FortuneWheelManager FortuneWheelManager;
     public List<int> values_randomizer;
@@ -473,12 +474,23 @@ public class Manager : MonoBehaviour
 
     void Start(){
 
-        StartCoroutine( runLoadingAnimation() );
-        
+        int is_tutorial = PlayerPrefs.GetInt("tutorial");
+
+        if( is_tutorial == -1 ){
+            StartCoroutine( runLoadingAnimation() );
+            palette = ThreadSafeRandom.ThisThreadsRandom.Next(4);
+        }
+        else{
+            // if tutorial
+            Loader.SetActive(false);
+            LoadAdditiveScene();
+            PlayerPrefs.SetInt("tutorial", -1);
+            palette = 3;
+        }
+
         generate_obstacle_positions();
 
         objectPooler = ObjectPooler.Instance;
-        palette = ThreadSafeRandom.ThisThreadsRandom.Next(4);
 
         /* Plane */
         Vector3 plane_pos = obstacle_positions[0];

@@ -1767,7 +1767,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: d46323e22e74e46baa241cbf48c85671, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -3058,7 +3058,7 @@ AudioSource:
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 79e6baad2fd414b82a6d49ce1568d2e5, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -5488,6 +5488,7 @@ MonoBehaviour:
   - {fileID: 282861424}
   - {fileID: 524696454}
   SplashScreenAnimator: {fileID: 45038186}
+  Loader: {fileID: 1522644066}
   FortuneWheelManager: {fileID: 932153423}
   values_randomizer: 
   present_id: -1
@@ -12890,6 +12891,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1520721740}
   m_CullTransparentMesh: 0
+--- !u!1 &1522644066 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2436768991844022276, guid: fbc7a5e8616ddd4408d7b64c61742b50,
+    type: 3}
+  m_PrefabInstance: {fileID: 1827172205}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1534119838
 GameObject:
   m_ObjectHideFlags: 0
@@ -15204,6 +15211,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Transition
+      objectReference: {fileID: 0}
+    - target: {fileID: 2436768991844022276, guid: fbc7a5e8616ddd4408d7b64c61742b50,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2436768991844022282, guid: fbc7a5e8616ddd4408d7b64c61742b50,
         type: 3}
