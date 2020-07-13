@@ -70,7 +70,7 @@ public class Manager : MonoBehaviour
     public List<int> random_models_indexes;
     private int next_model_index = 0;
     public GameObject figure_plane;
-    public int max_models_number = 2;
+    public int max_models_number = 4;
     // end
 
     public int palette = 0;

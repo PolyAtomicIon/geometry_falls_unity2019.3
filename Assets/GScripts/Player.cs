@@ -40,9 +40,9 @@ public class Player : MonoBehaviour, IPooledObject
 
     private int isVertical = 0; // 0 = top, 2 = down;
     private int isHorizontal = -1; // 0 = forward, 1 = right, 3 = left;
-    [SerializeField] private float rotation_duration = 0.8f;
+    [SerializeField] private float rotation_duration = 0.35f;
     private float time = 5;
-    public float rotation_degree = 90f;
+    public float rotation_degree = 160f;
     private bool rotating = false;
     private float dissolveLevel;
 
@@ -52,17 +52,17 @@ public class Player : MonoBehaviour, IPooledObject
     private bool dragY = false;
     
     
-    public float rotationSpeed = 5000f;
-    public float rotationSpeed2 = 2500f;
-    public float angular_drag = 0.85f;
-    public float divisor = 12f;
-    public float multiplier = 75f;
+    public float rotationSpeed = 40000f;
+    public float rotationSpeed2 = 40000f;
+    public float angular_drag = 0.45f;
+    public float divisor = 0.75f;
+    public float multiplier = 45f;
     float rotX, rotY;
     
-    public float value_t = 2f;
+    public float value_t = 8f;
 
     public int hold_time = 0;
-    public int hold_time_limit = 20;
+    public int hold_time_limit = 8;
 
     public void increment_score(){
         score += 1;

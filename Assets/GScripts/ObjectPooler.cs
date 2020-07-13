@@ -146,7 +146,7 @@ public class ObjectPooler : MonoBehaviour
         // second one will appear 2*number_each_prefab times
         // other will appear only number_each_prefab times
 
-        int multiplier = 3;
+        int multiplier = 2;
 
         foreach (Obstacle obstacle in pool.obstacles_prefab){
             
