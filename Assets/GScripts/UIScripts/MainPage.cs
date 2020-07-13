@@ -38,6 +38,8 @@ public class MainPage : MonoBehaviour {
     // 4 - Sign Up
     // 5 - Login
     // 6 - Error
+    // 7 - already played Error
+    // 8 - not active Error
     public void showWindow (int windowIndex = 0){
         windows[ currentWindowIndex ].SetActive(false);
             
@@ -53,8 +55,13 @@ public class MainPage : MonoBehaviour {
             currentWindowIndex = windowIndex;
         }
 
-        // close erroe window
+        // close error window
         windows[ 6 ].SetActive(false);
+        windows[ 7 ].SetActive(false);
+        windows[ 8 ].SetActive(false);
+
+        eventInformationWindow.SetActive(false);
+        couponInformationWindow.SetActive(false);
     }
 
     public void set_token(string a){
@@ -175,6 +182,7 @@ public class MainPage : MonoBehaviour {
 
     void Start(){
         
+        // Syncing  Data or Loading Animation, no matter what is written as an argument
 
         int id = ThreadSafeRandom.ThisThreadsRandom.Next(audios.Count);
         PlayerPrefs.SetInt("bgAudioID", id);
@@ -191,7 +199,6 @@ public class MainPage : MonoBehaviour {
             AudioBackgroundColor.color = new Color(0, 0, 0, 255);           
         }
 
-        // Syncing  Data or Loading Animation, no matter what is written as an argument
         SplashScreenAnimator.Play("Login to Loading");
 
         controller = FindObjectOfType<webRequestController>();

@@ -313,6 +313,7 @@ public class Manager : MonoBehaviour
             // Else just show empty randomizer
             if ( !www.isNetworkError && !www.isHttpError ){
 
+                Debug.Log("env");
                 JSONNode details = JSONNode.Parse(www.downloadHandler.text);
                 Debug.Log(details);
 
@@ -474,7 +475,8 @@ public class Manager : MonoBehaviour
 
     void Start(){
 
-        int is_tutorial = PlayerPrefs.GetInt("tutorial");
+        // int is_tutorial = PlayerPrefs.GetInt("tutorial");
+        int is_tutorial = -1;
 
         if( is_tutorial == -1 ){
             StartCoroutine( runLoadingAnimation() );

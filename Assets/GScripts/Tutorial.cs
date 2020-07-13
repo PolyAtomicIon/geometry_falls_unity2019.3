@@ -44,29 +44,13 @@ public class Tutorial : MonoBehaviour
         Finish.SetActive(true);
     }
 
-    public void go_to_menu(){
-        SceneManager.LoadScene("MainMenu");
-    }
-
-    public void start_game(){
-        PlayerPrefs.SetInt("id", -1);
-        SceneManager.LoadScene("Base");
-    }
-
-    IEnumerator continue_game(){
-        PlayerPrefs.SetInt("tutorial", 1);
-        PlayerPrefs.SetInt("bgAudioID", 0);
-        PlayerPrefs.SetInt("isAudio", 1);
-        PlayerPrefs.SetInt("levels", 1000);
-        // Finish.SetActive(true);
-        start_game();
-        yield return true;
-    }
-
     public List<Material> materials = new List<Material>(); 
     public List<Color> colors = new List<Color>();
     
     public int cur_hint = 1;
+
+    public Animator SplashScreenAnimator;
+    public GameObject transition;
 
     private void set_materials_color(){
         // for obstacles
@@ -84,6 +68,7 @@ public class Tutorial : MonoBehaviour
     }
 
     void Start(){
+        transition.SetActive(false);
         set_materials_color();
         ui_hints.Add(swipeLeft);
         ui_hints.Add(swipeRight);
@@ -93,13 +78,44 @@ public class Tutorial : MonoBehaviour
         ui_hints.Add(dragVerticalUp);
     }
 
+    public void start_game(){
+       StartCoroutine( LoadYourAsyncScene("Base") );
+    }
+
+    public void go_to_menu(){
+       StartCoroutine( LoadYourAsyncScene("MainMenu") );
+    }
+
+    IEnumerator LoadYourAsyncScene(string SceneName)
+    {
+        transition.SetActive(true);
+        SplashScreenAnimator.Play("Login to Loading");
+
+        if( SceneName == "Base" )
+            PlayerPrefs.SetInt("tutorial", 1);
+        PlayerPrefs.SetInt("bgAudioID", 0);
+        PlayerPrefs.SetInt("isAudio", 1);
+        PlayerPrefs.SetInt("levels", 1000);
+        PlayerPrefs.SetInt("id", -1);
+        
+        // SceneManager.LoadScene("Base"); 
+        // yield return null;
+
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneName);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+    }
+
     void Update()
     {
 
         float p_pos_y = player.get_position_y_axis();
 
-        if( p_pos_y < -865f ){
-            StartCoroutine( continue_game() );
+        if( p_pos_y < -870f ){
+            finish_tutorial();
         }
 
         // if( p_pos_y < -970f ){
