@@ -122,11 +122,15 @@ public class ObjectPooler : MonoBehaviour
 
         object_in_level = (int) game_manager.object_in_level();
         number_each_prefab = object_in_level / 3;
+        // number_each_prefab = 2;
+
+        int start_complexity = 2;
 
         int id = PlayerPrefs.GetInt("id");
 
         if( id == -1 ){
             max_complexity_value = 2;
+            start_complexity = 1;
         }
 
         // poolDictionary = new Dictionary<string, Queue<GameObject>>();
@@ -152,7 +156,7 @@ public class ObjectPooler : MonoBehaviour
             
             for(int j = 0; j < number_each_prefab * multiplier; j++){
 
-                if( obstacle.complexity > max_complexity_value )
+                if( obstacle.complexity < start_complexity || obstacle.complexity > max_complexity_value )
                     continue;
 
                 GameObject obstacle_prefab = Instantiate(obstacle.prefab) as GameObject;
@@ -168,6 +172,9 @@ public class ObjectPooler : MonoBehaviour
 
         // Shuffle, add them to Queue
         for(int i=1; i<=max_complexity_value; i++){
+            
+            // temp_gameobjects[i].Shuffle();
+
             foreach(GameObject prefab in temp_gameobjects[i])
                 objectPool.Enqueue(prefab);
         }

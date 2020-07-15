@@ -263,6 +263,7 @@ public class Manager : MonoBehaviour
 
         return res; 
         // return 0;
+        // return 2;
     }
 
     public int get_current_random_model_index(){
