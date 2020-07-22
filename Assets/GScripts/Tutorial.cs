@@ -10,14 +10,11 @@ using UnityEngine.UI;
 public class Tutorial : MonoBehaviour
 {   
 
-    public GameObject swipeRight;
-    public GameObject swipeLeft;
-    public GameObject dragVerticalUp;
-    public GameObject dragVerticalDown;
-    public GameObject dragHorizontalRight;
-    public GameObject dragHorizontalLeft;
+    public GameObject swipe;
+    public GameObject horizantal_drag;
+    public GameObject vertical_drag;
+    
 
-    List<GameObject> ui_hints = new List<GameObject>();
 
     private bool is_active_scene = true;
     float ScreenWidth = Screen.width;
@@ -63,19 +60,17 @@ public class Tutorial : MonoBehaviour
     }
 
     public void DisableHints(){
-        foreach(GameObject hint in ui_hints)
-            hint.SetActive(false);
+        // foreach(GameObject hint in ui_hints)
+        //     hint.SetActive(false);
+        
+        vertical_drag.SetActive(false);
+        swipe.SetActive(false);
+        horizantal_drag.SetActive(false);
     }
 
     void Start(){
         transition.SetActive(false);
         set_materials_color();
-        ui_hints.Add(swipeLeft);
-        ui_hints.Add(swipeRight);
-        ui_hints.Add(dragHorizontalLeft);
-        ui_hints.Add(dragHorizontalRight);
-        ui_hints.Add(dragVerticalDown);
-        ui_hints.Add(dragVerticalUp);
     }
 
     public void start_game(){
@@ -114,7 +109,7 @@ public class Tutorial : MonoBehaviour
 
         float p_pos_y = player.get_position_y_axis();
 
-        if( p_pos_y < -870f ){
+        if( p_pos_y < -415f ){
             finish_tutorial();
         }
 
@@ -124,7 +119,7 @@ public class Tutorial : MonoBehaviour
 
         if( p_pos_y < 0f && p_pos_y > -135f ){
             if( cur_hint == 1 ){
-                dragVerticalDown.SetActive(true);   
+                vertical_drag.SetActive(true);   
                 // Time.timeScale = 0;
                 player.DisableObject();
             }
@@ -132,70 +127,14 @@ public class Tutorial : MonoBehaviour
 
         else if( p_pos_y < -145f && p_pos_y > -225f ){
             if( cur_hint == 2 ){
-                // dragVerticalDown.SetActive(false);
-                dragVerticalUp.SetActive(true);
-                player.DisableObject();
-            }
-        }
-        
-        else if( p_pos_y < -235f && p_pos_y > -315f ){
-            if( cur_hint == 3 ){
-                // dragVerticalUp.SetActive(false);
-                dragHorizontalRight.SetActive(true);
-                player.DisableObject();
-            }
-        }
-
-        else if( p_pos_y < -325f && p_pos_y > -415f ){
-            if( cur_hint == 4 ){
-                // dragVerticalUp.SetActive(false);
-                dragHorizontalRight.SetActive(true);
-                player.DisableObject();
-            }
-        }
-
-        else if( p_pos_y < -425f && p_pos_y > -505f ){
-            if( cur_hint == 5 ){
-                // dragHorizontalRight.SetActive(false);
-                dragVerticalUp.SetActive(true);
-                player.DisableObject();
-            }
-        }
-
-        else if( p_pos_y < -515f && p_pos_y > -595f ){
-            if( cur_hint == 6 ){
-                // dragVerticalUp.SetActive(false);
-                dragHorizontalLeft.SetActive(true);
-                player.DisableObject();
-            }
-        }
-
-        else if( p_pos_y < -605f && p_pos_y > -685f ){
-            if( cur_hint == 7 ){
-                // dragHorizontalLeft.SetActive(false);
-                swipeRight.SetActive(true);
-                player.DisableObject();
-            }
-        }
-        
-        else if( p_pos_y < -695f && p_pos_y > -775f ){
-            if( cur_hint == 8 ){
-                // swipeRight.SetActive(false);
-                swipeLeft.SetActive(true);
-                player.DisableObject();
-            }
-        }
-
-        else if( p_pos_y < -785f && p_pos_y > -865f ){
-            if( cur_hint == 9 ){
-                // swipeLeft.SetActive(false);
-                dragHorizontalLeft.SetActive(true);
+                vertical_drag.SetActive(false);
+                horizantal_drag.SetActive(true);
                 player.DisableObject();
             }
         }
         
         else{
-            dragHorizontalRight.SetActive(false);
+            horizantal_drag.SetActive(false);
         }
 
     }

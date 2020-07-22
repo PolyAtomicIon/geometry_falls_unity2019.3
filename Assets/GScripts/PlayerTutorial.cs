@@ -197,11 +197,11 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
         rb.velocity = new Vector3(0f, 0f, 0f);
         gameObject.SetActive(false);  
 
-        if( get_position_y_axis() > -650f )
-            game_manager.restartTutorial();
-        else{
+        // if( get_position_y_axis() > -650f )
+        //     game_manager.restartTutorial();
+        // else{
             game_manager.finish_tutorial();
-        }
+        // }
     }
 
 }
