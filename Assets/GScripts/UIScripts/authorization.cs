@@ -24,7 +24,7 @@ public class authorization : MonoBehaviour {
     string base_login_url = "http://94.247.128.162/api/core/obtain-token/";
 
 
-    IEnumerator SignUp(string email = "", string phone = "", string password = "")
+    IEnumerator SignUp(string email = "", string phone = null, string password = "")
     {
         WWWForm form = new WWWForm();
         form.AddField("email", email);

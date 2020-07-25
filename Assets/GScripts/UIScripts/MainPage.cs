@@ -30,6 +30,9 @@ public class MainPage : MonoBehaviour {
     private int levels = 0;
 
     public int currentWindowIndex = 0;
+    
+    public TMP_Text rules_text;
+
     // show window
     // 0 - Menu
     // 1 - Events
@@ -179,9 +182,41 @@ public class MainPage : MonoBehaviour {
             AudioBackgroundColor.color = new Color(0, 0, 0, 255);            
         }
     }
+    IEnumerator set_rules_text()
+    {
+        string url = "http://94.247.128.162/api/core/agreement/";
+
+        using (UnityWebRequest www = UnityWebRequest.Get(url))
+        {   
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+                windows[6].SetActive(true);
+            }
+            else
+            {   
+                Debug.Log("Request sent!");
+                JSONNode details = JSONNode.Parse(www.downloadHandler.text);
+            
+                rules_text.text = details["agreement"];
+                // rules_text.text = "agreement";
+
+            }
+        }
+
+    }
 
     void Start(){
         
+        StartCoroutine( set_rules_text() );
+
+        if( !PlayerPrefs.HasKey("Read Agreement") ){
+            showWindow(9);
+            PlayerPrefs.SetInt("Read Agreement", 1); 
+        }
+
         // Syncing  Data or Loading Animation, no matter what is written as an argument
 
         int id = ThreadSafeRandom.ThisThreadsRandom.Next(audios.Count);
