@@ -193,7 +193,7 @@ public class MainPage : MonoBehaviour {
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
-                windows[6].SetActive(true);
+                // windows[6].SetActive(true);
             }
             else
             {   

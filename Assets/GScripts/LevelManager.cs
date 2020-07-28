@@ -67,6 +67,8 @@ public class LevelManager : MonoBehaviour
         // If Model
         if( model ){  
             rd.material = objectPooler.materials.materials_list[1];
+            
+            objectToSpawn.transform.eulerAngles = new Vector3(0f, 0f, 0);
         }
 
         // Call the OnObjectSpwan, differs for player and obstacle.

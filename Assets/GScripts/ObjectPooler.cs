@@ -124,7 +124,7 @@ public class ObjectPooler : MonoBehaviour
         number_each_prefab = object_in_level / 3;
         // number_each_prefab = 2;
 
-        int start_complexity = 2;
+        int start_complexity = 1;
 
         int id = PlayerPrefs.GetInt("id");
 
