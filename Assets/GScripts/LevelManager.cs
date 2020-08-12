@@ -114,7 +114,6 @@ public class LevelManager : MonoBehaviour
         
         // game_manager.progressionColor.material = objectPooler.materials.materials_list[0];
 
-
     }
 
     void Update()

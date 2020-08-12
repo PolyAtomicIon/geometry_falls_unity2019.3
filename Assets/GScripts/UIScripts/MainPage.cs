@@ -33,6 +33,9 @@ public class MainPage : MonoBehaviour {
     
     public TMP_Text rules_text;
 
+    public TMP_Text error_text_field;
+
+    string user_profile_url = "http://94.247.128.162/api/core/profile/";
     // show window
     // 0 - Menu
     // 1 - Events
@@ -43,6 +46,8 @@ public class MainPage : MonoBehaviour {
     // 6 - Error
     // 7 - already played Error
     // 8 - not active Error
+    // 9 - Rules
+    // 10 - Verification
     public void showWindow (int windowIndex = 0){
         windows[ currentWindowIndex ].SetActive(false);
             
@@ -65,6 +70,12 @@ public class MainPage : MonoBehaviour {
 
         eventInformationWindow.SetActive(false);
         couponInformationWindow.SetActive(false);
+    }
+
+    public void show_error(string error_str = "Проблемы с соединением или введены неправильные данные"){
+        error_text_field.text = error_str;
+        
+        windows[6].SetActive(true);
     }
 
     public void set_token(string a){
@@ -208,8 +219,43 @@ public class MainPage : MonoBehaviour {
 
     }
 
+    IEnumerator Check_User_Verification(){
+        WWWForm form = new WWWForm();
+
+        using (UnityWebRequest www = UnityWebRequest.Get(user_profile_url))
+        {
+            www.SetRequestHeader("Authorization", get_token());
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log(www.error);
+                
+                show_error("User profile");
+            }
+            else
+            {
+                windows[6].SetActive(false);
+
+                JSONNode res = JSONNode.Parse(www.downloadHandler.text);
+        
+                Debug.Log("User profile");
+                Debug.Log(res);
+
+                bool email_verified = res["email_verified"];
+
+                if( !email_verified ){
+                    Logout();
+                }
+            }
+        }
+    }
+
     void Start(){
         
+        if( get_token() != "" )
+            StartCoroutine( Check_User_Verification() );
+
         StartCoroutine( set_rules_text() );
 
         if( !PlayerPrefs.HasKey("Read Agreement") ){

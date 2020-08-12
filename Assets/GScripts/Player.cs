@@ -64,6 +64,16 @@ public class Player : MonoBehaviour, IPooledObject
     public int hold_time = 0;
     public int hold_time_limit = 8;
 
+    // Dobule Click 
+    bool one_click = false;
+    bool timer_running;
+    float timer_for_double_click;
+    
+    //this is how long in seconds to allow for a double click
+    float delay = 0.25f;
+
+    // Double Click
+    
     public void increment_score(){
         score += 1;
     }
@@ -73,6 +83,24 @@ public class Player : MonoBehaviour, IPooledObject
         rotating = true ;
         Quaternion startRotation = transform.rotation ;
         Quaternion endRotation = Quaternion.Euler( angles ) * startRotation ;
+
+        for( float t = 0 ; t < Time.deltaTime * 10; t+= Time.deltaTime )
+        {
+            transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
+            yield return null;
+        }
+
+        transform.rotation = endRotation;
+        rotating = false;
+    }
+
+    private IEnumerator InitialPosition( float duration = 1.0f )
+    {
+        rotating = true ;
+        Quaternion startRotation = transform.rotation;
+        Transform target = transform;
+        target.eulerAngles = new Vector3(0f, 0f, 0);
+        Quaternion endRotation = target.rotation;
 
         for( float t = 0 ; t < Time.deltaTime * 10; t+= Time.deltaTime )
         {
@@ -125,12 +153,32 @@ public class Player : MonoBehaviour, IPooledObject
     }
 
     void Update(){
-
-        rb.angularDrag = angular_drag;
         
+        rb.angularDrag = angular_drag;
+
         if( Input.GetMouseButtonDown(0) ){
             dragging = true;
+
+            if (!one_click){
+                timer_for_double_click = Time.time;
+                one_click = true;
+            }
+            else{
+                if ((Time.time - timer_for_double_click) > delay){
+                    timer_for_double_click = Time.time;
+                } 
+                else{
+                    //Do something here if double clicked
+                    Debug.Log("Double Click!");
+                    // transform.eulerAngles = new Vector3(0f, 0f, 0);
+                    StartCoroutine(InitialPosition(rotation_duration));
+    
+                    one_click = false;
+                }
+            }
+       
         }
+
         if( Input.GetMouseButtonUp(0) ){
             dragging = false;
             dragY = false;
@@ -141,6 +189,7 @@ public class Player : MonoBehaviour, IPooledObject
             rb.angularVelocity = Vector3.zero;
         }
 
+
     }
 
     void FixedUpdate(){
@@ -148,11 +197,15 @@ public class Player : MonoBehaviour, IPooledObject
         if( dragging ){
             
             // As in PolySphere game, Torque
-            rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad * 1.25f;
+            rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad;
             rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
+
+            // rb.AddTorque (Vector3.down * -rotX * 5000 * Time.fixedDeltaTime);
+            // rb.AddTorque (Vector3.right * rotY * 5000 * Time.fixedDeltaTime);
 
             if ( Math.Abs(rotX) > Math.Abs(rotY) && !dragY ){
                 rb.AddTorque (Vector3.down * -rotX * rotationSpeed2 * Time.fixedDeltaTime);
+
                 dragX = true;
                 dragY = false;
             }
@@ -175,7 +228,8 @@ public class Player : MonoBehaviour, IPooledObject
     {
         Debug.Log(col.gameObject.name);    
         rb.velocity = new Vector3(0f, 0f, 0f);
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
+        rb.Sleep();
         game_manager.is_level_started = false;
         game_manager.game_over();
     }

@@ -80,7 +80,7 @@ public class FortuneWheelManager : MonoBehaviour
     	if (!_isStarted)
     	    return;
 
-    	float maxLerpRotationTime = 4f;
+    	float maxLerpRotationTime = 6f;
     
     	// increment timer once per frame
     	_currentLerpRotationTime += Time.deltaTime;

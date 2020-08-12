@@ -261,8 +261,8 @@ public class Manager : MonoBehaviour
         next_model_index += 1;
         next_model_index %= max_models_number;
 
-        return res; 
-        // return 0;
+        // return res; 
+        return 0;
         // return 2;
     }
 
@@ -349,8 +349,20 @@ public class Manager : MonoBehaviour
 
             int tmp_id = 0;
 
+            // number of Present coupon value is repeated, it should be less
+            int pr_sz = 12 / values_randomizer.Count - 1;
+            int pr_cnt = 1; // number of Present coupon inserted
+
             while( values_randomizer.Count < 12 ){
-                values_randomizer.Add(values_randomizer[tmp_id]);
+
+                if( values_randomizer[tmp_id] == present_value && pr_cnt < pr_sz ){
+                    values_randomizer.Add(values_randomizer[tmp_id]);
+                    pr_cnt++;
+                }
+                else if( values_randomizer[tmp_id] != present_value ){
+                    values_randomizer.Add(values_randomizer[tmp_id]);
+                }
+
                 tmp_id++;
                 tmp_id %= values_randomizer.Count;
             }
@@ -464,6 +476,8 @@ public class Manager : MonoBehaviour
 
     private void LoadAdditiveScene(){
         SceneManager.LoadScene("AdditiveScene", LoadSceneMode.Additive);
+        
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
         // yield return true;
     }
 
@@ -487,6 +501,7 @@ public class Manager : MonoBehaviour
             // if tutorial
             Loader.SetActive(false);
             LoadAdditiveScene();
+
             PlayerPrefs.SetInt("tutorial", -1);
             palette = 3;
         }
@@ -515,10 +530,15 @@ public class Manager : MonoBehaviour
             bgMusic.volume = 0.0f;
         } 
 
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
+
     }
 
     void Update()
     {
+
+        if( SceneManager.GetActiveScene().name != "Base" )
+            SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
 
         // set level to Level Label UI
         LevelLabel.text = levelString();
