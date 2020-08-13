@@ -43,7 +43,7 @@ public class LevelManager : MonoBehaviour
         
     }
 
-    private void initialize_object(GameObject objectToSpawn, Vector3 position, bool model = false){
+    private void initialize_object(GameObject objectToSpawn, Vector3 position, bool model, float angle){
         
         objectToSpawn.SetActive(false);
         objectToSpawn.SetActive(true);
@@ -59,9 +59,9 @@ public class LevelManager : MonoBehaviour
         // if Obstacle
         if( !model ){
             // Random rotation
-            objectToSpawn.transform.eulerAngles = new Vector3(-90f, ThreadSafeRandom.ThisThreadsRandom.Next(4) * 90f, 0);
+            objectToSpawn.transform.eulerAngles = new Vector3(-90f, angle - 180.0f, 0);
                 
-            rd.material = objectPooler.materials.materials_list[0];;
+            rd.material = objectPooler.materials.materials_list[0];
         }
 
         // If Model
@@ -82,7 +82,7 @@ public class LevelManager : MonoBehaviour
         objectPooler.materials.materials_list[0].SetColor("_BaseColor", objectPooler.palettes[random_palette].colors[0]); 
     
         // for Player, main objects material
-        float intensity = 0.01f;
+        float intensity = 0.004f;
         
         objectPooler.materials.materials_list[1].SetColor("_BaseColor", objectPooler.palettes[random_palette].colors[1]);    
         objectPooler.materials.materials_list[1].EnableKeyword ("_EMISSION");
@@ -105,12 +105,12 @@ public class LevelManager : MonoBehaviour
         
         // player's model
         GameObject model = objectPooler.modelsDictionary[tag];
-        initialize_object(model, objectPooler.VectorZero, true);        
+        initialize_object(model, objectPooler.VectorZero, true, 0);        
 
         // Place obstacles by positions from GAME MANAGER.cs
 
         for(int i = 0; i < size; i++)
-            initialize_object(game_manager.obstacles_array_shuffled[i], game_manager.obstacle_positions[i]);
+            initialize_object(game_manager.obstacles_array[i], game_manager.obstacle_positions[i], false, game_manager.obstacle_angles[i]);
         
         // game_manager.progressionColor.material = objectPooler.materials.materials_list[0];
 

@@ -22,6 +22,8 @@ public class Obstacle : MonoBehaviour, IPooledObject
     Vector3 initialPos;
     /* END */
 
+    bool rotated = false;
+
     void Start(){
         game_manager = FindObjectOfType<Manager>();
         objectPooler = ObjectPooler.Instance;
@@ -40,7 +42,29 @@ public class Obstacle : MonoBehaviour, IPooledObject
         obstacle_index = (int) temp_obstacle_index - 1;
     }
 
+    private IEnumerator RotateAnimation( float duration = 0.35f )
+    {
+        float angle = game_manager.obstacle_angles[obstacle_index];
+        rotated = true;
+        Quaternion startRotation = transform.rotation;
+        Transform target = transform;
+        target.eulerAngles = new Vector3(-90, angle, 0f);
+        Quaternion endRotation = target.rotation;
+
+        for( float t = 0 ; t < Time.deltaTime * 40; t+= Time.deltaTime )
+        {
+            transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
+            yield return null;
+        }
+
+        transform.rotation = endRotation;
+    }
+
     void Update(){
+
+        if( (game_manager.current_obstacle == obstacle_index || obstacle_index == 0 ) && !rotated ){
+            StartCoroutine( RotateAnimation() );
+        }
 
         if( game_manager.current_obstacle > obstacle_index ){
             is_active = false;

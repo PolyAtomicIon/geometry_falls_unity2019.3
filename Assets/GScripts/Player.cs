@@ -10,7 +10,7 @@ public class Player : MonoBehaviour, IPooledObject
     private Transform transform;
     // private float angular_drag = 1.5f;
     private float fall_down_speed = -27f;
-    public float acceleration = -0.075f;
+    private float acceleration = -0.035f;
     public float speed;
     public Renderer render;
 
@@ -74,9 +74,15 @@ public class Player : MonoBehaviour, IPooledObject
 
     // Double Click
     
+    CameraScript cameraScript;
+
+    bool game_over = false;
+
     public void increment_score(){
         score += 1;
+        // cameraScript.Animation();
     }
+    
 
     private IEnumerator Rotate( Vector3 angles, float duration = 1.0f )
     {
@@ -137,6 +143,8 @@ public class Player : MonoBehaviour, IPooledObject
         render = GetComponent<Renderer>();
         transform = GetComponent<Transform>();
 
+        cameraScript = FindObjectOfType<CameraScript>();
+
         rb.centerOfMass = Vector3.zero;
         rb.inertiaTensorRotation = Quaternion.identity;
 
@@ -150,13 +158,19 @@ public class Player : MonoBehaviour, IPooledObject
         game_manager.player = this;
         fall_down_speed = game_manager.fall_down_speed;
         fallDown(fall_down_speed);
+        
+        rb.angularDrag = angular_drag;
     }
 
     void Update(){
         
-        rb.angularDrag = angular_drag;
+        // rb.angularDrag = angular_drag;
 
-        if( Input.GetMouseButtonDown(0) ){
+        if( game_over ){    
+            rb.velocity = new Vector3(0f, 0f, 0f);
+        } 
+
+        if( Input.GetMouseButtonDown(0) && !game_over ){
             dragging = true;
 
             if (!one_click){
@@ -230,6 +244,7 @@ public class Player : MonoBehaviour, IPooledObject
         rb.velocity = new Vector3(0f, 0f, 0f);
         // gameObject.SetActive(false);
         rb.Sleep();
+        game_over = true;
         game_manager.is_level_started = false;
         game_manager.game_over();
     }

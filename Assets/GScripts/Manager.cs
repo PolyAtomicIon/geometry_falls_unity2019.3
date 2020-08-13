@@ -19,7 +19,7 @@ public class Manager : MonoBehaviour
     public enum Constants
     {
         max_touches = 25,
-        object_in_level = 9,
+        object_in_level = 6,
         obstacles_on_scene = 50
     }
     
@@ -92,12 +92,27 @@ public class Manager : MonoBehaviour
     public float gap = -90f;
     public Vector3 gap_between;
     public Vector3 obstacle_position;
+    
     public Vector3[] obstacle_positions = new Vector3[(int) Constants.object_in_level];
+    public float[] obstacle_angles = new float[(int) Constants.object_in_level];
+    public float[] degree_levels = {180.0f, 90.0f, 30.0f, 15.0f};
+    
+    [SerializeField]
+    private float Complexity = 1;
+    [SerializeField]
+    private float DegreeLevel = 0;
+    private float StartDegreeLevel = 0.5f;
+    private float last_degree = -1;
+
+    [SerializeField]
+    private float Limit;
+    [SerializeField]
+    private int[] complexity_counter = new int[20];
+
     public int current_obstacle = 0;
 
     public List<GameObject> obstacles_array = new List<GameObject>();
-    public List<GameObject> obstacles_array_shuffled = new List<GameObject>();
- 
+    
     public bool is_level_started = false;
     
     public AudioSource bgMusic;
@@ -142,42 +157,75 @@ public class Manager : MonoBehaviour
         }
     }
 
-    private void rearrange_obstacles_array(){
+    float convert_to_angle(int level){
+        // something with if s or math
+        float degree = degree_levels[ level ];
+        float multiplier = ThreadSafeRandom.ThisThreadsRandom.Next( (int) 4 ) + 1;
+        Debug.Log(multiplier);
+        float result = degree * multiplier;
+        result %= 360;
+        while(result == last_degree)
+            result += degree;
+        last_degree = result;
+        return result;
+    }
 
-        int length = obstacles_array.Count;
+    public void rearrange_obstacles_array(){
 
-        // Debug.Log("LENGTH of the array");
-        // Debug.Log(length);
+        // Limit = objectPooler.obstacles[1].Count;
+        Limit = 4;
+        Complexity = Math.Max(1.0f, Complexity);
+        // DegreeLevel = Math.Max(1.0f, DegreeLevel);
 
-        // Remove objects.
+        // Complexity = 1f;
+        // DegreeLevel = 0f;
 
-        for(int i = 0; i < length; i++){
-            obstacles_array[i].SetActive(false);
-        }
+        // int length = obstacles_array.Count;
+        int length = objectPooler.object_in_level;
 
-        obstacles_array.Reverse();
+        // we'll delete all obstacles, so no obstacle is repeated
+        for(int i=0; i<20; i++)
+            complexity_counter[i] = 0;
 
-        for(int i = length - 1; i >= length - objectPooler.number_each_prefab; i--){
-            obstacles_array.RemoveAt(i);  
+        if( obstacles_array.Count == length ){
+            for(int i = 0; i < length; i++){
+                obstacles_array[i].SetActive(false);
+            }
         }
         
-        obstacles_array.Reverse();
-        // Done
+        obstacles_array.Clear();
 
-        // Add objects
+        for(int i = 0; i < length; i++){
+            
+            // Find obstacle, insert, increment counters
+            Debug.Log((int) Complexity);
+            GameObject c_obstacle = objectPooler.obstacles[ (int) Complexity ].Dequeue();
+            // complexity_counter[(int) Complexity]++;
+            obstacles_array.Add(c_obstacle);
+            objectPooler.obstacles[ (int) Complexity ].Enqueue(c_obstacle);
 
-        for(int i = 1; i <= objectPooler.number_each_prefab; i++){
-            GameObject obstacle = objectPooler.objectPool.Dequeue();
-            obstacles_array.Add(obstacle);
-            objectPooler.objectPool.Enqueue(obstacle);
+            // Set angle and convert
+            obstacle_angles[i] = convert_to_angle( (int) DegreeLevel );
+
+            // Change complexity and degreesLevel
+            Complexity += 0.13f;
+
+            float angle = degree_levels[(int) DegreeLevel];
+            int multiplier = ThreadSafeRandom.ThisThreadsRandom.Next( (int) (180 / angle) ) + 1;
+            DegreeLevel += Math.Min(0.35f, (angle / 180)) * multiplier;
+
+            if( DegreeLevel >= 4 ){
+                DegreeLevel = StartDegreeLevel;
+                StartDegreeLevel += 0.5f;
+                StartDegreeLevel %= 4;
+            }
+
+            // Limit and - or + , random
+
+            if( Complexity > objectPooler.max_complexity_value){
+                Complexity = 1.0f; 
+            }
         }
-
-        obstacles_array_shuffled.Clear();
-        foreach(GameObject obs in obstacles_array)
-            obstacles_array_shuffled.Add(obs);
-
-        obstacles_array_shuffled.Shuffle();
-
 
     }
 
@@ -261,8 +309,8 @@ public class Manager : MonoBehaviour
         next_model_index += 1;
         next_model_index %= max_models_number;
 
-        // return res; 
-        return 0;
+        return res; 
+        // return 0;
         // return 2;
     }
 

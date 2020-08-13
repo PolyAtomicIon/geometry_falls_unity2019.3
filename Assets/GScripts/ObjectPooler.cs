@@ -86,7 +86,7 @@ public class ObjectPooler : MonoBehaviour
 
     #endregion
 
-    public int max_complexity_value = 3;
+    public int max_complexity_value = 5;
 
     public List<Pool> models;
      
@@ -104,10 +104,12 @@ public class ObjectPooler : MonoBehaviour
     public Manager game_manager;
 
     public int object_in_level = 12;
-    public int number_each_prefab = 0;
+    public int number_each_prefab = 8;
     
     // place where all obstacles are stored 
-    public Queue<GameObject> objectPool = new Queue<GameObject>();
+    // public Queue<GameObject> objectPool = new Queue<GameObject>();
+    
+    public Queue<GameObject>[] obstacles = new Queue<GameObject>[30];
 
     public void Start()
     {
@@ -119,81 +121,48 @@ public class ObjectPooler : MonoBehaviour
         game_manager.max_models_number = models.Count;
         game_manager.create_random_models_indexes();
 
-
         object_in_level = (int) game_manager.object_in_level();
-        number_each_prefab = object_in_level / 3;
-        // number_each_prefab = 2;
 
         int start_complexity = 1;
 
         int id = PlayerPrefs.GetInt("id");
 
         if( id == -1 ){
-            max_complexity_value = 2;
+            max_complexity_value = 5;
             start_complexity = 1;
         }
 
         // poolDictionary = new Dictionary<string, Queue<GameObject>>();
         modelsDictionary = new Dictionary<string, GameObject>();
 
-        // Add all gameobjects here, then we will shuffle, sorted by obstacle complexity
-        List<GameObject>[] temp_gameobjects = new List<GameObject>[10+1];
-
         // create for every type of prefab 'number_each_prefab' clones
         Pool pool = models[game_manager.get_current_random_model_index()];
         
-        // clean all obstacles
-        for (int i = 0; i <= 10; i++)
-            temp_gameobjects[i] = new List<GameObject>();
-        
-        // the first type of obstacle will appear 3*number_each_prefab times
-        // second one will appear 2*number_each_prefab times
-        // other will appear only number_each_prefab times
-
-        int multiplier = 2;
-
         foreach (Obstacle obstacle in pool.obstacles_prefab){
             
-            for(int j = 0; j < number_each_prefab * multiplier; j++){
+            // if( obstacle.complexity < start_complexity || obstacle.complexity > max_complexity_value )
+            //     continue;
 
-                if( obstacle.complexity < start_complexity || obstacle.complexity > max_complexity_value )
-                    continue;
+            for(int i=0; i<number_each_prefab; i++){
+
+                // Debug.Log( obstacle.complexity );
 
                 GameObject obstacle_prefab = Instantiate(obstacle.prefab) as GameObject;
                 obstacle_prefab.SetActive(false);
-                // Random
-                temp_gameobjects[obstacle.complexity].Add(obstacle_prefab);
+                // Store by complexity, complexity is unique
+                if( obstacles[obstacle.complexity] == null ){
+                    obstacles[obstacle.complexity] = new Queue<GameObject>();
+                }
+                obstacles[obstacle.complexity].Enqueue(obstacle_prefab);
+
             }
 
-            if( multiplier > 1 )
-                multiplier -= 1;
-
         }
 
-        // Shuffle, add them to Queue
-        for(int i=1; i<=max_complexity_value; i++){
-            
-            // temp_gameobjects[i].Shuffle();
-
-            foreach(GameObject prefab in temp_gameobjects[i])
-                objectPool.Enqueue(prefab);
-        }
+        // Initiate first level objects ....
+        // game_manager.obstacles_array;
+        game_manager.rearrange_obstacles_array();
         
-        // create obstacles_array
-        for(int i=1; i<=object_in_level; i++){
-            GameObject obstacle = objectPool.Dequeue();
-            game_manager.obstacles_array.Add(obstacle);
-            objectPool.Enqueue(obstacle);
-        }
-
-       game_manager.obstacles_array_shuffled.Clear();
-        foreach(GameObject obs in game_manager.obstacles_array)
-            game_manager.obstacles_array_shuffled.Add(obs);
-
-        game_manager.obstacles_array_shuffled.Shuffle();
-
-        //poolDictionary.Add(pool.tag, objectPool);
-        // end
 
         // Player's model, add tag, add to dictionary
         

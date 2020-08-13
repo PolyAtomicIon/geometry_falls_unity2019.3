@@ -30,7 +30,9 @@ public class MainPage : MonoBehaviour {
     private int levels = 0;
 
     public int currentWindowIndex = 0;
-    
+
+    public GameObject login_button, logout_button; 
+
     public TMP_Text rules_text;
 
     public TMP_Text error_text_field;
@@ -253,8 +255,13 @@ public class MainPage : MonoBehaviour {
 
     void Start(){
         
-        if( get_token() != "" )
+        if( get_token() != "" ){
+            logout_button.SetActive(true);
             StartCoroutine( Check_User_Verification() );
+        }
+        else{
+            login_button.SetActive(true);
+        }
 
         StartCoroutine( set_rules_text() );
 
