@@ -173,23 +173,25 @@ public class Player : MonoBehaviour, IPooledObject
         if( Input.GetMouseButtonDown(0) && !game_over ){
             dragging = true;
 
-            if (!one_click){
-                timer_for_double_click = Time.time;
-                one_click = true;
-            }
-            else{
-                if ((Time.time - timer_for_double_click) > delay){
-                    timer_for_double_click = Time.time;
-                } 
-                else{
-                    //Do something here if double clicked
-                    Debug.Log("Double Click!");
-                    // transform.eulerAngles = new Vector3(0f, 0f, 0);
-                    StartCoroutine(InitialPosition(rotation_duration));
+            // Double Tap Detection
+
+            // if (!one_click){
+            //     timer_for_double_click = Time.time;
+            //     one_click = true;
+            // }
+            // else{
+            //     if ((Time.time - timer_for_double_click) > delay){
+            //         timer_for_double_click = Time.time;
+            //     } 
+            //     else{
+            //         //Do something here if double clicked
+            //         Debug.Log("Double Click!");
+            //         // transform.eulerAngles = new Vector3(0f, 0f, 0);
+            //         StartCoroutine(InitialPosition(rotation_duration));
     
-                    one_click = false;
-                }
-            }
+            //         one_click = false;
+            //     }
+            // }
        
         }
 
@@ -211,27 +213,27 @@ public class Player : MonoBehaviour, IPooledObject
         if( dragging ){
             
             // As in PolySphere game, Torque
-            rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad;
-            rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
+            rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad * 1.25f;
+            // rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
 
             // rb.AddTorque (Vector3.down * -rotX * 5000 * Time.fixedDeltaTime);
             // rb.AddTorque (Vector3.right * rotY * 5000 * Time.fixedDeltaTime);
 
-            if ( Math.Abs(rotX) > Math.Abs(rotY) && !dragY ){
+            // if ( Math.Abs(rotX) > Math.Abs(rotY) && !dragY ){
                 rb.AddTorque (Vector3.down * -rotX * rotationSpeed2 * Time.fixedDeltaTime);
 
-                dragX = true;
-                dragY = false;
-            }
-            else if( Math.Abs(rotX) < Math.Abs(rotY) && !dragX ){
-                rb.AddTorque (Vector3.right * rotY * rotationSpeed2 * Time.fixedDeltaTime);
-                dragY = true;
-                dragX = false;
-            }
-            else{
-                dragX = false;
-                dragY = false;
-            }
+            //     dragX = true;
+            //     dragY = false;
+            // }
+            // else if( Math.Abs(rotX) < Math.Abs(rotY) && !dragX ){
+            //     rb.AddTorque (Vector3.right * rotY * rotationSpeed2 * Time.fixedDeltaTime);
+            //     dragY = true;
+            //     dragX = false;
+            // }
+            // else{
+            //     dragX = false;
+            //     dragY = false;
+            // }
 
             hold_time += 1;
         }

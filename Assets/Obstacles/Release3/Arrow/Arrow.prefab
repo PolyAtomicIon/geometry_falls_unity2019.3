@@ -124,7 +124,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rb: {fileID: 0}
-  acceleration: -0.075
   speed: 0
   render: {fileID: 0}
   rotation_duration: 0.35

@@ -132,9 +132,21 @@ public class Tutorial : MonoBehaviour
                 player.DisableObject();
             }
         }
+
+        else if( p_pos_y < -235f && p_pos_y > -315f ){
+            if( cur_hint == 3 ){
+                
+                swipe.SetActive(true);
+                vertical_drag.SetActive(false);
+                horizantal_drag.SetActive(false);
+                player.DisableObject();
+            }
+        }
         
         else{
             horizantal_drag.SetActive(false);
+            vertical_drag.SetActive(false);
+            swipe.SetActive(false);
         }
 
     }

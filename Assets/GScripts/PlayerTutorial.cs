@@ -128,7 +128,14 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
         if( Input.GetMouseButtonDown(0) ){
             dragging = true;
             if( rb.IsSleeping() ){
-                EnableObject();
+
+                // if swipe no delays
+                if(game_manager.cur_hint == 3)
+                    StartCoroutine(EnableObject(true));
+                else
+                    StartCoroutine(EnableObject());
+                // EnableObject();
+                
                 game_manager.DisableHints();
                 game_manager.cur_hint ++;
                 // Time.timeScale = 1;
@@ -152,22 +159,22 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
             
             // As in PolySphere game, Torque
             rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad * 1.25f;
-            rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
+            // rotY = Input.GetAxis("Mouse Y") * Mathf.Deg2Rad;
 
-            if ( Math.Abs(rotX) > Math.Abs(rotY) && !dragY ){
+            // if ( Math.Abs(rotX) > Math.Abs(rotY) && !dragY ){
                 rb.AddTorque (Vector3.down * -rotX * rotationSpeed2 * Time.fixedDeltaTime);
-                dragX = true;
-                dragY = false;
-            }
-            else if( Math.Abs(rotX) < Math.Abs(rotY) && !dragX ){
-                rb.AddTorque (Vector3.right * rotY * rotationSpeed2 * Time.fixedDeltaTime);
-                dragY = true;
-                dragX = false;
-            }
-            else{
-                dragX = false;
-                dragY = false;
-            }
+            //     dragX = true;
+            //     dragY = false;
+            // }
+            // else if( Math.Abs(rotX) < Math.Abs(rotY) && !dragX ){
+            //     rb.AddTorque (Vector3.right * rotY * rotationSpeed2 * Time.fixedDeltaTime);
+            //     dragY = true;
+            //     dragX = false;
+            // }
+            // else{
+            //     dragX = false;
+            //     dragY = false;
+            // }
 
             hold_time += 1;
         }
@@ -183,9 +190,12 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
         // rb.velocity = new Vector3(0f, 0f, 0f);
     }
 
-    public void EnableObject(){
+    public IEnumerator EnableObject(bool isSwipe = false){
         // gameObject.SetActive(false);  
+        
         rb.WakeUp();
+        if( !isSwipe )
+            yield return new WaitForSeconds(1.5f);
         rb.velocity = cur_velocity;
         cur_velocity = new Vector3(0, 0, 0);
     }

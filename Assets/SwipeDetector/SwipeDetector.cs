@@ -95,12 +95,12 @@ public class SwipeDetector : MonoBehaviour
 
         /* define direction */
 
-        if( direction == SwipeDirection.Up ){
-            player.rotate(0);
-        }
-        if( direction == SwipeDirection.Down ){
-            player.rotate(2);
-        }
+        // if( direction == SwipeDirection.Up ){
+        //     player.rotate(0);
+        // }
+        // if( direction == SwipeDirection.Down ){
+        //     player.rotate(2);
+        // }
         if( direction == SwipeDirection.Left ){
             player.rotate(1);
         }
