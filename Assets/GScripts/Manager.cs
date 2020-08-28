@@ -96,6 +96,8 @@ public class Manager : MonoBehaviour
     public Vector3[] obstacle_positions = new Vector3[(int) Constants.object_in_level];
     public float[] obstacle_angles = new float[(int) Constants.object_in_level];
     public float[] degree_levels = {180.0f, 90.0f, 30.0f, 15.0f, 7.5f};
+    // public float[] degree_levels = {7.5f, 15.0f, 30.0f, 90.0f, 180.0f};
+
     
     [SerializeField]
     private float Complexity = 1;

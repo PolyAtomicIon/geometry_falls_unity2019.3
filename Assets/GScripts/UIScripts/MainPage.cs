@@ -17,6 +17,9 @@ public class MainPage : MonoBehaviour {
     public GameObject eventInformationWindow;
     public List<TMP_Text> event_info_texts;
     public Button EventStartButton;
+    public Button EventsButton;
+    public GameObject EventsButton_message;
+
     public GameObject sideBar;
 
     public Image AudioBackgroundColor; 
@@ -165,10 +168,19 @@ public class MainPage : MonoBehaviour {
     }
 
     public void StartPractice (){
+        
+        // Player can not go to events, without playing practice at least once
+        if( !PlayerPrefs.HasKey("Played practice") ){
+            PlayerPrefs.SetInt("Played practice", 1); 
+        }
+
+        EventsButton.enabled = true;
+
         // set id to -1, to say it is practice
         PlayerPrefs.SetInt("id", -1);
         PlayerPrefs.SetInt("levels", 1000);
         SceneManager.LoadScene("Base");
+        
     }
 
     public void StartEvent(int id){
@@ -255,7 +267,15 @@ public class MainPage : MonoBehaviour {
     }
 
     void Start(){
-        
+
+        // PlayerPrefs.DeleteKey("Played practice"); 
+
+        if( !PlayerPrefs.HasKey("Played practice") ){
+            EventsButton.interactable = false;
+                
+            EventsButton_message.SetActive(true);
+        }
+
         if( get_token() != "" ){
             logout_button.SetActive(true);
             StartCoroutine( Check_User_Verification() );

@@ -83,9 +83,13 @@ public class Event{
         // Debug.Log(days_left);
 
         if( st_days_left > 0 )
-            date_information = "До старта\n'" + st_days_left.ToString() + " дня";
+            date_information = "До старта\n" + st_days_left.ToString() + " день";
         else
-            date_information = "До конца\n" + days_left.ToString() + " дней";
+            if( days_left < 0 ){
+                date_information = "Прошло";
+            }
+            else
+                date_information = "До конца\n" + days_left.ToString() + " день";
 
         active = is_active;
     }

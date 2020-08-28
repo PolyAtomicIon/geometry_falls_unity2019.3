@@ -243,6 +243,7 @@ public class Player : MonoBehaviour, IPooledObject
      void OnCollisionEnter (Collision col)
     {
         Debug.Log(col.gameObject.name);    
+        dragging = false;
         rb.velocity = new Vector3(0f, 0f, 0f);
         // gameObject.SetActive(false);
         rb.Sleep();
