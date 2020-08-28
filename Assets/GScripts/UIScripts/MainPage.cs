@@ -106,7 +106,8 @@ public class MainPage : MonoBehaviour {
         couponInformationWindow.SetActive( true );
         coupon_info_texts[0].text = cur_coupon.provider_name;
         coupon_info_texts[1].text = cur_coupon.key;
-        coupon_info_texts[2].text = cur_coupon.value.ToString() + "%";
+        // coupon_info_texts[2].text = cur_coupon.value.ToString() + "%";
+        coupon_info_texts[2].text = cur_coupon.value.ToString();
     }
 
     public void CloseCouponInformationWindow (){
@@ -233,7 +234,7 @@ public class MainPage : MonoBehaviour {
             {
                 Debug.Log(www.error);
                 
-                show_error("User profile");
+                show_error();
             }
             else
             {

@@ -8,6 +8,9 @@ public class Player : MonoBehaviour, IPooledObject
 
     public Rigidbody rb;
     private Transform transform;
+
+    private Collider collider;
+
     // private float angular_drag = 1.5f;
     private float fall_down_speed = -27f;
     private float acceleration = -0.035f;
@@ -78,9 +81,80 @@ public class Player : MonoBehaviour, IPooledObject
 
     bool game_over = false;
 
+    // new update: Lives
+
+    Vector3 ImpulseForce = new Vector3(0, 0, 0);
+    bool isMoveUpward = false;
+    bool collided = false;
+    float moveUpwardSpeed = 50f;    
+    [SerializeField] Vector3 target_position;
+    public int lives = 10;
+    private Vector3 current_velocity;
+
+    public void set_gravity(float acceleration = 0f){
+        Physics.gravity = new Vector3(0, acceleration, 0);    
+    }
+
+    public void addImpulse(float force){
+        ImpulseForce = new Vector3(0, force, 0);
+        rb.AddForce(ImpulseForce, ForceMode.Impulse);
+    }
+
     public void increment_score(){
         score += 1;
         // cameraScript.Animation();
+    }
+
+    void moveUpward(){
+        // float step =  moveUpwardSpeed * Time.deltaTime; // calculate distance to move
+
+        // transform.position = Vector3.MoveTowards(transform.position, target_position, step);
+
+        // Check if the position of the cube and sphere are approximately equal.
+        if (Vector3.Distance(transform.position, target_position) < 5f)
+        {
+            isMoveUpward = false;
+            collided = false;
+            resumeGame();
+        }
+    }
+
+    public void resumeGame(){
+        // rb.WakeUp();
+        // rb.velocity = current_velocity;
+        // current_velocity = new Vector3(0, 0, 0);
+        addImpulse(-rb.velocity.y * 2);
+        collider.enabled = !collider.enabled;
+    }
+
+    public void obstacle_hit(){
+        
+        collider.enabled = !collider.enabled;
+        lives -= 1;
+        Debug.Log("Lives " +  lives);
+
+        isMoveUpward = true;
+        Debug.Log(current_velocity);
+        // rb.velocity = new Vector3(0f, 0f, 0f);
+        // gameObject.SetActive(false);
+        
+        // game over
+        if( lives <= 0 ){
+            rb.velocity = new Vector3(0f, 0f, 0f);
+            dragging = false;
+            game_over = true;
+            game_manager.is_level_started = false;
+            game_manager.game_over();
+            rb.Sleep();
+        }
+        else{
+            StartCoroutine(InitialPosition(rotation_duration));
+            // set_gravity();
+            addImpulse(-current_velocity.y);
+            rb.velocity = new Vector3(0, 0 , 0);
+            // target_position = transform.position - game_manager.gap_between;
+            target_position = transform.position - new Vector3(0, game_manager.gap_between.y / 2, 0);
+        }
     }
     
 
@@ -137,11 +211,16 @@ public class Player : MonoBehaviour, IPooledObject
     }
 
     void Start(){
-        Physics.gravity = new Vector3(0, acceleration, 0);    
+
+        lives = 10;
+        isMoveUpward = false;
+
+        set_gravity(acceleration);
 
         rb = GetComponent<Rigidbody>();
         render = GetComponent<Renderer>();
         transform = GetComponent<Transform>();
+        collider = GetComponent<Collider>();
 
         cameraScript = FindObjectOfType<CameraScript>();
 
@@ -166,9 +245,32 @@ public class Player : MonoBehaviour, IPooledObject
         
         // rb.angularDrag = angular_drag;
 
+        // if( Input.GetKeyDown(KeyCode.W) ){
+                
+        //     ImpulseForce = new Vector3(0, 2*-rb.velocity.y, 0);
+        //     rb.AddForce(ImpulseForce, ForceMode.Impulse);
+        // }
+
+        // if( Input.GetKeyDown(KeyCode.E) ){
+                
+        //     ImpulseForce = new Vector3(0, 2*-rb.velocity.y, 0);
+        //     rb.AddForce(ImpulseForce, ForceMode.Impulse);
+        // }
+
+
         if( game_over ){    
             rb.velocity = new Vector3(0f, 0f, 0f);
         } 
+
+        if( isMoveUpward ){
+            moveUpward();
+            // Debug.Log("RB V " + rb.velocity);
+        }
+
+        if( !isMoveUpward && -rb.velocity.y > 20f  ){
+            // Debug.Log("CURRENT V" + current_velocity.y);
+            current_velocity = new Vector3(0, rb.velocity.y, 0);   
+        }
 
         if( Input.GetMouseButtonDown(0) && !game_over ){
             dragging = true;
@@ -209,7 +311,7 @@ public class Player : MonoBehaviour, IPooledObject
     }
 
     void FixedUpdate(){
-        
+
         if( dragging ){
             
             // As in PolySphere game, Torque
@@ -241,14 +343,13 @@ public class Player : MonoBehaviour, IPooledObject
     }
     
      void OnCollisionEnter (Collision col)
-    {
+    { 
+
+        Debug.Log("Collided");    
+        Debug.Log("Cur V" + current_velocity);    
+        Debug.Log("Rb V" + rb.velocity);    
         Debug.Log(col.gameObject.name);    
-        rb.velocity = new Vector3(0f, 0f, 0f);
-        // gameObject.SetActive(false);
-        rb.Sleep();
-        game_over = true;
-        game_manager.is_level_started = false;
-        game_manager.game_over();
+        obstacle_hit(); 
     }
 
 }

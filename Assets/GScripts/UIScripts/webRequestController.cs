@@ -173,8 +173,8 @@ public class webRequestController : MonoBehaviour
                     
                 string description = details["description"];
 
-                if( description != null && description.Length > 64 ){
-                    description = description.Substring(0, 64) + "..."; 
+                if( description != null && description.Length > 128 ){
+                    description = description.Substring(0, 128) + "..."; 
                 }
                 
                 events[id].description = description;

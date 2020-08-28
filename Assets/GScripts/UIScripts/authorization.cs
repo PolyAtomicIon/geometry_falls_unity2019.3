@@ -74,7 +74,7 @@ public class authorization : MonoBehaviour {
             {
                 Debug.Log(www.error);
                 
-                manager.show_error("Send_verification_code");
+                manager.show_error("Проблемы с отправкой кода");
             }
             else
             {
@@ -122,7 +122,7 @@ public class authorization : MonoBehaviour {
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
-                manager.show_error("SignUp");
+                manager.show_error("Проблемы с соединением или данная почта уже используется");
             }
             else
             {
@@ -171,7 +171,7 @@ public class authorization : MonoBehaviour {
             {
                 Debug.Log(www.error);
                 
-                manager.show_error("User profile");
+                manager.show_error("Проблемы с соединением или введены неправильные данные");
             }
             else
             {
@@ -219,7 +219,7 @@ public class authorization : MonoBehaviour {
             {
                 Debug.Log(www.error);
                 
-                manager.show_error("Login");
+                manager.show_error("Проблемы с соединением или введены неправильные данные");
             }
             else
             {

@@ -38,7 +38,8 @@ public class FortuneWheelManager : MonoBehaviour
 	public void ParsedData(){
 		
 		for(int i=0; i<12; i++){
-			text_values[i].text = game_manager.values_randomizer[i].ToString() + " %";
+			// add unit
+			text_values[i].text = game_manager.values_randomizer[i].ToString();
 		}
 
 	}

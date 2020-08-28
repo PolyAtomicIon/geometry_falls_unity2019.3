@@ -95,7 +95,7 @@ public class Manager : MonoBehaviour
     
     public Vector3[] obstacle_positions = new Vector3[(int) Constants.object_in_level];
     public float[] obstacle_angles = new float[(int) Constants.object_in_level];
-    public float[] degree_levels = {180.0f, 90.0f, 30.0f, 15.0f};
+    public float[] degree_levels = {180.0f, 90.0f, 30.0f, 15.0f, 7.5f};
     
     [SerializeField]
     private float Complexity = 1;
@@ -309,9 +309,9 @@ public class Manager : MonoBehaviour
         next_model_index += 1;
         next_model_index %= max_models_number;
 
-        return res; 
+        // return res; 
         // return 0;
-        // return 2;
+        return 1;
     }
 
     public int get_current_random_model_index(){
@@ -358,6 +358,10 @@ public class Manager : MonoBehaviour
         
             int present_value = 0;
 
+            Debug.Log(www.isNetworkError);      
+            Debug.Log(www.isHttpError); 
+            
+
             // Retrieave Data is no errors have been found
             // Else just show empty randomizer
             if ( !www.isNetworkError && !www.isHttpError ){
@@ -398,7 +402,10 @@ public class Manager : MonoBehaviour
             int tmp_id = 0;
 
             // number of Present coupon value is repeated, it should be less
-            int pr_sz = 12 / values_randomizer.Count - 1;
+            int pr_sz = 12 / values_randomizer.Count;
+            if( values_randomizer.Count > 1 ){
+                pr_sz --;
+            }
             int pr_cnt = 1; // number of Present coupon inserted
 
             while( values_randomizer.Count < 12 ){

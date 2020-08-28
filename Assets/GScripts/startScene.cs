@@ -14,6 +14,7 @@ public class startScene : MonoBehaviour
         // PlayerPrefs.SetInt("id", -1);
         // PlayerPrefs.SetInt("bgAudioID", 0);
         // PlayerPrefs.SetInt("isAudio", 1);  
+        // PlayerPrefs.SetInt("isLaunched", 0);
          
         SplashScreenAnimator.Play("Login to Loading");
 

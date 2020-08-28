@@ -206,6 +206,7 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
         Debug.Log(col.gameObject.name);    
         rb.velocity = new Vector3(0f, 0f, 0f);
         gameObject.SetActive(false);  
+        dragging = false;
 
         // if( get_position_y_axis() > -650f )
         //     game_manager.restartTutorial();
