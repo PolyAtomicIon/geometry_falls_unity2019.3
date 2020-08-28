@@ -309,9 +309,9 @@ public class Manager : MonoBehaviour
         next_model_index += 1;
         next_model_index %= max_models_number;
 
-        // return res; 
+        return res; 
         // return 0;
-        return 1;
+        // return 1;
     }
 
     public int get_current_random_model_index(){
