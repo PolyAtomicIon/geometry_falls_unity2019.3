@@ -7,32 +7,6 @@ using UnityEngine.SceneManagement;
 using Random=UnityEngine.Random;
 using System.Threading;
 
-public static class ThreadSafeRandom
-{
-    [ThreadStatic] private static RandomS Local;
-
-    public static RandomS ThisThreadsRandom
-    {
-        get { return Local ?? (Local = new RandomS(unchecked(Environment.TickCount * 31 + Thread.CurrentThread.ManagedThreadId))); }
-    }
-}
-
-public static class Shuffler
-{
-    public static void Shuffle<T>(this IList<T> list)
-    {
-        int n = list.Count;
-        while (n > 1)
-        {
-        n--;
-        int k = ThreadSafeRandom.ThisThreadsRandom.Next(n + 1);
-        T value = list[k];
-        list[k] = list[n];
-        list[n] = value;
-        }
-    }
-}
-
 public class ObjectPooler : MonoBehaviour
 {
 
@@ -95,7 +69,6 @@ public class ObjectPooler : MonoBehaviour
     public List<Palette> palettes;
     public Materials materials;
 
-    // public Dictionary<string, Queue<GameObject>> poolDictionary;
     public Dictionary<string, GameObject> modelsDictionary;
 
     private int random_palette = 0;
@@ -106,16 +79,11 @@ public class ObjectPooler : MonoBehaviour
     public int object_in_level = 12;
     public int number_each_prefab = 8;
     
-    // place where all obstacles are stored 
-    // public Queue<GameObject> objectPool = new Queue<GameObject>();
-    
     public Queue<GameObject>[] obstacles = new Queue<GameObject>[30];
 
     public void Start()
     {
         
-        // SceneManager.SetActiveScene(SceneManager.GetSceneByName("AdditiveScene"));
-
         game_manager = FindObjectOfType<Manager>();
         
         game_manager.max_models_number = models.Count;
@@ -127,12 +95,12 @@ public class ObjectPooler : MonoBehaviour
 
         int id = PlayerPrefs.GetInt("id");
 
+        // if id == -1 -> it's Practice game
         if( id == -1 ){
             max_complexity_value = 5;
             start_complexity = 1;
         }
 
-        // poolDictionary = new Dictionary<string, Queue<GameObject>>();
         modelsDictionary = new Dictionary<string, GameObject>();
 
         // create for every type of prefab 'number_each_prefab' clones
@@ -140,15 +108,13 @@ public class ObjectPooler : MonoBehaviour
         
         foreach (Obstacle obstacle in pool.obstacles_prefab){
             
-            // if( obstacle.complexity < start_complexity || obstacle.complexity > max_complexity_value )
-            //     continue;
-
             for(int i=0; i<number_each_prefab; i++){
 
                 // Debug.Log( obstacle.complexity );
 
                 GameObject obstacle_prefab = Instantiate(obstacle.prefab) as GameObject;
                 obstacle_prefab.SetActive(false);
+
                 // Store by complexity, complexity is unique
                 if( obstacles[obstacle.complexity] == null ){
                     obstacles[obstacle.complexity] = new Queue<GameObject>();
@@ -175,8 +141,4 @@ public class ObjectPooler : MonoBehaviour
     
     }
 
-    void Update()
-    {
-        
-    }
 }

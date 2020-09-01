@@ -8,8 +8,7 @@ public class GameOver : MonoBehaviour
 
     public Manager game_manager;
 
-    // public TextMeshProUGUI scoreLabel;
-
+    // buttons: restart, game_over
     public GameObject section;
 
     public GameObject spinning_object;
@@ -27,14 +26,8 @@ public class GameOver : MonoBehaviour
             spinning_object.SetActive(true);
 
         section.SetActive(true);
-
-        // string zero = "";
-        // if( score < 10 ){
-        //     zero = "0";
-        // }
-        // scoreLabel.text = "Level: " + zero + score.ToString();
     }
-// Test Comment
+
     void Update()
     {
         

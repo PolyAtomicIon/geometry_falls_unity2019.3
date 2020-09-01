@@ -96,7 +96,6 @@ public class Manager : MonoBehaviour
     public Vector3[] obstacle_positions = new Vector3[(int) Constants.object_in_level];
     public float[] obstacle_angles = new float[(int) Constants.object_in_level];
     public float[] degree_levels = {180.0f, 90.0f, 30.0f, 15.0f, 7.5f};
-    // public float[] degree_levels = {7.5f, 15.0f, 30.0f, 90.0f, 180.0f};
 
     
     [SerializeField]
@@ -115,7 +114,7 @@ public class Manager : MonoBehaviour
 
     public List<GameObject> obstacles_array = new List<GameObject>();
     
-    public bool is_level_started = false;
+    public bool is_level_active = false;
     
     public AudioSource bgMusic;
     public List<AudioClip> audios;
@@ -437,28 +436,6 @@ public class Manager : MonoBehaviour
             
             gameOverSection.game_over(level, true);
 
-            /*
-            {
-                "presents": [{
-                    "id": 1,
-                    "value": 10,
-                    "provider": {
-                        "id": 1,
-                        "name": "KFC"
-                    },
-                    "win": true
-                }],
-                "present": {
-                    "id": 2,
-                    "key": "8x2OgcrpjZOOoZcP2Qw1KKkalYzU9u15",
-                    "value": 10,
-                    "provider": {
-                        "id": 1,
-                        "name": "KFC"
-                    }
-                }
-            }
-            */
         }
     }
 
@@ -603,7 +580,7 @@ public class Manager : MonoBehaviour
         progression.value = levelProgression();
 
         // changed in LevelManager.cs & Player.cs -> on collision
-        if( is_level_started ){
+        if( is_level_active ){
             
             current_obstacle = Math.Min(current_obstacle, (int) obstacles_array.Count - 1);
 

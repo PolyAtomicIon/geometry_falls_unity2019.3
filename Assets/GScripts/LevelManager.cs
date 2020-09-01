@@ -25,7 +25,7 @@ public class LevelManager : MonoBehaviour
         
         string random_model_tag = objectPooler.models_tag[random_model_index];
 
-        game_manager.is_level_started = true;
+        game_manager.is_level_active = true;
         SpawnFromPool(random_model_tag, objectPooler.object_in_level);
 
         // object has been spawned with it obstacles, done
@@ -48,10 +48,6 @@ public class LevelManager : MonoBehaviour
         objectToSpawn.SetActive(false);
         objectToSpawn.SetActive(true);
 
-        // // because of transition between scenes
-        // if( model )
-        //     position.y -= 30f;
-
         objectToSpawn.transform.position = position;              
             
         Renderer rd = objectToSpawn.GetComponent<Renderer>();
@@ -59,8 +55,8 @@ public class LevelManager : MonoBehaviour
         // if Obstacle
         if( !model ){
             // Random rotation
+            // angle - 180 -> animation -> see Obstacle.Start()
             objectToSpawn.transform.eulerAngles = new Vector3(-90f, angle - 180.0f, 0);
-                
             rd.material = objectPooler.materials.materials_list[0];
         }
 

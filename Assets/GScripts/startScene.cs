@@ -10,16 +10,8 @@ public class startScene : MonoBehaviour
 
     void Start()
     {
-
-        // PlayerPrefs.SetInt("id", -1);
-        // PlayerPrefs.SetInt("bgAudioID", 0);
-        // PlayerPrefs.SetInt("isAudio", 1);  
-        // PlayerPrefs.SetInt("isLaunched", 0);
-         
         SplashScreenAnimator.Play("Login to Loading");
-
         StartCoroutine(LoadYourAsyncScene());
-
     }
 
     IEnumerator LoadYourAsyncScene()
