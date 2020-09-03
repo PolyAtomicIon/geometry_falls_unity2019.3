@@ -33,6 +33,7 @@ public class Obstacle : MonoBehaviour, IPooledObject
     public void OnObjectSpawn(){
         Start(); 
         is_active = true;
+        rotated = false;
         gameObject.SetActive(is_active);
 
         initialPos = transform.position;
@@ -71,7 +72,7 @@ public class Obstacle : MonoBehaviour, IPooledObject
         }
 
         if( !is_active ){
-            transform.Translate(Vector3.forward * Time.deltaTime * 50);
+            transform.Translate(Vector3.forward * Time.deltaTime * 50f);
         }
 
         if( !is_active && transform.position.y - initialPos.y >= 100f ){

@@ -19,7 +19,7 @@ public class Manager : MonoBehaviour
     public enum Constants
     {
         max_touches = 25,
-        object_in_level = 6,
+        object_in_level = 9,
         obstacles_on_scene = 50
     }
     
@@ -62,7 +62,6 @@ public class Manager : MonoBehaviour
 
     public GameOver gameOverSection;
 
-    public Material DissolveMaterial;
     public Material TunnelMaterial;
     public Color tunnel_color;
 
@@ -93,8 +92,8 @@ public class Manager : MonoBehaviour
     public Vector3 gap_between;
     public Vector3 obstacle_position;
     
-    public Vector3[] obstacle_positions = new Vector3[(int) Constants.object_in_level];
-    public float[] obstacle_angles = new float[(int) Constants.object_in_level];
+    public Vector3[] obstacle_positions = new Vector3[(int) Constants.object_in_level + 1];
+    public float[] obstacle_angles = new float[(int) Constants.object_in_level + 1];
     public float[] degree_levels = {180.0f, 90.0f, 30.0f, 15.0f, 7.5f};
 
     
@@ -102,6 +101,7 @@ public class Manager : MonoBehaviour
     private float Complexity = 1;
     [SerializeField]
     private float DegreeLevel = 0;
+    private float complexityPeriod = 0;
     private float StartDegreeLevel = 0.5f;
     private float last_degree = -1;
 
@@ -123,22 +123,8 @@ public class Manager : MonoBehaviour
     public Animator SplashScreenAnimator;
     public GameObject Loader;
 
-    public FortuneWheelManager FortuneWheelManager;
-    public List<int> values_randomizer;
-    public int present_id = -1;
-
-    bool is_present = false;
-    public GameObject couponInformation;
-    public GameObject couponInformation2;
-
     public GameObject allLevelsPassed;
 
-    public void GiveAward(){
-        if( is_present )
-            couponInformation.SetActive(true);
-        else
-            couponInformation2.SetActive(true);
-    }
 
     public void SetAudio(){
         AudioListener audioListener = GetComponent<AudioListener>(); 
@@ -160,15 +146,38 @@ public class Manager : MonoBehaviour
 
     float convert_to_angle(int level){
         // something with if s or math
-        float degree = degree_levels[ level ];
-        float multiplier = ThreadSafeRandom.ThisThreadsRandom.Next( (int) 4 ) + 1;
-        Debug.Log(multiplier);
-        float result = degree * multiplier;
-        result %= 360;
-        while(result == last_degree)
-            result += degree;
-        last_degree = result;
-        return result;
+        // float degree = degree_levels[ level ];
+        // float multiplier = ThreadSafeRandom.ThisThreadsRandom.Next( (int) 4 ) + 1;
+        // Debug.Log(multiplier);
+        // float result = degree * multiplier;
+        // result %= 360;
+        // while(result == last_degree)
+        //     result += degree;
+        // last_degree = result;
+        // return result;
+
+
+        // new Mechanics, sorry math :(
+        float multiplier = ThreadSafeRandom.ThisThreadsRandom.Next( 3 );
+        float degree = 90f;
+        float resultAngle = -180f + degree*multiplier;
+
+        // to not repeat angles
+        while(resultAngle == last_degree){
+            resultAngle += degree;
+        }
+
+        if( resultAngle > 0 ){
+            resultAngle = -180f;
+        }
+        if( resultAngle < -180f ){
+            resultAngle = 0f;
+        }
+
+        last_degree = resultAngle;
+
+        return resultAngle;
+
     }
 
     public void rearrange_obstacles_array(){
@@ -199,7 +208,13 @@ public class Manager : MonoBehaviour
         for(int i = 0; i < length; i++){
             
             // Find obstacle, insert, increment counters
-            Debug.Log((int) Complexity);
+            Debug.Log("Complexity" + (int) Complexity);
+            
+            // New added
+            // if level > 3, start Random
+            if( level > 3 )
+                Complexity = ThreadSafeRandom.ThisThreadsRandom.Next( objectPooler.max_complexity_value ) + 1;
+
             GameObject c_obstacle = objectPooler.obstacles[ (int) Complexity ].Dequeue();
             // complexity_counter[(int) Complexity]++;
             obstacles_array.Add(c_obstacle);
@@ -209,7 +224,7 @@ public class Manager : MonoBehaviour
             obstacle_angles[i] = convert_to_angle( (int) DegreeLevel );
 
             // Change complexity and degreesLevel
-            Complexity += 0.13f;
+            Complexity += complexityPeriod;
 
             float angle = degree_levels[(int) DegreeLevel];
             int multiplier = ThreadSafeRandom.ThisThreadsRandom.Next( (int) (180 / angle) ) + 1;
@@ -252,7 +267,7 @@ public class Manager : MonoBehaviour
 
         yield return new WaitForSeconds(1.75f);
 
-        StartCoroutine( GetPrize(id, levels) );
+        gameOverSection.game_over(level);
     }
 
     public void start_next_level(){
@@ -292,11 +307,6 @@ public class Manager : MonoBehaviour
     public void increment_score()
     {
         score += 1;
-
-        // Debug.Log("Score: ");
-        // Debug.Log(score);
-        // Debug.Log("level: ");
-        // Debug.Log(level);
     }
 
     public int current_model_index = -1;
@@ -311,8 +321,6 @@ public class Manager : MonoBehaviour
         next_model_index %= max_models_number;
 
         return res; 
-        // return 0;
-        // return 1;
     }
 
     public int get_current_random_model_index(){
@@ -331,140 +339,15 @@ public class Manager : MonoBehaviour
         random_models_indexes.Shuffle();
     }
 
-    public string get_token(){
-        if( !PlayerPrefs.HasKey("auth_token") )
-            return "";
-        return PlayerPrefs.GetString("auth_token");
-    }
-
-    IEnumerator GetPrize(int id, int levels_done)
-    {
-        WWWForm form = new WWWForm();
-        form.AddField("level", levels_done); 
-
-        string url = "http://94.247.128.162/api/game/events/" + id.ToString() + "/present/";
-
-        // Debug.Log( "LEVELS done " + levels_done.ToString());
-        // Debug.Log( url );
-
-        using (UnityWebRequest www = UnityWebRequest.Post(url, form ))
-        {
-            Debug.Log(get_token());
-            
-            www.SetRequestHeader("Authorization", get_token());
-            
-            yield return www.SendWebRequest();
-
-            Debug.Log("Request sent!");
-        
-            int present_value = 0;
-
-            Debug.Log(www.isNetworkError);      
-            Debug.Log(www.isHttpError); 
-            
-
-            // Retrieave Data is no errors have been found
-            // Else just show empty randomizer
-            if ( !www.isNetworkError && !www.isHttpError ){
-
-                Debug.Log("env");
-                JSONNode details = JSONNode.Parse(www.downloadHandler.text);
-                Debug.Log(details);
-
-                // 1. GET LIST OF PRESENTS
-                // 2. Get index of present
-                // 3. SEND INFO TO FORTUNE WHEEL
-
-                for(int i=0; i<details["presents"].Count; i++)
-                    if( details["presents"][i]["win"] ){
-                        present_value = details["presents"][i]["value"];
-                        values_randomizer.Add( details["presents"][i]["value"] );
-                        is_present = true;
-                        break;
-                    }
-
-                for(int i=0; i<details["presents"].Count; i++){
-                    if( values_randomizer.Count >= 11 ) break;
-                    if( details["presents"][i]["win"] ){
-                        continue;
-                    }
-                    values_randomizer.Add( details["presents"][i]["value"] );
-                }
-                    
-                if( details["present"] != null ){
-                    couponInformation.GetComponentsInChildren<TMP_Text>()[3].text = details["present"]["provider"]["name"];
-                    couponInformation.GetComponentsInChildren<TMP_Text>()[5].text = details["present"]["value"];
-                }
-
-            }
-
-            values_randomizer.Add(0);
-
-            int tmp_id = 0;
-
-            // number of Present coupon value is repeated, it should be less
-            int pr_sz = 12 / values_randomizer.Count;
-            if( values_randomizer.Count > 1 ){
-                pr_sz --;
-            }
-            int pr_cnt = 1; // number of Present coupon inserted
-
-            while( values_randomizer.Count < 12 ){
-
-                if( values_randomizer[tmp_id] == present_value && pr_cnt < pr_sz ){
-                    values_randomizer.Add(values_randomizer[tmp_id]);
-                    pr_cnt++;
-                }
-                else if( values_randomizer[tmp_id] != present_value ){
-                    values_randomizer.Add(values_randomizer[tmp_id]);
-                }
-
-                tmp_id++;
-                tmp_id %= values_randomizer.Count;
-            }
-            // Debug.Log(values_randomizer);
-            values_randomizer.Shuffle();
-
-            for(int i=0; i<12; i++){
-                if( present_value == values_randomizer[i] ){
-                    present_id = i;
-                    break;
-                }
-            }
-
-            FortuneWheelManager.ParsedData();
-            
-            gameOverSection.game_over(level, true);
-
-        }
-    }
-
+   
     public void game_over()
     {
-        // sound
-        soundEffects[1].Play();
+
         Debug.Log("game over!");
-        
-        // get ID of Event
-        int id = PlayerPrefs.GetInt("id");
-        int levels = PlayerPrefs.GetInt("levels");
-     
-        if( id != -1 ){
-            Debug.Log("Getting Prize");
-            // Debug.Log(id);
-            Debug.Log(level);
-            StartCoroutine(GetPrize(id, level-1));
-            // gameOverSection.game_over(level, true);
-        }
-        else{
-            Debug.Log("Chill, just practice");
-            gameOverSection.game_over(level, false);
-        }
 
-        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
-
-        // LevelLabel.enabled = false;
+        is_level_active = false;
         game_over_bool = true;
+        gameOverSection.game_over(level);
     }
     
     private string levelString(){
@@ -522,6 +405,16 @@ public class Manager : MonoBehaviour
         LoadAdditiveScene();
     }
 
+    // public void RotateObject(int direction = 0){
+
+    //     if( game_over_bool )
+    //         return;
+
+    //     Debug.Log("Direction " + direction );
+    //     player.Turn(direction); 
+    
+    // }
+
     void Start(){
 
         // int is_tutorial = PlayerPrefs.GetInt("tutorial");
@@ -553,18 +446,10 @@ public class Manager : MonoBehaviour
         objectPooler.palettes[palette].colors[1].a = 100;
         progressionColor.color = objectPooler.palettes[palette].colors[1];
 
-        // AUDIO Settings
-
-        int audioID = PlayerPrefs.GetInt("bgAudioID");
-        bgMusic.clip = audios[audioID];
-
-        bgMusic.Play();
-
-        if( PlayerPrefs.GetInt("isAudio") == 0 ){
-            bgMusic.volume = 0.0f;
-        } 
-
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
+
+        complexityPeriod = 1f / object_in_level();
+        Debug.Log("complexity period = " + complexityPeriod);
 
     }
 
@@ -598,8 +483,6 @@ public class Manager : MonoBehaviour
             if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - 2.5f ){
                 player.increment_score();
                 increment_score();
-                // sound
-                soundEffects[0].Play();
                 current_obstacle++;
             }
 

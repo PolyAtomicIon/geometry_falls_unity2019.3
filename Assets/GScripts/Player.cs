@@ -17,10 +17,10 @@ public class Player : MonoBehaviour, IPooledObject
     private Manager game_manager;
 
     private int score = 0;
-
-    [SerializeField] private float rotation_duration = 0.35f;
+   
+    private float rotation_duration = 0.25f;
     private float time = 5;
-    public float rotation_degree = 160f;
+    private float rotation_degree = 90f;
     private bool rotating = false;
 
     private bool dragging = false;
@@ -39,6 +39,8 @@ public class Player : MonoBehaviour, IPooledObject
 
     bool game_over = false;
 
+    int currentDirection = 0;
+
     public void increment_score(){
         score += 1;
     }
@@ -55,38 +57,106 @@ public class Player : MonoBehaviour, IPooledObject
         rb.velocity = new Vector3(0, speed, 0);
     }
     
-    private IEnumerator Rotate( Vector3 angles, float duration = 1.0f )
-    {
-        rotating = true ;
-        Quaternion startRotation = transform.rotation ;
-        Quaternion endRotation = Quaternion.Euler( angles ) * startRotation ;
+    private IEnumerator SetRotation(Vector3 newRotation, float duration = 1.0f)
+    // IEnumerator Rotate( Vector3 axis, float angle, float duration = 1.0f)
+   {
+       
+        Quaternion from = transform.rotation;
+        // Quaternion to = transform.rotation;
+        // to *= Quaternion.Euler( axis * angle );
+        
+        Transform target = transform;
+        target.eulerAngles = newRotation;
+        Quaternion to = target.rotation;
 
-        for( float t = 0 ; t < Time.deltaTime * 10; t+= Time.deltaTime )
+        float elapsed = 0.0f;
+        while( elapsed < duration )
         {
-            transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
-            yield return null;
+        transform.rotation = Quaternion.Slerp(from, to, elapsed / duration );
+        elapsed += Time.deltaTime;
+        yield return null;
         }
+        transform.rotation = to;
+   }
 
-        transform.rotation = endRotation;
-        rotating = false;
+    // private IEnumerator SetRotation(Vector3 newRotation, float duration = 1.0f)
+    // {
+    //     rotating = true ;
+    //     Quaternion startRotation = transform.rotation;
+    //     Transform target = transform;
+    //     target.eulerAngles = newRotation;
+    //     Quaternion endRotation = target.rotation;
+
+    //     for( float t = 0 ; t < Time.deltaTime * 10; t+= Time.deltaTime )
+    //     {
+    //         transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
+    //         yield return null;
+    //     }
+
+    //     transform.rotation = endRotation;
+    //     rotating = false;
+    // }
+
+    // private IEnumerator Rotate( Vector3 angles, float duration = 1.0f )
+    // {
+    //     rotating = true ;
+    //     Quaternion startRotation = transform.rotation ;
+    //     Quaternion endRotation = Quaternion.Euler( angles ) * startRotation ;
+
+    //     for( float t = 0 ; t < Time.deltaTime * 10; t+= Time.deltaTime )
+    //     {
+    //         transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
+    //         yield return null;
+    //     }
+
+    //     transform.rotation = endRotation;
+    //     rotating = false;
+    // }
+
+    // public void rotate(int direction){
+
+    //     if( rotating ) return;
+
+    //     if( direction == 0 ){
+    //         StartCoroutine( Rotate( Vector3.right * rotation_degree, rotation_duration ) );
+    //     }
+    //     if( direction == 2 ){
+    //         StartCoroutine( Rotate( -Vector3.right * rotation_degree, rotation_duration ) );
+    //     }
+    //     if( direction == 3 ){
+    //         StartCoroutine( Rotate( Vector3.up * rotation_degree, rotation_duration ) );
+    //     }
+    //     if( direction == 1 ){
+    //         StartCoroutine( Rotate( -Vector3.up * rotation_degree, rotation_duration ) );
+    //     }
+    // }
+
+    public void Turn(int direction){
+
+        // direction:
+            // -1 -> left -> nextDegree -> -90
+            // 0 -> initial -> nextDegree -> 0
+            // 1 -> right -> nextDegree -> 90
+        
+        float nextDegree = direction * rotation_degree;
+
+        Vector3 newRotation = new Vector3(0f, nextDegree, 0f);  
+        StartCoroutine( SetRotation( newRotation, rotation_duration ) );   
+
     }
 
-    public void rotate(int direction){
+    public void OnClickControl(){
+        
+        currentDirection += 1;
+        if( currentDirection > 1 ){
+            currentDirection = -1;
+        } 
 
-        if( rotating ) return;
+        float nextDegree = currentDirection * rotation_degree;
 
-        if( direction == 0 ){
-            StartCoroutine( Rotate( Vector3.right * rotation_degree, rotation_duration ) );
-        }
-        if( direction == 2 ){
-            StartCoroutine( Rotate( -Vector3.right * rotation_degree, rotation_duration ) );
-        }
-        if( direction == 3 ){
-            StartCoroutine( Rotate( Vector3.up * rotation_degree, rotation_duration ) );
-        }
-        if( direction == 1 ){
-            StartCoroutine( Rotate( -Vector3.up * rotation_degree, rotation_duration ) );
-        }
+        Vector3 newRotation = new Vector3(0f, nextDegree, 0f);  
+        StartCoroutine( SetRotation( newRotation, rotation_duration ) );   
+
     }
 
     void Start(){
@@ -122,29 +192,29 @@ public class Player : MonoBehaviour, IPooledObject
             rb.velocity = new Vector3(0f, 0f, 0f);
         } 
 
-        if( Input.GetMouseButtonDown(0) && !game_over ){
-            dragging = true;
-        }
+        // if( Input.GetMouseButtonDown(0) && !game_over ){
+        //     dragging = true;
+        // }
 
-        if( Input.GetMouseButtonUp(0) ){
-            dragging = false;
-        }
+        // if( Input.GetMouseButtonUp(0) ){
+        //     dragging = false;
+        // }
 
-        if( rb.angularVelocity.magnitude < value_t ){
-            rb.angularVelocity = Vector3.zero;
-        }
+        // if( rb.angularVelocity.magnitude < value_t ){
+        //     rb.angularVelocity = Vector3.zero;
+        // }
 
 
     }
 
     void FixedUpdate(){
         
-        if( dragging ){
-            rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad * 1.5f;
-            rb.AddTorque (Vector3.down * -rotX * rotationSpeed * Time.fixedDeltaTime);
+        // if( dragging ){
+        //     rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad * 1.5f;
+        //     rb.AddTorque (Vector3.down * -rotX * rotationSpeed * Time.fixedDeltaTime);
 
-            hold_time += 1;
-        }
+        //     hold_time += 1;
+        // }
 
     }
     

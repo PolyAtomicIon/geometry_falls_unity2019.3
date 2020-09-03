@@ -90,6 +90,7 @@ public class ObjectPooler : MonoBehaviour
         game_manager.create_random_models_indexes();
 
         object_in_level = (int) game_manager.object_in_level();
+        number_each_prefab = object_in_level;
 
         int start_complexity = 1;
 

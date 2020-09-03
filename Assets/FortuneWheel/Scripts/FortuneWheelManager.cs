@@ -21,9 +21,13 @@ public class FortuneWheelManager : MonoBehaviour
 	// public int CurrentCoinsAmount = 1000;	// Started coins amount. In your project it can be set up from CoinsManager or from PlayerPrefs and so on
     // public int PreviousCoinsAmount;		// For wasted coins animation
 
-	public Manager game_manager;
+	public GameOver gameOverManager;
 
 	public List<Text> text_values;
+
+	public List<int> values;
+	public int p_id;
+	public bool is_present;
 
     private void Awake ()
     {
@@ -39,7 +43,7 @@ public class FortuneWheelManager : MonoBehaviour
 		
 		for(int i=0; i<12; i++){
 			// add unit
-			text_values[i].text = game_manager.values_randomizer[i].ToString();
+			text_values[i].text = values[i].ToString();
 		}
 
 	}
@@ -54,9 +58,6 @@ public class FortuneWheelManager : MonoBehaviour
 		// Fill the necessary angles (for example if you want to have 12 sectors you need to fill the angles with 30 degrees step)
 		_sectorsAngles = new float[] { 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330, 360 };
 
-		Debug.Log(game_manager.present_id);
-		int p_id = game_manager.present_id;
-
 		int fullCircles = 5;
 		float randomFinalAngle = _sectorsAngles [(12 - p_id) % 12];
 	
@@ -70,7 +71,7 @@ public class FortuneWheelManager : MonoBehaviour
 
 	IEnumerator GiveAward(){
 		yield return new WaitForSeconds(1.5f);
-		game_manager.GiveAward();
+		gameOverManager.GiveAward(is_present);
 	}
 
     void Update ()
