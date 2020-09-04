@@ -3,6 +3,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine;
 using System;   
+
 public class Player : MonoBehaviour, IPooledObject
 {
 
@@ -41,8 +42,14 @@ public class Player : MonoBehaviour, IPooledObject
 
     int currentDirection = 0;
 
+    
+
     public void increment_score(){
         score += 1;
+        Color init_color = game_manager.getModelsandTunnelsMaterialColor();
+        Material objectMaterial = game_manager.getModelsandTunnelsMaterial();
+        StartCoroutine( Manager.lerpColorMaterial(objectMaterial, init_color, Color.cyan, 0.5f) );
+        StartCoroutine( Manager.lerpColorMaterial(objectMaterial, Color.cyan, init_color, 0.5f) );
     }
 
     public float get_position_y_axis(){
@@ -146,7 +153,11 @@ public class Player : MonoBehaviour, IPooledObject
     }
 
     public void OnClickControl(){
-        
+
+        if( game_over ) return;
+
+        rotation_degree = 120f;
+
         currentDirection += 1;
         if( currentDirection > 1 ){
             currentDirection = -1;

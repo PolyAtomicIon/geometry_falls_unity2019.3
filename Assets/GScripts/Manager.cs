@@ -23,7 +23,7 @@ public class Manager : MonoBehaviour
         obstacles_on_scene = 50
     }
     
-    public static IEnumerator lerpColor(Material target, Color fromColor, Color toColor, float duration)
+    public static IEnumerator lerpColorMaterial(Material target, Color fromColor, Color toColor, float duration = 2f)
 	{
 
 		float counter = 0;
@@ -159,19 +159,25 @@ public class Manager : MonoBehaviour
 
         // new Mechanics, sorry math :(
         float multiplier = ThreadSafeRandom.ThisThreadsRandom.Next( 3 );
-        float degree = 90f;
-        float resultAngle = -180f + degree*multiplier;
+        
+        float start_degree = -90f;
+        float degree = 120f;
+
+        float initial_degree = start_degree - degree;
+        float final_degree = start_degree + degree;
+
+        float resultAngle = initial_degree + degree*multiplier;
 
         // to not repeat angles
         while(resultAngle == last_degree){
             resultAngle += degree;
         }
 
-        if( resultAngle > 0 ){
-            resultAngle = -180f;
+        if( resultAngle > final_degree ){
+            resultAngle = initial_degree;
         }
-        if( resultAngle < -180f ){
-            resultAngle = 0f;
+        if( resultAngle < initial_degree ){
+            resultAngle = final_degree;
         }
 
         last_degree = resultAngle;
@@ -245,6 +251,14 @@ public class Manager : MonoBehaviour
 
     }
 
+    public Color getModelsandTunnelsMaterialColor(){
+        return objectPooler.getMaterialById(1).GetColor("_BaseColor");
+    }
+
+    public Material getModelsandTunnelsMaterial(){
+        return objectPooler.getMaterialById(1);
+    }
+
     /* End of generating obstacle positions */
     public int get_score()
     {
@@ -253,10 +267,10 @@ public class Manager : MonoBehaviour
 
     public void change_tunnel_color(Color new_color){
         tunnel_color = new_color;
-        TunnelMaterial.SetColor("_BaseColor", tunnel_color );
+        // TunnelMaterial.SetColor("_BaseColor", tunnel_color );
 
         // smooth no need, because one static palette for one instance
-        //StartCoroutine( lerpColor( TunnelMaterial, TunnelMaterial.color, tunnel_color, 2f) );
+        //StartCoroutine( lerpColorMaterial( TunnelMaterial, TunnelMaterial.color, tunnel_color, 2f) );
     }
 
     IEnumerator all_levels_passed(int id, int levels){
@@ -469,7 +483,7 @@ public class Manager : MonoBehaviour
             
             current_obstacle = Math.Min(current_obstacle, (int) obstacles_array.Count - 1);
 
-            if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - gap - 2.5f ){    
+            if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - gap - 0.5f ){    
                 Vector3 position_f = obstacle_positions[current_obstacle];
                 
                 if( current_obstacle + 1 > (int) object_in_level() ){
@@ -480,7 +494,7 @@ public class Manager : MonoBehaviour
                 figure_plane.transform.position = position_f;
             }
             
-            if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - 2.5f ){
+            if( player.get_position_y_axis() < obstacle_positions[current_obstacle].y - 0.5f ){
                 player.increment_score();
                 increment_score();
                 current_obstacle++;

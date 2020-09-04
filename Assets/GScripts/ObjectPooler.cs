@@ -42,6 +42,10 @@ public class ObjectPooler : MonoBehaviour
             return result;
         }
 
+        public Material GetMaterial(int id){
+            return materials_list[id];
+        }
+
     }
 
     [System.Serializable]
@@ -80,6 +84,10 @@ public class ObjectPooler : MonoBehaviour
     public int number_each_prefab = 8;
     
     public Queue<GameObject>[] obstacles = new Queue<GameObject>[30];
+
+    public Material getMaterialById(int id){
+        return materials.GetMaterial(id);
+    }
 
     public void Start()
     {

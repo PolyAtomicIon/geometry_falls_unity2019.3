@@ -9,6 +9,7 @@ public class Obstacle : MonoBehaviour, IPooledObject
    
     private Manager game_manager;
     private Renderer render;
+    private Collider collider;
     private bool is_active = true, done = false;
 
     private float dissolveLevel = -1.25f;
@@ -26,12 +27,18 @@ public class Obstacle : MonoBehaviour, IPooledObject
 
     void Start(){
         game_manager = FindObjectOfType<Manager>();
+        
+        collider = GetComponent<Collider>();
+
         objectPooler = ObjectPooler.Instance;
         gameObject.layer = LayerMask.NameToLayer("Obstacle");
     }
 
     public void OnObjectSpawn(){
         Start(); 
+
+        collider.enabled = true;
+
         is_active = true;
         rotated = false;
         gameObject.SetActive(is_active);
@@ -43,39 +50,48 @@ public class Obstacle : MonoBehaviour, IPooledObject
         obstacle_index = (int) temp_obstacle_index - 1;
     }
 
-    private IEnumerator RotateAnimation( float duration = 0.35f )
-    {
-        float angle = game_manager.obstacle_angles[obstacle_index];
-        rotated = true;
-        Quaternion startRotation = transform.rotation;
-        Transform target = transform;
-        target.eulerAngles = new Vector3(-90, angle, 0f);
-        Quaternion endRotation = target.rotation;
+    // private IEnumerator RotateAnimation( float duration = 0.35f )
+    // {
+    //     float angle = game_manager.obstacle_angles[obstacle_index];
+    //     rotated = true;
+    //     Quaternion startRotation = transform.rotation;
+    //     Transform target = transform;
+    //     target.eulerAngles = new Vector3(-90, angle, 0f);
+    //     Quaternion endRotation = target.rotation;
 
-        for( float t = 0 ; t < Time.deltaTime * 40; t+= Time.deltaTime )
-        {
-            transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
-            yield return null;
-        }
+    //     for( float t = 0 ; t < Time.deltaTime * 40; t+= Time.deltaTime )
+    //     {
+    //         transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
+    //         yield return null;
+    //     }
 
-        transform.rotation = endRotation;
+    //     transform.rotation = endRotation;
+    // }
+
+    void obstaclePassAnimation(){
+        collider.enabled = false;
+
+        transform.Translate(-Vector3.forward * Time.deltaTime * 150f);
+        
+        float nextAngle = game_manager.obstacle_angles[obstacle_index+1];
+        transform.eulerAngles = new Vector3(-90f, nextAngle, 0);
     }
 
     void Update(){
 
-        if( (game_manager.current_obstacle == obstacle_index || obstacle_index == 0 ) && !rotated ){
-            StartCoroutine( RotateAnimation() );
-        }
+        // if( (game_manager.current_obstacle == obstacle_index || obstacle_index == 0 ) && !rotated ){
+        //     StartCoroutine( RotateAnimation() );
+        // }
 
         if( game_manager.current_obstacle > obstacle_index ){
             is_active = false;
         }
 
         if( !is_active ){
-            transform.Translate(Vector3.forward * Time.deltaTime * 50f);
+            obstaclePassAnimation();
         }
 
-        if( !is_active && transform.position.y - initialPos.y >= 100f ){
+        if( !is_active && transform.position.y - initialPos.y >= -game_manager.gap ){
             gameObject.SetActive(false);
         }
 

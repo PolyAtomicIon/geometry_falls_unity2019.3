@@ -12,12 +12,12 @@ public class CameraBackgroundChanger : MonoBehaviour {
 	private static Color color2;
 
     void Start(){
-        // change background color randomly
-		StartCoroutine(beginToChangeColor());
+		changingColor = false;
     }
 
 	public static IEnumerator beginToChangeColor()
 	{
+
 		Camera cam = Camera.main;
 		color1 = Random.ColorHSV(Random.value, Random.value);
 		color2 = Random.ColorHSV(Random.value, Random.value);
@@ -55,6 +55,13 @@ public class CameraBackgroundChanger : MonoBehaviour {
 			yield return null;
 		}
 		changingColor = false;
+	}
+
+	void Update(){
+		if( !changingColor ){	
+			// change background color randomly
+			StartCoroutine(beginToChangeColor());
+		}
 	}
 
 }
