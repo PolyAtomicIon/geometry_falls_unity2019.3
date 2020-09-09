@@ -158,15 +158,17 @@ public class Manager : MonoBehaviour
 
 
         // new Mechanics, sorry math :(
-        float multiplier = ThreadSafeRandom.ThisThreadsRandom.Next( 3 );
         
         float start_degree = -90f;
         float degree = 120f;
 
-        float initial_degree = start_degree - degree;
-        float final_degree = start_degree + degree;
+        int angles = 360 / (int) degree;
 
-        float resultAngle = initial_degree + degree*multiplier;
+        float multiplier = ThreadSafeRandom.ThisThreadsRandom.Next(angles);
+
+        float initial_degree = start_degree;
+        float final_degree = start_degree + degree * (angles-1);
+        float resultAngle = start_degree + degree * multiplier;
 
         // to not repeat angles
         while(resultAngle == last_degree){

@@ -113,42 +113,6 @@ public class Tutorial : MonoBehaviour
             finish_tutorial();
         }
 
-        // if( p_pos_y < -970f ){
-        //     player.DisableObject();
-        // }
-
-        if( p_pos_y < 0f && p_pos_y > -135f ){
-            if( cur_hint == 1 ){
-                vertical_drag.SetActive(true);   
-                // Time.timeScale = 0;
-                player.DisableObject();
-            }
-        }
-
-        else if( p_pos_y < -145f && p_pos_y > -225f ){
-            if( cur_hint == 2 ){
-                vertical_drag.SetActive(false);
-                horizantal_drag.SetActive(true);
-                player.DisableObject();
-            }
-        }
-
-        else if( p_pos_y < -235f && p_pos_y > -315f ){
-            if( cur_hint == 3 ){
-                
-                swipe.SetActive(true);
-                vertical_drag.SetActive(false);
-                horizantal_drag.SetActive(false);
-                player.DisableObject();
-            }
-        }
-        
-        else{
-            horizantal_drag.SetActive(false);
-            vertical_drag.SetActive(false);
-            swipe.SetActive(false);
-        }
-
     }
 
 }

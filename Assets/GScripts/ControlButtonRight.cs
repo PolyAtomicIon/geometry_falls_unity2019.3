@@ -4,11 +4,13 @@ using System.Collections.Generic;
 using UnityEngine;
 using System;   
 using UnityEngine.EventSystems;
-public class ControlButton : MonoBehaviour,  IPointerUpHandler, IPointerDownHandler
+public class ControlButtonRight : MonoBehaviour,  IPointerUpHandler, IPointerDownHandler, IPointerExitHandler
 {
-    float pointerDownTime;
 
-    public bool isLeft = true;
+    float pointerDownTime;
+    float pointerUpTime;
+
+    public bool isLeft = false;
     
     private bool turned = false;
     public bool isPressed = false;
@@ -22,12 +24,20 @@ public class ControlButton : MonoBehaviour,  IPointerUpHandler, IPointerDownHand
         turned = false;
     }
 
+    //Do this when the mouse click on this selectable UI object is released.
     public void OnPointerUp(PointerEventData eventData)
     {
         if( isPressed ){
             isPressed = false;
             player.Turn(0);
         }
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        // isPressed = false;
+        // player.Turn(0);
+        return;
     }
 
     void Update(){
@@ -37,7 +47,7 @@ public class ControlButton : MonoBehaviour,  IPointerUpHandler, IPointerDownHand
 
         if( isPressed && !turned ){
             float holdTime = Time.time - pointerDownTime;
-            if( holdTime > 0.2f ){        
+            if( holdTime > 0.2f ){   
                 if( isLeft )
                     player.Turn(-1);
                 else     

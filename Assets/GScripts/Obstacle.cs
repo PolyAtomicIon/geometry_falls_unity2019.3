@@ -2,6 +2,8 @@ using System.Collections;
 using UnityEngine.SceneManagement; 
 using System.Collections.Generic;
 using UnityEngine;
+using System;   
+
 
 public class Obstacle : MonoBehaviour, IPooledObject
 {
@@ -50,38 +52,49 @@ public class Obstacle : MonoBehaviour, IPooledObject
         obstacle_index = (int) temp_obstacle_index - 1;
     }
 
-    // private IEnumerator RotateAnimation( float duration = 0.35f )
-    // {
-    //     float angle = game_manager.obstacle_angles[obstacle_index];
-    //     rotated = true;
-    //     Quaternion startRotation = transform.rotation;
-    //     Transform target = transform;
-    //     target.eulerAngles = new Vector3(-90, angle, 0f);
-    //     Quaternion endRotation = target.rotation;
+    private IEnumerator SetRotation(Vector3 newRotation, float duration = 1.0f)
+    {
+        
+            Quaternion from = transform.rotation;
+            
+            Transform target = transform;
+            target.eulerAngles = newRotation;
+            Quaternion to = target.rotation;
 
-    //     for( float t = 0 ; t < Time.deltaTime * 40; t+= Time.deltaTime )
-    //     {
-    //         transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
-    //         yield return null;
-    //     }
-
-    //     transform.rotation = endRotation;
-    // }
+            float elapsed = 0.0f;
+            while( elapsed < duration )
+            {
+            transform.rotation = Quaternion.Slerp(from, to, elapsed / duration );
+            elapsed += Time.deltaTime;
+            yield return null;
+            }
+            transform.rotation = to;
+            
+    }
 
     void obstaclePassAnimation(){
         collider.enabled = false;
 
-        transform.Translate(-Vector3.forward * Time.deltaTime * 150f);
+        StartCoroutine( SetRotation(new Vector3(-180, 0, 0), 0.175f) ); 
+
+        transform.Translate(new Vector3(1, 0, 0) * Time.deltaTime * 20f);
+    }
+
+    void GetInitialAngleAndSetInitialRotation(){
         
-        float nextAngle = game_manager.obstacle_angles[obstacle_index+1];
-        transform.eulerAngles = new Vector3(-90f, nextAngle, 0);
+        rotated = true;
+
+        float angle = game_manager.obstacle_angles[obstacle_index];
+        Vector3 initial_rotation = new Vector3(-90, angle, 0f);
+
+        StartCoroutine( SetRotation(initial_rotation, 0.5f) );
     }
 
     void Update(){
 
-        // if( (game_manager.current_obstacle == obstacle_index || obstacle_index == 0 ) && !rotated ){
-        //     StartCoroutine( RotateAnimation() );
-        // }
+        if( (game_manager.current_obstacle == obstacle_index || obstacle_index == 0 ) && !rotated ){
+            GetInitialAngleAndSetInitialRotation();
+        }
 
         if( game_manager.current_obstacle > obstacle_index ){
             is_active = false;
@@ -91,7 +104,7 @@ public class Obstacle : MonoBehaviour, IPooledObject
             obstaclePassAnimation();
         }
 
-        if( !is_active && transform.position.y - initialPos.y >= -game_manager.gap ){
+        if( !is_active && Math.Abs(transform.position.z) >= 3f ){
             gameObject.SetActive(false);
         }
 

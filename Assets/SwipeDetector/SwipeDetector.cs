@@ -68,9 +68,11 @@ public class SwipeDetector : MonoBehaviour
 
     private bool SwipeDistanceCheckMet()
     {
-        Debug.Log( player.hold_time );
-        bool check = player.hold_time < player.hold_time_limit && ( VerticalMovementDistance() > minDistanceForSwipe || HorizontalMovementDistance() > minDistanceForSwipe );
-        player.hold_time = 0;
+        // Debug.Log( player.hold_time );
+        // bool check = player.hold_time < player.hold_time_limit && ( VerticalMovementDistance() > minDistanceForSwipe || HorizontalMovementDistance() > minDistanceForSwipe );
+        // player.hold_time = 0;
+
+        bool check = VerticalMovementDistance() > minDistanceForSwipe || HorizontalMovementDistance() > minDistanceForSwipe;
         return check;
     }
 

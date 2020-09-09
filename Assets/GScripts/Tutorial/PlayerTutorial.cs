@@ -127,19 +127,6 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
         
         if( Input.GetMouseButtonDown(0) ){
             dragging = true;
-            if( rb.IsSleeping() ){
-
-                // if swipe no delays
-                if(game_manager.cur_hint == 3)
-                    StartCoroutine(EnableObject(true));
-                else
-                    StartCoroutine(EnableObject());
-                // EnableObject();
-                
-                game_manager.DisableHints();
-                game_manager.cur_hint ++;
-                // Time.timeScale = 1;
-            }
         }
         if( Input.GetMouseButtonUp(0) ){
             dragging = false;
@@ -181,38 +168,5 @@ public class PlayerTutorial : MonoBehaviour, IPooledObject
 
     }
 
-    public void DisableObject(){
-        // gameObject.SetActive(false);  
-        if( cur_velocity.magnitude == 0 )
-            cur_velocity = new Vector3(0, rb.velocity.y , 0);
-        // Time.timeScale = 0;
-        rb.Sleep();
-        // rb.velocity = new Vector3(0f, 0f, 0f);
-    }
-
-    public IEnumerator EnableObject(bool isSwipe = false){
-        // gameObject.SetActive(false);  
-        
-        rb.WakeUp();
-        if( !isSwipe )
-            yield return new WaitForSeconds(1.5f);
-        rb.velocity = cur_velocity;
-        cur_velocity = new Vector3(0, 0, 0);
-    }
     
-    
-     void OnCollisionEnter (Collision col)
-    {
-        Debug.Log(col.gameObject.name);    
-        rb.velocity = new Vector3(0f, 0f, 0f);
-        gameObject.SetActive(false);  
-        dragging = false;
-
-        // if( get_position_y_axis() > -650f )
-        //     game_manager.restartTutorial();
-        // else{
-            game_manager.finish_tutorial();
-        // }
-    }
-
 }

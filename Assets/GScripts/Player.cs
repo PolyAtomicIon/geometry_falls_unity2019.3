@@ -9,47 +9,55 @@ public class Player : MonoBehaviour, IPooledObject
 
     public Rigidbody rb;
     private Transform transform;
-
-    private float fall_down_speed = -27f;
-    private float acceleration = -0.035f;
-    public float speed;
     public Renderer render;
-
     private Manager game_manager;
-
-    private int score = 0;
-   
-    private float rotation_duration = 0.25f;
-    private float time = 5;
-    private float rotation_degree = 90f;
-    private bool rotating = false;
-
-    private bool dragging = false;
-    
-    // Rotation variables
-    public float rotationSpeed = 40000f;
-    public float angular_drag = 0.45f;
-    float rotX, rotY;
-    
-    public float value_t = 8f;
-
-    public int hold_time = 0;
-    public int hold_time_limit = 8;
-    
     CameraScript cameraScript;
 
-    bool game_over = false;
+    // Components for colorFlashEffect
+    private Color init_color; 
+    private Material objectMaterial; 
+    private float FlashEffectDuration = 0.45f;
+    private float HitEffectDuration = 1.2f;
 
-    int currentDirection = 0;
+    // Default physics variables
+    private float fall_down_speed = -27f;
+    private float acceleration = -0.035f;
+    public float angular_drag = 0.45f;
+   
+    // Default values for Rotation Animation 
+    private float rotation_duration = 0.25f;
+    private float rotation_degree = 120f;
+    // end
 
+    // Level variables    
+    bool is_game_over = false;
+    private int score = 0;
     
+    private void changeObjectColor(Color from, Color to, float duration){
+        StartCoroutine( Manager.lerpColorMaterial(objectMaterial, from, to, duration) );
+    }
+
+    private void colorFlashEffect(){
+        changeObjectColor(init_color, Color.cyan, FlashEffectDuration);
+        changeObjectColor(Color.cyan, init_color, FlashEffectDuration);
+    }
+
+    private void StopObjectAndStartGameOver(){
+
+        changeObjectColor(init_color, Color.black, HitEffectDuration);
+
+        setRigidBodyVelocity(0);
+        rb.Sleep();
+        
+        is_game_over = true;
+        game_manager.is_level_active = false;
+        
+        game_manager.game_over();
+    }
 
     public void increment_score(){
         score += 1;
-        Color init_color = game_manager.getModelsandTunnelsMaterialColor();
-        Material objectMaterial = game_manager.getModelsandTunnelsMaterial();
-        StartCoroutine( Manager.lerpColorMaterial(objectMaterial, init_color, Color.cyan, 0.5f) );
-        StartCoroutine( Manager.lerpColorMaterial(objectMaterial, Color.cyan, init_color, 0.5f) );
+        colorFlashEffect();
     }
 
     public float get_position_y_axis(){
@@ -60,17 +68,27 @@ public class Player : MonoBehaviour, IPooledObject
         return rb.velocity.y;
     }
 
-    private void fallDown(float speed){
+    private void setGravityValue(){
+        Physics.gravity = new Vector3(0, acceleration, 0);  
+    }
+
+    private void setRigidBodyVelocity(float speed){
         rb.velocity = new Vector3(0, speed, 0);
+    }
+
+    private void setRigidBodyInitialParameters(){
+        rb.centerOfMass = Vector3.zero;
+        rb.inertiaTensorRotation = Quaternion.identity;
+
+        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+
+        rb.angularDrag = angular_drag;
     }
     
     private IEnumerator SetRotation(Vector3 newRotation, float duration = 1.0f)
-    // IEnumerator Rotate( Vector3 axis, float angle, float duration = 1.0f)
    {
        
         Quaternion from = transform.rotation;
-        // Quaternion to = transform.rotation;
-        // to *= Quaternion.Euler( axis * angle );
         
         Transform target = transform;
         target.eulerAngles = newRotation;
@@ -86,59 +104,9 @@ public class Player : MonoBehaviour, IPooledObject
         transform.rotation = to;
    }
 
-    // private IEnumerator SetRotation(Vector3 newRotation, float duration = 1.0f)
-    // {
-    //     rotating = true ;
-    //     Quaternion startRotation = transform.rotation;
-    //     Transform target = transform;
-    //     target.eulerAngles = newRotation;
-    //     Quaternion endRotation = target.rotation;
-
-    //     for( float t = 0 ; t < Time.deltaTime * 10; t+= Time.deltaTime )
-    //     {
-    //         transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
-    //         yield return null;
-    //     }
-
-    //     transform.rotation = endRotation;
-    //     rotating = false;
-    // }
-
-    // private IEnumerator Rotate( Vector3 angles, float duration = 1.0f )
-    // {
-    //     rotating = true ;
-    //     Quaternion startRotation = transform.rotation ;
-    //     Quaternion endRotation = Quaternion.Euler( angles ) * startRotation ;
-
-    //     for( float t = 0 ; t < Time.deltaTime * 10; t+= Time.deltaTime )
-    //     {
-    //         transform.rotation = Quaternion.Lerp( startRotation, endRotation, t / duration ) ;
-    //         yield return null;
-    //     }
-
-    //     transform.rotation = endRotation;
-    //     rotating = false;
-    // }
-
-    // public void rotate(int direction){
-
-    //     if( rotating ) return;
-
-    //     if( direction == 0 ){
-    //         StartCoroutine( Rotate( Vector3.right * rotation_degree, rotation_duration ) );
-    //     }
-    //     if( direction == 2 ){
-    //         StartCoroutine( Rotate( -Vector3.right * rotation_degree, rotation_duration ) );
-    //     }
-    //     if( direction == 3 ){
-    //         StartCoroutine( Rotate( Vector3.up * rotation_degree, rotation_duration ) );
-    //     }
-    //     if( direction == 1 ){
-    //         StartCoroutine( Rotate( -Vector3.up * rotation_degree, rotation_duration ) );
-    //     }
-    // }
-
     public void Turn(int direction){
+
+        if( is_game_over ) return;
 
         // direction:
             // -1 -> left -> nextDegree -> -90
@@ -152,26 +120,8 @@ public class Player : MonoBehaviour, IPooledObject
 
     }
 
-    public void OnClickControl(){
-
-        if( game_over ) return;
-
-        rotation_degree = 120f;
-
-        currentDirection += 1;
-        if( currentDirection > 1 ){
-            currentDirection = -1;
-        } 
-
-        float nextDegree = currentDirection * rotation_degree;
-
-        Vector3 newRotation = new Vector3(0f, nextDegree, 0f);  
-        StartCoroutine( SetRotation( newRotation, rotation_duration ) );   
-
-    }
-
     void Start(){
-        Physics.gravity = new Vector3(0, acceleration, 0);    
+        setGravityValue();  
 
         rb = GetComponent<Rigidbody>();
         render = GetComponent<Renderer>();
@@ -179,10 +129,7 @@ public class Player : MonoBehaviour, IPooledObject
 
         cameraScript = FindObjectOfType<CameraScript>();
 
-        rb.centerOfMass = Vector3.zero;
-        rb.inertiaTensorRotation = Quaternion.identity;
-
-        rb.constraints = RigidbodyConstraints.FreezePositionX | RigidbodyConstraints.FreezePositionZ;
+        setRigidBodyInitialParameters();
     }
 
     public void OnObjectSpawn(){
@@ -192,55 +139,25 @@ public class Player : MonoBehaviour, IPooledObject
         game_manager.player = this;
 
         fall_down_speed = game_manager.fall_down_speed;
-        fallDown(fall_down_speed);
-        
-        rb.angularDrag = angular_drag;
+        setRigidBodyVelocity(fall_down_speed);
+
+        init_color = game_manager.getModelsandTunnelsMaterialColor();
+        objectMaterial = game_manager.getModelsandTunnelsMaterial();
     }
 
     void Update(){
 
-        if( game_over ){    
-            rb.velocity = new Vector3(0f, 0f, 0f);
+        if( is_game_over ){    
+            setRigidBodyVelocity(0f);
         } 
-
-        // if( Input.GetMouseButtonDown(0) && !game_over ){
-        //     dragging = true;
-        // }
-
-        // if( Input.GetMouseButtonUp(0) ){
-        //     dragging = false;
-        // }
-
-        // if( rb.angularVelocity.magnitude < value_t ){
-        //     rb.angularVelocity = Vector3.zero;
-        // }
-
-
-    }
-
-    void FixedUpdate(){
-        
-        // if( dragging ){
-        //     rotX = Input.GetAxis("Mouse X") * Mathf.Deg2Rad * 1.5f;
-        //     rb.AddTorque (Vector3.down * -rotX * rotationSpeed * Time.fixedDeltaTime);
-
-        //     hold_time += 1;
-        // }
 
     }
     
      void OnCollisionEnter (Collision col)
     {
         Debug.Log(col.gameObject.name);    
-        dragging = false;
 
-        rb.velocity = new Vector3(0f, 0f, 0f);
-        rb.Sleep();
-        
-        game_over = true;
-        game_manager.is_level_active = false;
-        
-        game_manager.game_over();
+        StopObjectAndStartGameOver();
     }
 
 }

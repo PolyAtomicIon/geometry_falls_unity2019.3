@@ -56,8 +56,8 @@ public class LevelManager : MonoBehaviour
         if( !model ){
             // Random rotation
             // angle - 180 -> animation -> see Obstacle.Start()
-            // objectToSpawn.transform.eulerAngles = new Vector3(-90f, angle - 180.0f, 0);
-            objectToSpawn.transform.eulerAngles = new Vector3(-90f, angle, 0);
+            objectToSpawn.transform.eulerAngles = new Vector3(-90f, angle - 180.0f, 0);
+            // objectToSpawn.transform.eulerAngles = new Vector3(-90f, angle, 0);
             rd.material = objectPooler.materials.materials_list[0];
         }
 
