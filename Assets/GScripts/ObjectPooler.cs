@@ -7,6 +7,18 @@ using UnityEngine.SceneManagement;
 using Random=UnityEngine.Random;
 using System.Threading;
 
+[System.Serializable]
+public class Obstacle{
+    public GameObject prefab;
+    public int complexity;
+
+    public Obstacle(int c, GameObject p){
+        complexity = c;
+        prefab = p;
+    }
+
+}
+
 public class ObjectPooler : MonoBehaviour
 {
 
@@ -14,12 +26,6 @@ public class ObjectPooler : MonoBehaviour
     public Vector3 VectorZero = Vector3.zero;
     
     private const int number_of_colors = 4;
-
-    [System.Serializable]
-    public class Obstacle{
-        public GameObject prefab;
-        public int complexity;
-    }
 
     [System.Serializable]
     public class Pool{
@@ -46,12 +52,46 @@ public class ObjectPooler : MonoBehaviour
             return materials_list[id];
         }
 
+        public Material getObstacleMaterial(){
+        return materials_list[0];
+        }
+
+        public Material getModelMaterial(){
+            return materials_list[1];
+        }
+
     }
 
     [System.Serializable]
     public class Palette{
         public Color[] colors = new Color[number_of_colors];
         public Color[] emission_colors = new Color[number_of_colors];
+    }
+
+    class LevelComplexity{
+        int currentMin = 1;
+        int currentMax = 5;
+        
+        int easyMin = 1;
+        int easyMax = 3;
+
+        public int Min(){
+            return this.currentMin;
+        }
+
+        public int Max(){
+            return this.currentMax;
+        }
+
+        public void changeToEasyMode(){
+            currentMax = easyMax;
+            currentMin = easyMin;
+        }
+
+        public bool IsComplexityInRange(int complexity){
+            return complexity >= Min() && complexity <= Max();
+        }
+
     }
 
     #region Singleton
@@ -63,8 +103,6 @@ public class ObjectPooler : MonoBehaviour
     }
 
     #endregion
-
-    public int max_complexity_value = 5;
 
     public List<Pool> models;
      
@@ -80,13 +118,55 @@ public class ObjectPooler : MonoBehaviour
 
     public Manager game_manager;
 
-    public int object_in_level = 12;
-    public int number_each_prefab = 8;
+    int randomModel;
+
+    private int object_in_level;
+    private int number_each_prefab = 3;
     
-    public Queue<GameObject>[] obstacles = new Queue<GameObject>[30];
+    public Queue<Obstacle>[] obstacles = new Queue<Obstacle>[30];
+
+    LevelComplexity levelComplexity = new LevelComplexity();
 
     public Material getMaterialById(int id){
         return materials.GetMaterial(id);
+    }
+
+    void setRandomModelIndex(){
+        randomModel = ThreadSafeRandom.ThisThreadsRandom.Next(models.Count);
+        game_manager.setCurrentModelIndex(randomModel);
+    }
+
+    void DefineLevelComplexity(){
+        int id = PlayerPrefs.GetInt("id");
+
+        // if id == -1 -> it's Practice game
+        if( id == -1 ){
+            levelComplexity.changeToEasyMode();
+        }
+    }
+
+    void SetGameObjectsMaterial(GameObject gObject, bool obstacle = true){
+        Renderer rd = gObject.GetComponent<Renderer>();
+        if( obstacle )
+            rd.material = materials.getObstacleMaterial();
+        else
+            rd.material = materials.getModelMaterial();
+    }
+
+    void InstantiateObstacleAndAddToQueue(int complexity, GameObject g_obstacle){
+        g_obstacle = Instantiate(g_obstacle) as GameObject;
+        g_obstacle.SetActive(false);
+
+        // Store by complexity, complexity is unique
+        if( obstacles[complexity] == null ){
+            obstacles[complexity] = new Queue<Obstacle>();
+        }
+
+        SetGameObjectsMaterial(g_obstacle);
+
+        Obstacle n_obstacle = new Obstacle(complexity, g_obstacle);
+
+        obstacles[complexity].Enqueue(n_obstacle);
     }
 
     public void Start()
@@ -94,45 +174,32 @@ public class ObjectPooler : MonoBehaviour
         
         game_manager = FindObjectOfType<Manager>();
         
-        game_manager.max_models_number = models.Count;
-        game_manager.create_random_models_indexes();
+        game_manager.setMaxModelsNumber(models.Count);
 
-        object_in_level = (int) game_manager.object_in_level();
-        number_each_prefab = object_in_level;
+        object_in_level = game_manager.object_in_level();
 
-        int start_complexity = 1;
-
-        int id = PlayerPrefs.GetInt("id");
-
-        // if id == -1 -> it's Practice game
-        if( id == -1 ){
-            max_complexity_value = 5;
-            start_complexity = 1;
-        }
+        setRandomModelIndex();
+        DefineLevelComplexity();
 
         modelsDictionary = new Dictionary<string, GameObject>();
+        Pool pool = models[randomModel];
 
-        // create for every type of prefab 'number_each_prefab' clones
-        Pool pool = models[game_manager.get_current_random_model_index()];
-        
+        int maxComplexity = 0;
+
         foreach (Obstacle obstacle in pool.obstacles_prefab){
             
-            for(int i=0; i<number_each_prefab; i++){
+            if( !levelComplexity.IsComplexityInRange(obstacle.complexity) )
+                continue;
 
-                // Debug.Log( obstacle.complexity );
-
-                GameObject obstacle_prefab = Instantiate(obstacle.prefab) as GameObject;
-                obstacle_prefab.SetActive(false);
-
-                // Store by complexity, complexity is unique
-                if( obstacles[obstacle.complexity] == null ){
-                    obstacles[obstacle.complexity] = new Queue<GameObject>();
-                }
-                obstacles[obstacle.complexity].Enqueue(obstacle_prefab);
-
+            for(int i=0; i<number_each_prefab; i++){            
+                maxComplexity = Math.Max(maxComplexity, obstacle.complexity);
+                InstantiateObstacleAndAddToQueue(obstacle.complexity, obstacle.prefab);
             }
 
         }
+
+        maxComplexity = Math.Min(levelComplexity.Max(), maxComplexity);
+        game_manager.setMaxComplexityValue(maxComplexity);
 
         // Initiate first level objects ....
         // game_manager.obstacles_array;
@@ -140,12 +207,12 @@ public class ObjectPooler : MonoBehaviour
         
 
         // Player's model, add tag, add to dictionary
-        
         foreach(Pool pl in models)
             models_tag.Add(pl.tag);
 
         GameObject model = Instantiate(pool.prefab) as GameObject;
         model.SetActive(false);
+        SetGameObjectsMaterial(model, false);
         modelsDictionary.Add(pool.tag, model);
     
     }

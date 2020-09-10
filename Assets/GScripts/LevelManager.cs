@@ -21,12 +21,12 @@ public class LevelManager : MonoBehaviour
         // int random_model_index = game_manager.get_next_random_model_index();
         int random_model_index = 0;
 
-        random_model_index = game_manager.get_current_random_model_index();
+        random_model_index = game_manager.getCurrentModelIndex();
         
         string random_model_tag = objectPooler.models_tag[random_model_index];
 
         game_manager.is_level_active = true;
-        SpawnFromPool(random_model_tag, objectPooler.object_in_level);
+        SpawnFromPool(random_model_tag, game_manager.object_in_level());
 
         // object has been spawned with it obstacles, done
     }
@@ -41,37 +41,6 @@ public class LevelManager : MonoBehaviour
 
         StartNewLevel();
         
-    }
-
-    private void initialize_object(GameObject objectToSpawn, Vector3 position, bool model, float angle){
-        
-        objectToSpawn.SetActive(false);
-        objectToSpawn.SetActive(true);
-
-        objectToSpawn.transform.position = position;              
-            
-        Renderer rd = objectToSpawn.GetComponent<Renderer>();
-        
-        // if Obstacle
-        if( !model ){
-            // Random rotation
-            // angle - 180 -> animation -> see Obstacle.Start()
-            objectToSpawn.transform.eulerAngles = new Vector3(-90f, angle - 180.0f, 0);
-            // objectToSpawn.transform.eulerAngles = new Vector3(-90f, angle, 0);
-            rd.material = objectPooler.materials.materials_list[0];
-        }
-
-        // If Model
-        if( model ){  
-            rd.material = objectPooler.materials.materials_list[1];
-            
-            objectToSpawn.transform.eulerAngles = new Vector3(0f, 0f, 0);
-        }
-
-        // Call the OnObjectSpwan, differs for player and obstacle.
-        IPooledObject pooledObj = objectToSpawn.GetComponent<IPooledObject>();
-        pooledObj.OnObjectSpawn();
-
     }
 
     private void set_materials_color(int palette_index){
@@ -96,25 +65,20 @@ public class LevelManager : MonoBehaviour
         Debug.Log(random_palette);
         set_materials_color(random_palette);
         // end
-
-        // Change tunnel color, acces to Manger
-        game_manager.change_tunnel_color( objectPooler.palettes[random_palette].colors[0] );
         
         // player's model
         GameObject model = objectPooler.modelsDictionary[tag];
-        initialize_object(model, objectPooler.VectorZero, true, 0);        
+        game_manager.initialize_object(model, objectPooler.VectorZero, true, 0);        
 
-        // Place obstacles by positions from GAME MANAGER.cs
+        for(int i = 0; i < 2; i++){
+            game_manager.nextObstacleToInitialize();
+        }
 
-        for(int i = 0; i < size; i++)
-            initialize_object(game_manager.obstacles_array[i], game_manager.obstacle_positions[i], false, game_manager.obstacle_angles[i]);
-        
         // game_manager.progressionColor.material = objectPooler.materials.materials_list[0];
 
     }
 
     void Update()
     {
-        
     }
 }

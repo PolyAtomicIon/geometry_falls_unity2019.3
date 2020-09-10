@@ -5,7 +5,7 @@ using UnityEngine;
 using System;   
 
 
-public class Obstacle : MonoBehaviour, IPooledObject
+public class ObstacleScript : MonoBehaviour, IPooledObject
 {
 
    
@@ -53,23 +53,21 @@ public class Obstacle : MonoBehaviour, IPooledObject
     }
 
     private IEnumerator SetRotation(Vector3 newRotation, float duration = 1.0f)
-    {
+    { 
+        Quaternion from = transform.rotation;
         
-            Quaternion from = transform.rotation;
-            
-            Transform target = transform;
-            target.eulerAngles = newRotation;
-            Quaternion to = target.rotation;
+        Transform target = transform;
+        target.eulerAngles = newRotation;
+        Quaternion to = target.rotation;
 
-            float elapsed = 0.0f;
-            while( elapsed < duration )
-            {
-            transform.rotation = Quaternion.Slerp(from, to, elapsed / duration );
-            elapsed += Time.deltaTime;
-            yield return null;
-            }
-            transform.rotation = to;
-            
+        float elapsed = 0.0f;
+        while( elapsed < duration )
+        {
+        transform.rotation = Quaternion.Slerp(from, to, elapsed / duration );
+        elapsed += Time.deltaTime;
+        yield return null;
+        }
+        transform.rotation = to;
     }
 
     void obstaclePassAnimation(){
@@ -81,7 +79,6 @@ public class Obstacle : MonoBehaviour, IPooledObject
     }
 
     void GetInitialAngleAndSetInitialRotation(){
-        
         rotated = true;
 
         float angle = game_manager.obstacle_angles[obstacle_index];
