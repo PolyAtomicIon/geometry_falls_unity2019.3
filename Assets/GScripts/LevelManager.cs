@@ -44,8 +44,14 @@ public class LevelManager : MonoBehaviour
     }
 
     private void set_materials_color(int palette_index){
+        
         // for obstacles
-        objectPooler.materials.materials_list[0].SetColor("_BaseColor", objectPooler.palettes[random_palette].colors[0]); 
+        random_palette = 0;
+
+        Color obstacleColor = objectPooler.palettes[random_palette].colors[0];
+        obstacleColor.a = 1f;
+        objectPooler.materials.materials_list[0].SetColor("_BaseColor", obstacleColor); 
+
     
         // for Player, main objects material
         float intensity = 0.004f;

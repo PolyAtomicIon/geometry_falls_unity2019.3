@@ -184,7 +184,7 @@ public class Manager : MonoBehaviour
         }
 
         // If Model
-        if( model ){  
+        if( model && level == 1 ){  
             objectToSpawn.transform.eulerAngles = new Vector3(0f, 0f, 0);
         }
 
@@ -210,7 +210,7 @@ public class Manager : MonoBehaviour
         if( Obstacles.Count == 0 ) yield return null;
 
         Obstacle c_obstacle = Obstacles.Dequeue();
-        yield return new WaitForSeconds(0.1f);
+        yield return new WaitForSeconds(0.5f);
         c_obstacle.prefab.SetActive(false);
     }
 
@@ -305,9 +305,6 @@ public class Manager : MonoBehaviour
             return;
         }
 
-        // Debug.Log("RELOAD THE SCENE");
-        
-        // reareange array of obstacles, add harder one, delete easy ones
         rearrange_obstacles_array();
 
         UnloadAdditiveScene();
@@ -410,20 +407,8 @@ public class Manager : MonoBehaviour
 
         generate_obstacle_positions();
 
-        int is_tutorial = PlayerPrefs.GetInt("tutorial");
-
-        if( is_tutorial == -1 ){
-            StartCoroutine( runLoadingAnimation() );
-            palette = ThreadSafeRandom.ThisThreadsRandom.Next(4);
-        }
-        else{
-            // if tutorial
-            Loader.SetActive(false);
-            LoadAdditiveScene();
-
-            PlayerPrefs.SetInt("tutorial", -1);
-            palette = 3;
-        }
+        StartCoroutine( runLoadingAnimation() );
+        palette = ThreadSafeRandom.ThisThreadsRandom.Next(4);
 
 
         objectPooler = ObjectPooler.Instance;

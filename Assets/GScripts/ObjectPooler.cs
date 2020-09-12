@@ -53,7 +53,7 @@ public class ObjectPooler : MonoBehaviour
         }
 
         public Material getObstacleMaterial(){
-        return materials_list[0];
+            return materials_list[0];
         }
 
         public Material getModelMaterial(){

@@ -3,7 +3,7 @@ using UnityEngine.SceneManagement;
 using System.Collections.Generic;
 using UnityEngine;
 using System;   
-
+using DG.Tweening;
 
 public class ObstacleScript : MonoBehaviour, IPooledObject
 {
@@ -26,6 +26,8 @@ public class ObstacleScript : MonoBehaviour, IPooledObject
     /* END */
 
     bool rotated = false;
+    
+    private float animDuration = 0.4f;
 
     void Start(){
         game_manager = FindObjectOfType<Manager>();
@@ -73,9 +75,10 @@ public class ObstacleScript : MonoBehaviour, IPooledObject
     void obstaclePassAnimation(){
         collider.enabled = false;
 
-        StartCoroutine( SetRotation(new Vector3(-180, 0, 0), 0.175f) ); 
+        StartCoroutine( SetRotation(new Vector3(-90f, game_manager.obstacle_angles[obstacle_index+1] - 180f, 0), 0.05f) ); 
+        StartCoroutine( SetRotation(new Vector3(-90f, game_manager.obstacle_angles[obstacle_index+1], 0), 0.85f) ); 
 
-        transform.Translate(new Vector3(1, 0, 0) * Time.deltaTime * 20f);
+        transform.position = new Vector3(transform.position.x, transform.position.y - 3.5f, transform.position.z);
     }
 
     void GetInitialAngleAndSetInitialRotation(){
