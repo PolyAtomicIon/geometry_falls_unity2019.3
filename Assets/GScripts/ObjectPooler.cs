@@ -66,6 +66,14 @@ public class ObjectPooler : MonoBehaviour
     public class Palette{
         public Color[] colors = new Color[number_of_colors];
         public Color[] emission_colors = new Color[number_of_colors];
+    
+        public Color getObstacleColor(){
+            return colors[0];
+        }
+
+        public Color getModelColor(){
+            return colors[1];
+        }
     }
 
     class LevelComplexity{

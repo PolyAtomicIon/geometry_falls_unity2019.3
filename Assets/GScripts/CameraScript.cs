@@ -10,6 +10,7 @@ public class CameraScript : MonoBehaviour {
 
 	void Start()
 	{
+		transform.position = new Vector3(0f, 18f, 2f);
 	}
 	
 	// Smooth Camera follow, follows target
@@ -17,12 +18,21 @@ public class CameraScript : MonoBehaviour {
 	{
 		if( target == null )
 			target = FindObjectOfType<Player>();
-		
-		Vector3 desiredPosition = target.transform.position + offset;
-		Vector3 smoothedPosition = Vector3.Lerp(transform.transform.position, desiredPosition, smoothSpeed);
-		transform.position = smoothedPosition;
+		else{
 
-        smoothSpeed += 0.0005f;
+			Vector3 desiredPosition = target.transform.position + offset;
+
+			if( desiredPosition.y > transform.position.y && !target.is_game_over ){
+				transform.position = new Vector3(0f, 18f, 2f);
+			}
+			else{
+				Vector3 smoothedPosition = Vector3.Lerp(transform.transform.position, desiredPosition, smoothSpeed);
+				transform.position = smoothedPosition;
+
+				smoothSpeed += 0.0005f;
+			}
+			
+		}
 	}
 
 }

@@ -25,21 +25,21 @@ public class Player : MonoBehaviour, IPooledObject
     public float angular_drag = 0.45f;
    
     // Default values for Rotation Animation 
-    private float rotation_duration = 0.25f;
+    private float rotation_duration = 0.2f;
     private float rotation_degree = 120f;
     // end
 
     // Level variables    
-    bool is_game_over = false;
+    public bool is_game_over = false;
     private int score = 0;
     
     private void changeObjectColor(Color from, Color to, float duration){
         StartCoroutine( Manager.lerpColorMaterial(objectMaterial, from, to, duration) );
     }
 
-    private void colorFlashEffect(){
-        changeObjectColor(init_color, Color.cyan, FlashEffectDuration);
-        changeObjectColor(Color.cyan, init_color, FlashEffectDuration);
+    private void colorFlashEffect(Color toColor){
+        changeObjectColor(init_color, toColor, FlashEffectDuration);
+        changeObjectColor(toColor, init_color, FlashEffectDuration);
     }
 
     private void StopObjectAndStartGameOver(){
@@ -57,7 +57,11 @@ public class Player : MonoBehaviour, IPooledObject
 
     public void increment_score(){
         score += 1;
-        colorFlashEffect();
+        if( score < game_manager.object_in_level() )
+            colorFlashEffect(Color.red);
+        else    
+            changeObjectColor(init_color, Color.black, FlashEffectDuration);
+
     }
 
     public float get_position_y_axis(){
@@ -120,23 +124,34 @@ public class Player : MonoBehaviour, IPooledObject
 
     }
 
-    void Start(){
-        setGravityValue();  
+    void Start(){       
+        
+        if( rb == null )
+            rb = GetComponent<Rigidbody>();
 
-        rb = GetComponent<Rigidbody>();
-        render = GetComponent<Renderer>();
-        transform = GetComponent<Transform>();
+        if( render == null )
+            render = GetComponent<Renderer>();
+            
+        if( transform == null )
+            transform = GetComponent<Transform>();
 
-        cameraScript = FindObjectOfType<CameraScript>();
+        if( cameraScript == null )
+            cameraScript = FindObjectOfType<CameraScript>();
 
-        setRigidBodyInitialParameters();
+        if( game_manager == null )
+            game_manager = FindObjectOfType<Manager>();
+
+        game_manager.player = this;
     }
 
     public void OnObjectSpawn(){
+        
         Start();
 
-        game_manager = FindObjectOfType<Manager>();
-        game_manager.player = this;
+        setRigidBodyInitialParameters();
+        setGravityValue();  
+
+        score = 0;
 
         fall_down_speed = game_manager.fall_down_speed;
         setRigidBodyVelocity(fall_down_speed);

@@ -75,6 +75,11 @@ public class ObstacleScript : MonoBehaviour, IPooledObject
     void obstaclePassAnimation(){
         collider.enabled = false;
 
+        if( obstacle_index == game_manager.object_in_level() - 1 ){
+            gameObject.SetActive(false);
+            return;
+        }
+
         StartCoroutine( SetRotation(new Vector3(-90f, game_manager.obstacle_angles[obstacle_index+1] - 180f, 0), 0.05f) ); 
         StartCoroutine( SetRotation(new Vector3(-90f, game_manager.obstacle_angles[obstacle_index+1], 0), 0.85f) ); 
 
@@ -104,7 +109,7 @@ public class ObstacleScript : MonoBehaviour, IPooledObject
             obstaclePassAnimation();
         }
 
-        if( !is_active && Math.Abs(transform.position.z) >= 3f ){
+        if( !is_active && Math.Abs(initialPos.y - transform.position.y) >= -game_manager.gap ){
             gameObject.SetActive(false);
         }
 

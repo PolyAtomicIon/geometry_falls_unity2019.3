@@ -121,7 +121,6 @@ public class Manager : MonoBehaviour
 
     public GameObject allLevelsPassed;
 
-
     public void setMaxComplexityValue(int maxC){
         maxComplexity = maxC;
     }
@@ -134,7 +133,7 @@ public class Manager : MonoBehaviour
 
         Vector3 obstacle_position = new Vector3(0f, gap/2 + gap, 0f);
 
-        for(int i=0; i < object_in_level(); i++){
+        for(int i=0; i <= object_in_level(); i++){
             obstacle_positions[i] = obstacle_position;
             obstacle_position += gap_between;
         }
@@ -184,7 +183,7 @@ public class Manager : MonoBehaviour
         }
 
         // If Model
-        if( model && level == 1 ){  
+        if( model ){  
             objectToSpawn.transform.eulerAngles = new Vector3(0f, 0f, 0);
         }
 
@@ -264,11 +263,11 @@ public class Manager : MonoBehaviour
     }
 
     public Color getModelsandTunnelsMaterialColor(){
-        return objectPooler.getMaterialById(1).GetColor("_BaseColor");
+        return objectPooler.palettes[palette].getModelColor();
     }
 
     public Material getModelsandTunnelsMaterial(){
-        return objectPooler.getMaterialById(1);
+        return objectPooler.materials.getModelMaterial();
     }
 
     /* End of generating obstacle positions */
@@ -305,19 +304,33 @@ public class Manager : MonoBehaviour
             return;
         }
 
+        palette += 1;
+        palette %= 4;
+
         rearrange_obstacles_array();
 
         UnloadAdditiveScene();
         LoadAdditiveScene();
 
-        Vector3 plane_pos = obstacle_positions[0];
-        plane_pos.y -= 0.3f;
-
-        figure_plane.transform.position = plane_pos;
+        SetPlanesInitialParameters();
 
         // current obstacle
         current_obstacle = 0;
         NextObstacleIndex = 0;
+        
+        SetProgressionBarColor();
+    }
+
+    void SetPlanesInitialParameters(){
+        Vector3 plane_pos = obstacle_positions[0];
+        plane_pos.y -= 0.3f;
+
+        figure_plane.transform.position = plane_pos;
+    }
+
+    void SetProgressionBarColor(){
+        objectPooler.palettes[palette].colors[1].a = 100;
+        progressionColor.color = objectPooler.palettes[palette].colors[1];
     }
 
     public void increment_score()
@@ -402,7 +415,6 @@ public class Manager : MonoBehaviour
 
     void Start(){
 
-        
         gap_between = new Vector3(0f, gap, 0f);
 
         generate_obstacle_positions();
@@ -410,17 +422,12 @@ public class Manager : MonoBehaviour
         StartCoroutine( runLoadingAnimation() );
         palette = ThreadSafeRandom.ThisThreadsRandom.Next(4);
 
-
         objectPooler = ObjectPooler.Instance;
 
         /* Plane */
-        Vector3 plane_pos = obstacle_positions[0];
-        plane_pos.y -= 0.3f;
+        SetPlanesInitialParameters();
 
-        figure_plane.transform.position = plane_pos;
-
-        objectPooler.palettes[palette].colors[1].a = 100;
-        progressionColor.color = objectPooler.palettes[palette].colors[1];
+        SetProgressionBarColor();
 
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
 
@@ -445,10 +452,10 @@ public class Manager : MonoBehaviour
             
             current_obstacle = Math.Min(current_obstacle, object_in_level() - 1);
 
-            if( current_obstacle + 1 < object_in_level() && player.get_position_y_axis() < obstacle_positions[current_obstacle + 1].y - gap + 0.5f ){    
+            if( current_obstacle + 1 <= object_in_level() && player.get_position_y_axis() < obstacle_positions[current_obstacle + 1].y - gap + 0.5f ){    
                 Vector3 position_f = obstacle_positions[current_obstacle+1];
                 
-                if( current_obstacle + 1 > (int) object_in_level() ){
+                if( current_obstacle + 1 >= (int) object_in_level() ){
                     position_f = obstacle_positions[0];
                 }
 
@@ -466,7 +473,8 @@ public class Manager : MonoBehaviour
 
         }
         
-        if( current_obstacle + 1 > (int) object_in_level() ){
+        // if( current_obstacle + 1 > (int) object_in_level() ){
+        if( player.get_position_y_axis() <  (object_in_level() + 1) * gap + 20f){
             fall_down_speed = player.get_velocity_y_axis();
             start_next_level();
         }    

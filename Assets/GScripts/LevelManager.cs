@@ -46,19 +46,25 @@ public class LevelManager : MonoBehaviour
     private void set_materials_color(int palette_index){
         
         // for obstacles
-        random_palette = 0;
 
-        Color obstacleColor = objectPooler.palettes[random_palette].colors[0];
+        Material obstacleMaterial = objectPooler.materials.getObstacleMaterial();
+        Color obstacleColor = objectPooler.palettes[random_palette].getObstacleColor();
         obstacleColor.a = 1f;
-        objectPooler.materials.materials_list[0].SetColor("_BaseColor", obstacleColor); 
+
+        obstacleMaterial.SetColor("_BaseColor", obstacleColor); 
 
     
         // for Player, main objects material
         float intensity = 0.004f;
         
-        objectPooler.materials.materials_list[1].SetColor("_BaseColor", objectPooler.palettes[random_palette].colors[1]);    
-        objectPooler.materials.materials_list[1].EnableKeyword ("_EMISSION");
-        objectPooler.materials.materials_list[1].SetColor("_EmissionColor", objectPooler.palettes[random_palette].emission_colors[1] * intensity);
+        Material modelMaterial = objectPooler.materials.getModelMaterial();
+        Color modelColor = objectPooler.palettes[random_palette].getModelColor();
+
+        // modelMaterial.SetColor("_BaseColor", modelColor);
+        // modelMaterial.EnableKeyword ("_EMISSION");
+        // modelMaterial.SetColor("_EmissionColor", modelColor * intensity);
+
+       StartCoroutine( Manager.lerpColorMaterial(modelMaterial, modelMaterial.color, modelColor, 0.5f) );
     }
 
     public void SpawnFromPool (string tag, int size = 0){
