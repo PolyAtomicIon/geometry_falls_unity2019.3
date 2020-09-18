@@ -12,6 +12,7 @@ public class Player : MonoBehaviour, IPooledObject
     public Renderer render;
     private Manager game_manager;
     CameraScript cameraScript;
+    public AudioM audioManager;
 
     // Components for colorFlashEffect
     private Color init_color; 
@@ -43,7 +44,8 @@ public class Player : MonoBehaviour, IPooledObject
     }
 
     private void StopObjectAndStartGameOver(){
-
+        
+        audioManager.hit();
         changeObjectColor(init_color, Color.black, HitEffectDuration);
 
         setRigidBodyVelocity(0);
@@ -57,11 +59,13 @@ public class Player : MonoBehaviour, IPooledObject
 
     public void increment_score(){
         score += 1;
-        if( score < game_manager.object_in_level() )
+        if( score < game_manager.object_in_level() ){
+            audioManager.pass();
             colorFlashEffect(Color.red);
-        else    
-            changeObjectColor(init_color, Color.black, FlashEffectDuration);
-
+        }
+        else{
+            changeObjectColor(init_color, Color.red, 1f);
+        }
     }
 
     public float get_position_y_axis(){
@@ -106,18 +110,20 @@ public class Player : MonoBehaviour, IPooledObject
         yield return null;
         }
         transform.rotation = to;
-   }
+    }
+
+    float nextDegree = 0;
 
     public void Turn(int direction){
 
-        if( is_game_over ) return;
+        if( is_game_over || nextDegree != 0 && direction != 0 ) return;
 
         // direction:
             // -1 -> left -> nextDegree -> -90
             // 0 -> initial -> nextDegree -> 0
             // 1 -> right -> nextDegree -> 90
         
-        float nextDegree = direction * rotation_degree;
+        nextDegree = direction * rotation_degree;
 
         Vector3 newRotation = new Vector3(0f, nextDegree, 0f);  
         StartCoroutine( SetRotation( newRotation, rotation_duration ) );   
@@ -131,7 +137,7 @@ public class Player : MonoBehaviour, IPooledObject
 
         if( render == null )
             render = GetComponent<Renderer>();
-            
+
         if( transform == null )
             transform = GetComponent<Transform>();
 
@@ -140,6 +146,9 @@ public class Player : MonoBehaviour, IPooledObject
 
         if( game_manager == null )
             game_manager = FindObjectOfType<Manager>();
+
+        if( audioManager == null )
+            audioManager = FindObjectOfType<AudioM>();
 
         game_manager.player = this;
     }

@@ -64,7 +64,7 @@ public class LevelManager : MonoBehaviour
         // modelMaterial.EnableKeyword ("_EMISSION");
         // modelMaterial.SetColor("_EmissionColor", modelColor * intensity);
 
-       StartCoroutine( Manager.lerpColorMaterial(modelMaterial, modelMaterial.color, modelColor, 0.5f) );
+       StartCoroutine( Manager.lerpColorMaterial(modelMaterial, modelMaterial.color, modelColor, 1f) );
     }
 
     public void SpawnFromPool (string tag, int size = 0){

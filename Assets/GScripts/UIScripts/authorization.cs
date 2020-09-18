@@ -28,6 +28,8 @@ public class authorization : MonoBehaviour {
     public List<TMP_InputField> verification_code_fields = new List<TMP_InputField>();
     public TMP_InputField six_ch_verification_code_field;
     
+    public string MainPageName = "newMainScene";
+
     string send_verification_code_url = "http://94.247.128.162/api/core/email-verify/";
     // string check_verification_code_url = "http://94.247.128.162/api/core/email-confirm/";
 
@@ -55,7 +57,7 @@ public class authorization : MonoBehaviour {
                 Debug.Log("Email verified");
                 manager.windows[6].SetActive(false);
 
-                SceneManager.LoadScene("MainMenu");
+                SceneManager.LoadScene(MainPageName);
 
             }
         }
@@ -185,7 +187,7 @@ public class authorization : MonoBehaviour {
                 bool email_verified = res["email_verified"];
 
                 if( email_verified )
-                    SceneManager.LoadScene("MainMenu");
+                    SceneManager.LoadScene(MainPageName);
                 else{
                     StartCoroutine( Send_verification_code_ie() );
                     manager.showWindow(10);

@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CameraBackgroundChanger : MonoBehaviour {
 
-	public static float transitionTimeInSec = 2f;
+	public static float transitionTimeInSec = 10f;
 
 	private static bool changingColor = false;
 

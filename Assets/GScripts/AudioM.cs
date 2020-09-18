@@ -15,7 +15,12 @@ public class AudioM : MonoBehaviour
 {   
     public AudioSource bgMusic;
     public List<AudioClip> audios;
-    public List<AudioSource> soundEffects;
+
+    int passSoundIndex = 0;
+    public List<AudioSource> passSounds;
+    public AudioSource hitSound;
+
+    public AudioSource levelPassSound;
 
     public void SetAudio(){
         AudioListener audioListener = GetComponent<AudioListener>(); 
@@ -24,12 +29,19 @@ public class AudioM : MonoBehaviour
 
     public void hit(){
         // hit sound
-        soundEffects[1].Play();
+        hitSound.Play();
+    }
+
+    public void levelPass(){
+        levelPassSound.Play();
     }
 
     public void pass(){
         // pass sound
-        soundEffects[0].Play();
+        
+        passSounds[passSoundIndex].Play();
+        passSoundIndex += 1;
+        passSoundIndex %= passSounds.Count;
     }
 
     void Start(){

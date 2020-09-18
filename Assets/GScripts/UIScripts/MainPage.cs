@@ -42,26 +42,22 @@ public class MainPage : MonoBehaviour {
 
     string user_profile_url = "http://94.247.128.162/api/core/profile/";
     // show window
-    // 0 - Menu
+    // 0 - MainPage
     // 1 - Events
     // 2 - Coupons
-    // 3 - Authorization
+    // 3 - Profile
     // 4 - Sign Up
     // 5 - Login
-    // 6 - Error
-    // 7 - already played Error
-    // 8 - not active Error
-    // 9 - Rules
-    // 10 - Verification
+    // 6 - Rules
     public void showWindow (int windowIndex = 0){
         windows[ currentWindowIndex ].SetActive(false);
             
         string token = PlayerPrefs.GetString("auth_token");
 
-        // Trying access Events and Coupons pages unauthorized
-        if( (windowIndex == 1 || windowIndex == 2) && (token == null || token == "") ){
-            windows[ 3 ].SetActive(true);
-            currentWindowIndex = 3;
+        // Trying access Events and Profile pages unauthorized
+        if( (windowIndex == 1 || windowIndex == 3) && (token == null || token == "") ){
+            windows[ 5 ].SetActive(true);
+            currentWindowIndex = 5;
         }
         else{
             windows[ windowIndex ].SetActive(true);
@@ -69,9 +65,9 @@ public class MainPage : MonoBehaviour {
         }
 
         // close error window
-        windows[ 6 ].SetActive(false);
-        windows[ 7 ].SetActive(false);
-        windows[ 8 ].SetActive(false);
+        // windows[ 6 ].SetActive(false);
+        // windows[ 7 ].SetActive(false);
+        // windows[ 8 ].SetActive(false);
 
         eventInformationWindow.SetActive(false);
         couponInformationWindow.SetActive(false);
@@ -96,12 +92,12 @@ public class MainPage : MonoBehaviour {
     public void Logout(){
         set_token("");
         
-        controller.coupons_clear();
-        foreach (Transform child in controller.coupon_panel.transform)
-            GameObject.Destroy(child.gameObject);
+        // controller.coupons_clear();
+        // foreach (Transform child in controller.coupon_panel.transform)
+        //     GameObject.Destroy(child.gameObject);
 
         // showWindow(5);
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("newMainScene");
     }
 
     // coupon information window, xor operatio, if opened close, else open
@@ -174,7 +170,7 @@ public class MainPage : MonoBehaviour {
             PlayerPrefs.SetInt("Played practice", 1); 
         }
 
-        EventsButton.enabled = true;
+        // EventsButton.enabled = true;
 
         // set id to -1, to say it is practice
         PlayerPrefs.SetInt("id", -1);
@@ -308,7 +304,7 @@ public class MainPage : MonoBehaviour {
             AudioBackgroundColor.color = new Color(0, 0, 0, 255);           
         }
 
-        SplashScreenAnimator.Play("Login to Loading");
+        // SplashScreenAnimator.Play("Login to Loading");
 
         controller = FindObjectOfType<webRequestController>();
     }

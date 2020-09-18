@@ -37,7 +37,7 @@ public class ControlButton : MonoBehaviour,  IPointerUpHandler, IPointerDownHand
 
         if( isPressed && !turned ){
             float holdTime = Time.time - pointerDownTime;
-            if( holdTime > 0.2f ){        
+            if( holdTime > 0.05f ){        
                 if( isLeft )
                     player.Turn(-1);
                 else     

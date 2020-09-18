@@ -18,13 +18,13 @@ public class startScene : MonoBehaviour
     {
         
         yield return new WaitForSeconds(0.25f);
-        string SceneName = "MainMenu";
+        string SceneName = "newMainScene";
 
-        if( PlayerPrefs.GetInt("isLaunched") == 0 ){
-            PlayerPrefs.SetInt("isLaunched", 1);
-            // SceneManager.LoadScene("Tutorial");
-            SceneName = "Tutorial";
-        }
+        // if( PlayerPrefs.GetInt("isLaunched") == 0 ){
+        //     PlayerPrefs.SetInt("isLaunched", 1);
+        //     // SceneManager.LoadScene("Tutorial");
+        //     SceneName = "Tutorial";
+        // }
 
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneName);
 

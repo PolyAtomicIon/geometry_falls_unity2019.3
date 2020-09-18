@@ -112,9 +112,7 @@ public class Manager : MonoBehaviour
     
     public bool is_level_active = false;
     
-    public AudioSource bgMusic;
-    public List<AudioClip> audios;
-    public List<AudioSource> soundEffects;
+    public AudioM audioManager;
 
     public Animator SplashScreenAnimator;
     public GameObject Loader;
@@ -178,8 +176,8 @@ public class Manager : MonoBehaviour
         if( !model ){
             // Random rotation
             // angle - 180 -> animation -> see Obstacle.Start()
-            objectToSpawn.transform.eulerAngles = new Vector3(-90f, angle - 180.0f, 0);
-            // objectToSpawn.transform.eulerAngles = new Vector3(-90f, angle, 0);
+            // objectToSpawn.transform.eulerAngles = new Vector3(-90f, angle - 180.0f, 0);
+            objectToSpawn.transform.eulerAngles = new Vector3(-90f, angle, 0);
         }
 
         // If Model
@@ -319,6 +317,8 @@ public class Manager : MonoBehaviour
         NextObstacleIndex = 0;
         
         SetProgressionBarColor();
+        audioManager.levelPass();
+
     }
 
     void SetPlanesInitialParameters(){
@@ -383,7 +383,7 @@ public class Manager : MonoBehaviour
     }
 
     public void exit(){
-        SceneManager.LoadScene("MainMenu");
+        SceneManager.LoadScene("newMainScene");
     }
 
     IEnumerator Unload(){

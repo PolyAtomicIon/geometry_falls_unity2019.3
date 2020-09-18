@@ -80,10 +80,10 @@ public class ObstacleScript : MonoBehaviour, IPooledObject
             return;
         }
 
-        StartCoroutine( SetRotation(new Vector3(-90f, game_manager.obstacle_angles[obstacle_index+1] - 180f, 0), 0.05f) ); 
-        StartCoroutine( SetRotation(new Vector3(-90f, game_manager.obstacle_angles[obstacle_index+1], 0), 0.85f) ); 
+        // StartCoroutine( SetRotation(new Vector3(-90f, game_manager.obstacle_angles[obstacle_index+1] - 180f, 0), 0.05f) ); 
+        StartCoroutine( SetRotation(new Vector3(-90f, game_manager.obstacle_angles[obstacle_index+1], 0), 0.05f) ); 
 
-        transform.position = new Vector3(transform.position.x, transform.position.y - 3.5f, transform.position.z);
+        transform.position = new Vector3(transform.position.x, transform.position.y - 5.5f, transform.position.z);
     }
 
     void GetInitialAngleAndSetInitialRotation(){
@@ -97,9 +97,9 @@ public class ObstacleScript : MonoBehaviour, IPooledObject
 
     void Update(){
 
-        if( (game_manager.current_obstacle == obstacle_index || obstacle_index == 0 ) && !rotated ){
-            GetInitialAngleAndSetInitialRotation();
-        }
+        // if( (game_manager.current_obstacle == obstacle_index || obstacle_index == 0 ) && !rotated ){
+        //     GetInitialAngleAndSetInitialRotation();
+        // }
 
         if( game_manager.current_obstacle > obstacle_index ){
             is_active = false;
