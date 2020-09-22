@@ -21,16 +21,16 @@ MonoBehaviour:
   backgroundVideo: {fileID: 32900000, guid: 488f8fa32c1a5f24cbac413b5e63b1f6, type: 3}
   backgroundPreserveAspect: 0
   backgroundSpeed: 1.25
-  primaryColor: {r: 0.3882353, g: 0.7764706, b: 1, a: 1}
-  secondaryColor: {r: 1, g: 1, b: 1, a: 1}
-  primaryReversed: {r: 0.1764706, g: 0.1764706, b: 0.1764706, a: 1}
+  primaryColor: {r: 1, g: 1, b: 1, a: 1}
+  secondaryColor: {r: 0, g: 0, b: 0, a: 1}
+  primaryReversed: {r: 1, g: 0.5803922, b: 0.08627451, a: 1}
   negativeColor: {r: 1, g: 0.43137255, b: 0.39215687, a: 1}
   backgroundColor: {r: 0.09803922, g: 0.09803922, b: 0.09803922, a: 0.9411765}
-  lightFont: {fileID: 11400000, guid: 99d404ed379d7de438f72b3948af86a6, type: 2}
-  regularFont: {fileID: 11400000, guid: 99d404ed379d7de438f72b3948af86a6, type: 2}
-  mediumFont: {fileID: 11400000, guid: 99d404ed379d7de438f72b3948af86a6, type: 2}
-  semiBoldFont: {fileID: 11400000, guid: 99d404ed379d7de438f72b3948af86a6, type: 2}
-  boldFont: {fileID: 11400000, guid: 99d404ed379d7de438f72b3948af86a6, type: 2}
+  lightFont: {fileID: 11400000, guid: 11dc609c568272a42831dc86bfcf0a78, type: 2}
+  regularFont: {fileID: 11400000, guid: 11dc609c568272a42831dc86bfcf0a78, type: 2}
+  mediumFont: {fileID: 11400000, guid: e5e5fbb4ebf3efb48b8e2094ab805501, type: 2}
+  semiBoldFont: {fileID: 11400000, guid: e5e5fbb4ebf3efb48b8e2094ab805501, type: 2}
+  boldFont: {fileID: 11400000, guid: e5e5fbb4ebf3efb48b8e2094ab805501, type: 2}
   gameLogo: {fileID: 21300000, guid: 6ac53f15ba5fce14596a41cdaff66b16, type: 3}
   logoColor: {r: 0.3882353, g: 0.7764706, b: 1, a: 1}
   particleColor: {r: 0.3882353, g: 0.7764706, b: 1, a: 1}

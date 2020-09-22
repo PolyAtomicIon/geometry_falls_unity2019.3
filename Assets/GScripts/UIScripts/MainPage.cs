@@ -69,8 +69,8 @@ public class MainPage : MonoBehaviour {
         // windows[ 7 ].SetActive(false);
         // windows[ 8 ].SetActive(false);
 
-        eventInformationWindow.SetActive(false);
-        couponInformationWindow.SetActive(false);
+        // eventInformationWindow.SetActive(false);
+        // couponInformationWindow.SetActive(false);
     }
 
     public void show_error(string error_str = "Проблемы с соединением или введены неправильные данные"){
@@ -266,26 +266,26 @@ public class MainPage : MonoBehaviour {
 
         // PlayerPrefs.DeleteKey("Played practice"); 
 
-        if( !PlayerPrefs.HasKey("Played practice") ){
-            EventsButton.interactable = false;
+        // if( !PlayerPrefs.HasKey("Played practice") ){
+        //     EventsButton.interactable = false;
                 
-            EventsButton_message.SetActive(true);
-        }
+        //     EventsButton_message.SetActive(true);
+        // }
 
-        if( get_token() != "" ){
-            logout_button.SetActive(true);
-            StartCoroutine( Check_User_Verification() );
-        }
-        else{
-            login_button.SetActive(true);
-        }
+        // if( get_token() != "" ){
+        //     logout_button.SetActive(true);
+        //     StartCoroutine( Check_User_Verification() );
+        // }
+        // else{
+        //     login_button.SetActive(true);
+        // }
 
         StartCoroutine( set_rules_text() );
 
-        if( !PlayerPrefs.HasKey("Read Agreement") ){
-            showWindow(9);
-            PlayerPrefs.SetInt("Read Agreement", 1); 
-        }
+        // if( !PlayerPrefs.HasKey("Read Agreement") ){
+        //     showWindow(9);
+        //     PlayerPrefs.SetInt("Read Agreement", 1); 
+        // }
 
         // Syncing  Data or Loading Animation, no matter what is written as an argument
 

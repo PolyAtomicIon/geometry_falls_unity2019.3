@@ -83,13 +83,13 @@ public class Event{
         // Debug.Log(days_left);
 
         if( st_days_left > 0 )
-            date_information = "До старта\n" + st_days_left.ToString() + " день";
+            date_information = "До старта " + st_days_left.ToString() + " день";
         else
             if( days_left < 0 ){
                 date_information = "Прошло";
             }
             else
-                date_information = "До конца\n" + days_left.ToString() + " день";
+                date_information = "До конца " + days_left.ToString() + " день";
 
         active = is_active;
     }
@@ -183,7 +183,7 @@ public class webRequestController : MonoBehaviour
                 
                 events[id].description = description;
 
-                manager.EventInformationWindow(events[id]);
+                // manager.EventInformationWindow(events[id]);
                 PlayerPrefs.SetInt("levels", events[id].levels);
             }
 
@@ -203,45 +203,64 @@ public class webRequestController : MonoBehaviour
     void instantiateEventButton(Event cur_event, Vector3 position){
 
         event_prefab.GetComponentsInChildren<TMP_Text>()[0].text = cur_event.name;
-        event_prefab.GetComponentsInChildren<TMP_Text>()[2].text = cur_event.date_information;
+        event_prefab.GetComponentsInChildren<TMP_Text>()[6].text = cur_event.date_information;
 
         Button event_prefab_go = Instantiate(event_prefab) as Button;
         event_prefab_go.transform.parent = event_panel.transform;
 
-        event_prefab_go.onClick.AddListener(delegate{EventButtonClicked(cur_event.id);});
+        // event_prefab_go.onClick.AddListener(delegate{EventButtonClicked(cur_event.id);});
 
         event_prefab_go.GetComponent<RectTransform>().anchoredPosition = position;
         event_prefab_go.GetComponent<RectTransform>().localScale  = new Vector3(1, 1, 1);
 
-        event_prefab_go.GetComponent<RectTransform>().SetLeft(16f);
-        event_prefab_go.GetComponent<RectTransform>().SetRight(16f);
+        // event_prefab_go.GetComponent<RectTransform>().SetLeft(16f);
+        // event_prefab_go.GetComponent<RectTransform>().SetRight(16f);
         
         if( cur_event.background != null )
-            event_prefab_go.transform.Find("Content/Background").GetComponent<Image>().sprite = cur_event.background;
+            event_prefab_go.transform.Find("ImagePanel/Image").GetComponent<Image>().sprite = cur_event.background;
 
     }
+
+    
+    Vector3 cur_position = new Vector3(352, 0, 0);
+    Vector3 gap_between = new Vector3(768, 0, 0);
 
     void CreateEventButtons(){
 
-        Vector3 cur_position = new Vector3(0, -96, 0);
-        Vector3 gap_between = new Vector3(0, -176-16, 0);
+
+        // setEventsPanel();
 
         // Debug.Log(events.Count);
 
-        foreach (KeyValuePair<int, Event> e in events){
-            instantiateEventButton(e.Value, cur_position);
-            cur_position += gap_between;
-        }
+        // int cnt = 0;
 
+        // foreach (KeyValuePair<int, Event> e in events){
+        //     instantiateEventButton(e.Value, cur_position);
+        //     cur_position += gap_between;
+        //     cnt++;
+        // }
+
+    }
+    
+    void setEventsPanel(int events_number){
+
+        RectTransform panel_rect_transform = event_panel.GetComponent<RectTransform>();
+
+        float width = 800f * events_number;
+        Vector3 tmp_position = new Vector3(width / 2, 0f, 0f);
+        Vector2 tmp_size = new Vector2(width, panel_rect_transform.sizeDelta.y); 
+
+        panel_rect_transform.sizeDelta = tmp_size;
+        panel_rect_transform.anchoredPosition = tmp_position;
     }
 
     IEnumerator GetTextureEvent(int id, string url) {
-        Debug.Log(url);
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
         yield return www.SendWebRequest();
 
         if(www.isNetworkError || www.isHttpError) {
             Debug.Log(www.error);
+            Debug.Log(url);
             Debug.Log("WHAT?");
         }
         else {
@@ -250,12 +269,18 @@ public class webRequestController : MonoBehaviour
             
             events[id].background = bg;
         }
+    
+        instantiateEventButton(events[id], cur_position);
+        cur_position += gap_between;
     }
 
-    IEnumerator CreateEvent(UnityWebRequest res){
+    void CreateEvent(UnityWebRequest res){
 
         JSONNode events_info = JSONNode.Parse(res.downloadHandler.text);
         // Debug.Log(events_info);
+
+        setEventsPanel(events_info["results"].Count);
+
         for(int i = 0; i < events_info["count"]; i++){
 
             // get data
@@ -277,8 +302,6 @@ public class webRequestController : MonoBehaviour
             StartCoroutine( GetTextureEvent(ID, url) );
 
         }
-
-        yield return new WaitForSeconds(1f);
         
         CreateEventButtons();
     }
@@ -308,7 +331,8 @@ public class webRequestController : MonoBehaviour
             else
             {   
                 Debug.Log("Request sent!");
-                StartCoroutine( CreateEvent(www) );
+                // StartCoroutine( CreateEvent(www) )
+                CreateEvent(www);
             }
         }
 
@@ -404,7 +428,7 @@ public class webRequestController : MonoBehaviour
             // create Button
             Coupon cur_coupon = new Coupon(ID, e_key, Value, provider_ID, provider_Name);
 
-            // StartCoroutine( GetTextureCoupon(ID, url) );
+            StartCoroutine( GetTextureCoupon(ID, url) );
 
             coupons[ID] = cur_coupon;
         }

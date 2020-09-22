@@ -46,6 +46,8 @@ public class authorization : MonoBehaviour {
             www.SetRequestHeader("Authorization", manager.get_token());
             yield return www.SendWebRequest();
 
+            Debug.Log(www);
+
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
@@ -55,7 +57,7 @@ public class authorization : MonoBehaviour {
             else
             {
                 Debug.Log("Email verified");
-                manager.windows[6].SetActive(false);
+                // manager.windows[7].SetActive(false);
 
                 SceneManager.LoadScene(MainPageName);
 
@@ -81,11 +83,11 @@ public class authorization : MonoBehaviour {
             else
             {
                 Debug.Log("Verificatoin code is sent");
-                manager.windows[6].SetActive(false);
+                manager.windows[4].SetActive(false);
                 
                 // show Verification UI
                 // manager.showWindow(5, 4);
-                // manager.showWindow(10);
+                manager.showWindow(7);
             }
         }
     }
@@ -98,12 +100,12 @@ public class authorization : MonoBehaviour {
 
         string verification_code = "";
         // 4 integers
-        // for(int i=0; i<4; i++){
-        //     verification_code += verification_code_fields[i].text;
-        // }
+        for(int i=0; i<4; i++){
+            verification_code += verification_code_fields[i].text;
+        }
 
         // 6 characters
-        verification_code = six_ch_verification_code_field.text;
+        // verification_code = six_ch_verification_code_field.text;
 
         Debug.Log(verification_code);
 
@@ -129,14 +131,14 @@ public class authorization : MonoBehaviour {
             else
             {
                 Debug.Log("Form upload complete!");
-                manager.windows[6].SetActive(false);
+                manager.windows[4].SetActive(false);
                 
                 //send verficiation code to user's email
                 
                 // Obtain token
                 StartCoroutine( Login(email, password) );
                 
-                // manager.showWindow(10);
+                manager.showWindow(7);
                 // send verification code
                 StartCoroutine( Send_verification_code_ie() );
 
@@ -177,7 +179,7 @@ public class authorization : MonoBehaviour {
             }
             else
             {
-                manager.windows[6].SetActive(false);
+                manager.windows[4].SetActive(false);
 
                 JSONNode res = JSONNode.Parse(www.downloadHandler.text);
         
@@ -190,7 +192,7 @@ public class authorization : MonoBehaviour {
                     SceneManager.LoadScene(MainPageName);
                 else{
                     StartCoroutine( Send_verification_code_ie() );
-                    manager.showWindow(10);
+                    manager.showWindow(7);
                 }
             }
         }

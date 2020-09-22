@@ -22,7 +22,7 @@ Material:
   m_PrefabAsset: {fileID: 0}
   m_Name: Second
   m_Shader: {fileID: 4800000, guid: 8d2bb70cbf9db8d4da26e15b26e74248, type: 3}
-  m_ShaderKeywords: _EMISSION
+  m_ShaderKeywords: 
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -92,7 +92,7 @@ Material:
     m_Colors:
     - Color_998522F8: {r: 1, g: 1, b: 1, a: 0}
     - Color_CB47387C: {r: 0.10662593, g: 0.8854588, b: 0.02317955, a: 0}
-    - _BaseColor: {r: 0.8862745, g: 0.05490196, b: 0.5764706, a: 100}
+    - _BaseColor: {r: 0.17419855, g: 0.05156277, b: 0.022297416, a: 18.590569}
     - _Color: {r: 0.6037736, g: 0.07889277, b: 0.048415814, a: 1}
-    - _EmissionColor: {r: 0.00010980393, g: 0.0029647062, b: 0.0031686276, a: 0}
+    - _EmissionColor: {r: 0.5563515, g: 0.033975665, b: 0.8111689, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
