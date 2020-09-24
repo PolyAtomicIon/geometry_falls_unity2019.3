@@ -18,6 +18,8 @@ public class GameOver : MonoBehaviour
     // buttons: restart, game_over
     public GameObject section;
 
+    public GameObject Pause_button;
+
     public GameObject spinning_object;
     public FortuneWheelManager FortuneWheelManager;
 
@@ -38,6 +40,7 @@ public class GameOver : MonoBehaviour
             spinning_object.SetActive(true);
 
         section.SetActive(true);
+        Pause_button.SetActive(false);
     }
 
     public void GiveAward(bool is_present){

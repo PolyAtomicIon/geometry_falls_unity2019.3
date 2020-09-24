@@ -22,7 +22,9 @@ public class Player : MonoBehaviour, IPooledObject
 
     // Default physics variables
     private float fall_down_speed = -27f;
-    private float acceleration = -0.035f;
+    // private float acceleration = -0.035f;
+    private float acceleration = -0.15f;
+
     public float angular_drag = 0.45f;
    
     // Default values for Rotation Animation 

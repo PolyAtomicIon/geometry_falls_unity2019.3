@@ -161,7 +161,7 @@ public class webRequestController : MonoBehaviour
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
-                manager.windows[6].SetActive(true);
+                // manager.windows[6].SetActive(true);
                 events_initialized = false;
             }
             else
@@ -221,7 +221,6 @@ public class webRequestController : MonoBehaviour
 
     }
 
-    
     Vector3 cur_position = new Vector3(352, 0, 0);
     Vector3 gap_between = new Vector3(768, 0, 0);
 
@@ -325,7 +324,7 @@ public class webRequestController : MonoBehaviour
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
-                manager.windows[6].SetActive(true);
+                // manager.windows[6].SetActive(true);
                 events_initialized = false;
             }
             else
@@ -354,7 +353,7 @@ public class webRequestController : MonoBehaviour
     public void CouponButtonClicked(int id){
         // Debug.Log("clicked");
         // Debug.Log(id);
-        manager.CouponInformationWindow(coupons[id]);
+        // manager.CouponInformationWindow(coupons[id]);
         return;
     }
 
@@ -457,7 +456,7 @@ public class webRequestController : MonoBehaviour
             if (www.isNetworkError || www.isHttpError)
             {
                 Debug.Log(www.error);
-                manager.windows[6].SetActive(true);
+                // manager.windows[6].SetActive(true);
                 coupons_initialized = false;
             }
             else

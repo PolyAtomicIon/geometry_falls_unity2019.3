@@ -58,6 +58,8 @@ public class Manager : MonoBehaviour
 
     public GameOver gameOverSection;
 
+    public LevelProgession levelProgession;
+
 
     // For getting random models for each level 
     public List<int> random_models_indexes;
@@ -294,6 +296,9 @@ public class Manager : MonoBehaviour
 
         // To stop event game, if player passed all levels
 
+        levelProgession.refresh();
+        score = 0;
+
         level += 1;
 
         if( level > levels && id != -1 ){
@@ -336,6 +341,7 @@ public class Manager : MonoBehaviour
     public void increment_score()
     {
         score += 1;
+        levelProgession.increment(score - 1);
     }
 
     public int currentModelIndex = -1;
@@ -364,17 +370,12 @@ public class Manager : MonoBehaviour
 
         level = Math.Min(level, levels);
 
-        string zero = "";
-        if( level < 10 ){
-            zero = "0";
-        }
-        return "УРОВЕНЬ: " + zero + level.ToString();
-    }
-
-    private float levelProgression(){
-        int mx_sz = (int) object_in_level() + 1;
-        int cur_o = current_obstacle + 1;
-        return cur_o * 200.0f / mx_sz;
+        // string zero = "";
+        // if( level < 10 ){
+        //     zero = "0";
+        // }
+        
+        return level.ToString();
     }
 
     public void restartLevel(){
@@ -409,7 +410,7 @@ public class Manager : MonoBehaviour
     IEnumerator runLoadingAnimation(){
         // Syncing  Data or Loading Animation, no matter what is written as an argument
         SplashScreenAnimator.Play("Login to Loading");
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(2f);
         LoadAdditiveScene();
     }
 
@@ -444,8 +445,6 @@ public class Manager : MonoBehaviour
 
         // set level to Level Label UI
         LevelLabel.text = levelString();
-
-        progression.value = levelProgression();
 
         // changed in LevelManager.cs & Player.cs -> on collision
         if( is_level_active ){
