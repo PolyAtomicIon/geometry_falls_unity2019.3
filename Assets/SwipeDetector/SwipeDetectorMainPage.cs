@@ -92,12 +92,12 @@ public class SwipeDetectorMainPage : MonoBehaviour
 
         /* define direction, show or close side bar */
 
-        if( direction == SwipeDirection.Left ){
-            manager.showSideBar(false);
-        }
-        if( direction == SwipeDirection.Right ){
-            manager.showSideBar(true);
-        }
+        // if( direction == SwipeDirection.Left ){
+        //     manager.showSideBar(false);
+        // }
+        // if( direction == SwipeDirection.Right ){
+        //     manager.showSideBar(true);
+        // }
 
         /* defined and showd side bar */
 

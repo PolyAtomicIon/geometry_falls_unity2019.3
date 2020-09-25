@@ -24,7 +24,9 @@ public class Login : MonoBehaviour {
         JSONNode token_info = JSONNode.Parse(res.downloadHandler.text);
         string token = token_info["token"];
 
+        
         manager.set_token("Token " + token);
+        Debug.Log( manager.get_token() );
 
         //check is verified
         auth_manager.User_Profile();

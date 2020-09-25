@@ -48,6 +48,7 @@ public class authorization : MonoBehaviour {
                 if( email_verified )
                     manager.Reload();
                 else{
+                    manager.LoggedIn();
                     Verify();
                 }
             }

@@ -83,17 +83,16 @@ public class Event{
         // Debug.Log(days_left);
 
         if( st_days_left > 0 )
-            date_information = "До старта " + st_days_left.ToString() + " день";
+            date_information = "Дней до старта: " + st_days_left.ToString();
         else
             if( days_left < 0 ){
                 date_information = "Прошло";
             }
             else
-                date_information = "До конца " + days_left.ToString() + " день";
+                date_information = "Дней до конца: " + days_left.ToString();
 
         active = is_active;
     }
-
 
 }
 
@@ -136,86 +135,48 @@ public class webRequestController : MonoBehaviour
 
     Dictionary<int, Event> events = new Dictionary<int, Event>();
     public GameObject event_panel;
-    public Button event_prefab;
+    public GameObject event_prefab;
     public string base_event_url = "http://94.247.128.162/api/game/events/";
 
     string cur_token = "";
 
-
-    IEnumerator GetEventDetails(int id)
-    {
-        
-        // if not logged in, go to Authorization UI 
-        // Debug.Log(manager.get_token());
-        if( manager.get_token() == "" ){
-            manager.showWindow(3);
-            yield return false;
-        }   
-
-        using (UnityWebRequest www = UnityWebRequest.Get(base_event_url + id.ToString() + "/?"))
-        {   
-
-            www.SetRequestHeader("Authorization", manager.get_token());
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log(www.error);
-                // manager.windows[6].SetActive(true);
-                events_initialized = false;
-            }
-            else
-            {   
-                Debug.Log("Request sent!");
-
-                JSONNode details = JSONNode.Parse(www.downloadHandler.text);
-               
-                events[id].levels = details["levels"];
-                events[id].played = details["played"];
-                events[id].presents_total = details["presents_total"];
-                events[id].presents_left = details["presents_left"];
-                    
-                string description = details["description"];
-
-                if( description != null && description.Length > 128 ){
-                    description = description.Substring(0, 128) + "..."; 
-                }
-                
-                events[id].description = description;
-
-                // manager.EventInformationWindow(events[id]);
-                PlayerPrefs.SetInt("levels", events[id].levels);
-            }
-
-        }
-
-    }
-
     public void EventButtonClicked(int id){
-        // Debug.Log("clicked");
-        // Debug.Log(id);
-        StartCoroutine(GetEventDetails(id));
-        return;
+        Debug.Log("clicked" + id);
+        PlayerPrefs.SetInt("levels", events[id].levels);
+        if( !PlayerPrefs.HasKey("user_verified") || PlayerPrefs.GetInt("user_verified") == 0 ){
+            manager.Verify();
+        }
+        else{
+            manager.StartEvent(id);
+        }
     }
 
     Sprite BG;
 
     void instantiateEventButton(Event cur_event, Vector3 position){
 
-        event_prefab.GetComponentsInChildren<TMP_Text>()[0].text = cur_event.name;
-        event_prefab.GetComponentsInChildren<TMP_Text>()[6].text = cur_event.date_information;
+        TMP_Text[] text_fields = event_prefab.GetComponentsInChildren<TMP_Text>();
 
-        Button event_prefab_go = Instantiate(event_prefab) as Button;
+        text_fields[0].text = cur_event.name;
+
+        text_fields[1].text = cur_event.description;
+
+        text_fields[2].text = cur_event.presents_left.ToString() + "/" + cur_event.presents_total.ToString();
+        text_fields[4].text = cur_event.levels.ToString();
+
+        text_fields[6].text = cur_event.date_information;
+
+
+        GameObject event_prefab_go = Instantiate(event_prefab) as GameObject;
         event_prefab_go.transform.parent = event_panel.transform;
 
-        // event_prefab_go.onClick.AddListener(delegate{EventButtonClicked(cur_event.id);});
+        // Debug.Log(event_prefab_go.GetComponentsInChildren<Button>()[0]);
+
+        event_prefab_go.GetComponentsInChildren<Button>()[0].onClick.AddListener(delegate{EventButtonClicked(cur_event.id);});
 
         event_prefab_go.GetComponent<RectTransform>().anchoredPosition = position;
         event_prefab_go.GetComponent<RectTransform>().localScale  = new Vector3(1, 1, 1);
 
-        // event_prefab_go.GetComponent<RectTransform>().SetLeft(16f);
-        // event_prefab_go.GetComponent<RectTransform>().SetRight(16f);
-        
         if( cur_event.background != null )
             event_prefab_go.transform.Find("ImagePanel/Image").GetComponent<Image>().sprite = cur_event.background;
 
@@ -276,7 +237,7 @@ public class webRequestController : MonoBehaviour
     void CreateEvent(UnityWebRequest res){
 
         JSONNode events_info = JSONNode.Parse(res.downloadHandler.text);
-        // Debug.Log(events_info);
+        Debug.Log(events_info);
 
         setEventsPanel(events_info["results"].Count);
 
@@ -291,12 +252,29 @@ public class webRequestController : MonoBehaviour
             
             string url = events_info["results"][i]["image"];
 
+            int levels = events_info["results"][i]["levels"];
+            bool played = events_info["results"][i]["played"];
+            int presents_total = events_info["results"][i]["presents_total"];
+            int presents_left = events_info["results"][i]["presents_left"];
+                
+            string description = events_info["results"][i]["description"];
+
+            if( description != null && description.Length > 96 ){
+                description = description.Substring(0, 96) + "..."; 
+            }
+
+
             // Debug.Log(ID);
 
             // create Button
             Event cur_event = new Event(ID, e_name, start, end, is_active);
 
             events[ID] = cur_event;
+            events[ID].levels = levels;
+            events[ID].played = played;
+            events[ID].presents_total = presents_total;
+            events[ID].presents_left = presents_left;
+            events[ID].description = description;
 
             StartCoroutine( GetTextureEvent(ID, url) );
 
@@ -315,7 +293,7 @@ public class webRequestController : MonoBehaviour
             yield return false;
         }
 
-        using (UnityWebRequest www = UnityWebRequest.Get(base_event_url))
+        using (UnityWebRequest www = UnityWebRequest.Get("http://94.247.128.162/api/game/events/?limit=10"))
         {   
 
             www.SetRequestHeader("Authorization", manager.get_token());
@@ -478,36 +456,6 @@ public class webRequestController : MonoBehaviour
     }
 
     void Start(){
-
-        // if( PlayerPrefs.GetString("auth_token") == null || PlayerPrefs.GetString("auth_token") == "" ){
-        //     manager.showWindow(3);
-        // }
-        // else{
-        //     GetData();
-        // }
-
-        // if authorized get data, else nothing
-        if( !( PlayerPrefs.GetString("auth_token") == null || PlayerPrefs.GetString("auth_token") == "" ) ){
-            GetData();
-        }
-
     }
 
-    void LateUpdate()
-    {
-    
-        // // if current Window on Event UI
-        // if( !events_initialized ){
-        //     events_initialized = true;
-        //     StartCoroutine( GetEvents() );
-        // }
-
-        // // if current Window on Coupon UI
-        // if(!coupons_initialized ){
-        //     coupons_initialized = true;
-        //     StartCoroutine( GetCoupons() );
-        // }
-
-
-    }
 }

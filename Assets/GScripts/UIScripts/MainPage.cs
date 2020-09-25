@@ -10,27 +10,21 @@ using UnityEngine.UI;
 public class MainPage : MonoBehaviour {
 
     public webRequestController controller;
+    public authorization auth_manager;
+
+    public Profile profile;
 
     // public List<GameObject> windows;
     public List<Canvas> windows;
+    public int currentWindowIndex = 0;
 
-
-    public GameObject couponInformationWindow;
-    public List<TMP_Text> coupon_info_texts;
-    public GameObject eventInformationWindow;
-    public List<TMP_Text> event_info_texts;
-    public Button EventStartButton;
     public Button EventsButton;
-    public GameObject EventsButton_message;
-
-    public GameObject sideBar;
 
     public Image AudioBackgroundColor; 
     public Sprite audio_on_icon; 
     public Sprite audio_off_icon; 
 
     public AudioSource BackgroundMusic;
-    public Color BgEnabledColor;
     
     public List<AudioClip> audios;
 
@@ -38,13 +32,8 @@ public class MainPage : MonoBehaviour {
 
     private int levels = 0;
 
-    public int currentWindowIndex = 0;
-
-    public GameObject login_button, logout_button; 
 
     public TMP_Text rules_text;
-
-    public TMP_Text error_text_field;
 
     string user_profile_url = "http://94.247.128.162/api/core/profile/";
     // show window
@@ -75,6 +64,10 @@ public class MainPage : MonoBehaviour {
 
     }
 
+    public void Verify(){
+        auth_manager.Verify();
+    }
+
     public void set_token(string a){
         PlayerPrefs.SetString("auth_token", a);
     }
@@ -85,88 +78,14 @@ public class MainPage : MonoBehaviour {
         return PlayerPrefs.GetString("auth_token");
     }
 
-    // public void Logout_confirmatoin()
-
     public void Reload(){
         SceneManager.LoadScene("newMainScene");
     }
 
     public void LoadGame(){
-        LoadGame();
-    }
-
-    public void Logout(){
-        set_token("");
-        
-        // controller.coupons_clear();
-        // foreach (Transform child in controller.coupon_panel.transform)
-        //     GameObject.Destroy(child.gameObject);
-
-        // showWindow(5);
-        Reload();
-    }
-
-    // coupon information window, xor operatio, if opened close, else open
-    // public void CouponInformationWindow (Coupon cur_coupon){
-    //     couponInformationWindow.SetActive( true );
-    //     coupon_info_texts[0].text = cur_coupon.provider_name;
-    //     coupon_info_texts[1].text = cur_coupon.key;
-    //     // coupon_info_texts[2].text = cur_coupon.value.ToString() + "%";
-    //     coupon_info_texts[2].text = cur_coupon.value.ToString();
-    // }
-
-    // public void CloseCouponInformationWindow (){
-    //     couponInformationWindow.SetActive( false );
-    // }
-    
-    // public void EventInformationWindow (Event cur_event){
-
-    //     // Level and Value should be added to infomration panel, we have to make request to get details
-
-    //     eventInformationWindow.SetActive( true );
-    //     event_info_texts[0].text = cur_event.name;
-    //     event_info_texts[1].text = cur_event.description;
-        
-    //     Debug.Log(cur_event.description);
-    //     if( cur_event.description == "" || cur_event.description == null ){
-    //         event_info_texts[1].gameObject.SetActive(false);
-    //     }
-    //     else{
-    //         event_info_texts[1].gameObject.SetActive(true);
-    //     }
-
-    //     event_info_texts[2].text = cur_event.start_date + " - " + cur_event.end_date;
-
-    //     event_info_texts[3].text = cur_event.presents_left.ToString() + "/" + cur_event.presents_total.ToString();
-    //     event_info_texts[4].text = cur_event.levels.ToString();
-
-    //     // Debug.Log("ACTIVE?");
-    //     // Debug.Log(cur_event.active);
-
-    //     if( !cur_event.played && cur_event.active ){
-    //         EventStartButton.onClick.AddListener(delegate{StartEvent(cur_event.id);});
-    //         EventStartButton.enabled = true;
-    //     }
-    //     // if already played this game, disable button, show an error
-    //     else{
-    //         EventStartButton.enabled = false;
-    //         // if( cur_event.played )
-    //         //     windows[7].SetActive(true);
-    //         // else
-    //         //     // windows[8].SetActive(true);
-    //     }
-
-    // }
-
-    // public void CloseEventInformationWindow (){
-    //     eventInformationWindow.SetActive( false );
-    //     // windows[7].SetActive(false);
-    //     // windows[8].SetActive(false);
-    // }
-
-    // side bar, with music stuff
-    public void showSideBar(bool condition) {
-        sideBar.SetActive( condition );
+        if( !PlayerPrefs.HasKey("Played practice") )
+            PlayerPrefs.SetInt("Played practice", 1);       
+        SceneManager.LoadScene("Base");
     }
 
     public void StartPractice (){
@@ -220,54 +139,26 @@ public class MainPage : MonoBehaviour {
 
             if (www.isNetworkError || www.isHttpError)
             {
-                Debug.Log(www.error);
+                Debug.Log("Rules" + www.error);
                 // windows[6].SetActive(true);
             }
             else
             {   
-                Debug.Log("Request sent!");
+                Debug.Log("Request sent! Agreement");
                 JSONNode details = JSONNode.Parse(www.downloadHandler.text);
             
+                Debug.Log( details["agreement"] );
+
                 rules_text.text = details["agreement"];
-                // rules_text.text = "agreement";
 
             }
         }
 
     }
 
-    IEnumerator Check_User_Verification(){
-        WWWForm form = new WWWForm();
-
-        using (UnityWebRequest www = UnityWebRequest.Get(user_profile_url))
-        {
-            www.SetRequestHeader("Authorization", get_token());
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log(www.error);
-                
-                // show_error();
-            }
-            else
-            {
-                // windows[6].SetActive(false);
-                // windows[6].enabled  = false;
-
-
-                JSONNode res = JSONNode.Parse(www.downloadHandler.text);
-        
-                Debug.Log("User profile");
-                Debug.Log(res);
-
-                bool email_verified = res["email_verified"];
-
-                if( !email_verified ){
-                    Logout();
-                }
-            }
-        }
+    public void LoggedIn(){
+        controller.GetData();
+        profile.GetUserProfile();
     }
 
     void Start(){
@@ -276,29 +167,17 @@ public class MainPage : MonoBehaviour {
 
         // PlayerPrefs.DeleteKey("Played practice"); 
 
-        // if( !PlayerPrefs.HasKey("Played practice") ){
-        //     EventsButton.interactable = false;
-                
-        //     EventsButton_message.SetActive(true);
-        // }
+        if( !PlayerPrefs.HasKey("Played practice") ){
+            EventsButton.interactable = false;         
+        }
 
         if( get_token() != "" ){
-            // logout_button.SetActive(true);
-            StartCoroutine( Check_User_Verification() );
+            controller.GetData();
         }
-        // else{
-        //     login_button.SetActive(true);
-        // }
 
         StartCoroutine( set_rules_text() );
 
-        // if( !PlayerPrefs.HasKey("Read Agreement") ){
-        //     showWindow(9);
-        //     PlayerPrefs.SetInt("Read Agreement", 1); 
-        // }
-
         // Syncing  Data or Loading Animation, no matter what is written as an argument
-
         int id = ThreadSafeRandom.ThisThreadsRandom.Next(audios.Count);
         PlayerPrefs.SetInt("bgAudioID", id);
 
@@ -315,8 +194,6 @@ public class MainPage : MonoBehaviour {
         }
 
         // SplashScreenAnimator.Play("Login to Loading");
-
-        controller = FindObjectOfType<webRequestController>();
     }
 
 }
