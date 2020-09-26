@@ -48,7 +48,8 @@ public class AudioM : MonoBehaviour
 
         // AUDIO Settings
 
-        int audioID = PlayerPrefs.GetInt("bgAudioID");
+        // int audioID = PlayerPrefs.GetInt("bgAudioID");
+        int audioID = ThreadSafeRandom.ThisThreadsRandom.Next(audios.Count);
         bgMusic.clip = audios[audioID];
 
         bgMusic.Play();

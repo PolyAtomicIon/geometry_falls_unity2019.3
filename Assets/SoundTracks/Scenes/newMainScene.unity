@@ -2507,7 +2507,7 @@ MonoBehaviour:
   audio_off_icon: {fileID: 21300000, guid: 8ff1d2de09903b04680f81f5bfe73c24, type: 3}
   BackgroundMusic: {fileID: 1772306565}
   audios:
-  - {fileID: 8300000, guid: c477281e7f4a5704b8521d7a27a836b6, type: 3}
+  - {fileID: 8300000, guid: 62fa9f394c4685640b4c591d4227677f, type: 3}
   SplashScreenAnimator: {fileID: 0}
   rules_text: {fileID: 1255944978}
 --- !u!114 &568243358
@@ -3365,7 +3365,7 @@ PrefabInstance:
     - target: {fileID: 3067778110327774505, guid: 8526e85dc9aafe845b723d1670e0e3c4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2055.6965
       objectReference: {fileID: 0}
     - target: {fileID: 3067778111136749343, guid: 8526e85dc9aafe845b723d1670e0e3c4,
         type: 3}
@@ -8224,7 +8224,7 @@ PrefabInstance:
     - target: {fileID: 3067778110327774505, guid: 8526e85dc9aafe845b723d1670e0e3c4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -2237.051
       objectReference: {fileID: 0}
     - target: {fileID: 3067778111136749343, guid: 8526e85dc9aafe845b723d1670e0e3c4,
         type: 3}

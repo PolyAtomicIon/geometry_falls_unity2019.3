@@ -179,7 +179,7 @@ public class MainPage : MonoBehaviour {
 
         // Syncing  Data or Loading Animation, no matter what is written as an argument
         int id = ThreadSafeRandom.ThisThreadsRandom.Next(audios.Count);
-        PlayerPrefs.SetInt("bgAudioID", id);
+        // PlayerPrefs.SetInt("bgAudioID", id);
 
         BackgroundMusic.clip = audios[id];
 
