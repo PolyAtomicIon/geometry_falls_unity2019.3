@@ -182,26 +182,9 @@ public class webRequestController : MonoBehaviour
 
     }
 
-    Vector3 cur_position = new Vector3(352, 0, 0);
+    Vector3 cur_event_position = new Vector3(352, 0, 0);
     Vector3 gap_between = new Vector3(768, 0, 0);
 
-    void CreateEventButtons(){
-
-
-        // setEventsPanel();
-
-        // Debug.Log(events.Count);
-
-        // int cnt = 0;
-
-        // foreach (KeyValuePair<int, Event> e in events){
-        //     instantiateEventButton(e.Value, cur_position);
-        //     cur_position += gap_between;
-        //     cnt++;
-        // }
-
-    }
-    
     void setEventsPanel(int events_number){
 
         RectTransform panel_rect_transform = event_panel.GetComponent<RectTransform>();
@@ -230,8 +213,8 @@ public class webRequestController : MonoBehaviour
             events[id].background = bg;
         }
     
-        instantiateEventButton(events[id], cur_position);
-        cur_position += gap_between;
+        instantiateEventButton(events[id], cur_event_position);
+        cur_event_position += gap_between;
     }
 
     void CreateEvent(UnityWebRequest res){
@@ -279,8 +262,6 @@ public class webRequestController : MonoBehaviour
             StartCoroutine( GetTextureEvent(ID, url) );
 
         }
-        
-        CreateEventButtons();
     }
 
     IEnumerator GetEvents()
@@ -293,10 +274,10 @@ public class webRequestController : MonoBehaviour
             yield return false;
         }
 
-        using (UnityWebRequest www = UnityWebRequest.Get("http://94.247.128.162/api/game/events/?limit=10"))
+        using (UnityWebRequest www = UnityWebRequest.Get("http://94.247.128.162/api/game/events/?limit=18"))
         {   
 
-            www.SetRequestHeader("Authorization", manager.get_token());
+            www.SetRequestHeader("Authorization", Manager.get_token());
             yield return www.SendWebRequest();
 
             if (www.isNetworkError || www.isHttpError)
@@ -321,52 +302,38 @@ public class webRequestController : MonoBehaviour
     Dictionary<int, Coupon> coupons = new Dictionary<int, Coupon>();
 
     public GameObject coupon_panel;
-    public Button coupon_prefab;
+    public GameObject coupon_prefab;
     string base_coupon_url = "http://94.247.128.162/api/game/presents/";
 
-    public void coupons_clear(){
-        coupons.Clear();
-    }
+    Vector3 cur_coupon_position = new Vector3(352, 0, 0);
 
-    public void CouponButtonClicked(int id){
-        // Debug.Log("clicked");
-        // Debug.Log(id);
-        // manager.CouponInformationWindow(coupons[id]);
-        return;
+    void setCouponsPanel(int coupons_number){
+
+        RectTransform panel_rect_transform = coupon_panel.GetComponent<RectTransform>();
+
+        float width = 800f * coupons_number;
+        Vector3 tmp_position = new Vector3(width / 2, 0f, 0f);
+        Vector2 tmp_size = new Vector2(width, panel_rect_transform.sizeDelta.y); 
+
+        panel_rect_transform.sizeDelta = tmp_size;
+        panel_rect_transform.anchoredPosition = tmp_position;
     }
 
     void instantiateCouponButton(Coupon cur_coupon, Vector3 position){
         coupon_prefab.GetComponentsInChildren<TMP_Text>()[0].text = cur_coupon.provider_name.ToString();
-        Button coupon_prefab_go = Instantiate(coupon_prefab) as Button;
+        GameObject coupon_prefab_go = Instantiate(coupon_prefab) as GameObject;
         coupon_prefab_go.transform.parent = coupon_panel.transform;
 
-        coupon_prefab_go.onClick.AddListener(delegate{CouponButtonClicked(cur_coupon.id);});
+        // coupon_prefab_go.onClick.AddListener(delegate{CouponButtonClicked(cur_coupon.id);});
 
         coupon_prefab_go.GetComponent<RectTransform>().anchoredPosition = position;
         coupon_prefab_go.GetComponent<RectTransform>().localScale  = new Vector3(1, 1, 1);
-
-        coupon_prefab_go.GetComponent<RectTransform>().SetLeft(16f);
-        coupon_prefab_go.GetComponent<RectTransform>().SetRight(16f);
 
         if( cur_coupon.background != null )
             coupon_prefab_go.transform.Find("Content/Background").GetComponent<Image>().sprite = cur_coupon.background;
 
     }
 
-
-    void CreateCouponButtons(){
-
-        Vector3 cur_position = new Vector3(0, -96, 0);
-        Vector3 gap_between = new Vector3(0, -160, 0);
-
-        // Debug.Log(coupons.Count);
-
-        foreach (KeyValuePair<int, Coupon> c in coupons){
-            instantiateCouponButton(c.Value, cur_position);
-            cur_position += gap_between;
-        }
-
-    }
     IEnumerator GetTextureCoupon (int id, string url) {
         Debug.Log(url);
         UnityWebRequest www = UnityWebRequestTexture.GetTexture(url);
@@ -382,9 +349,13 @@ public class webRequestController : MonoBehaviour
             
             coupons[id].background = bg;
         }
+
+        instantiateCouponButton(coupons[id], cur_coupon_position);
+        cur_coupon_position += gap_between;
+
     }    
     
-    IEnumerator CreateCoupon(UnityWebRequest res){
+    void CreateCoupon(UnityWebRequest res){
 
         JSONNode coupons_info = JSONNode.Parse(res.downloadHandler.text);
         
@@ -404,15 +375,10 @@ public class webRequestController : MonoBehaviour
 
             // create Button
             Coupon cur_coupon = new Coupon(ID, e_key, Value, provider_ID, provider_Name);
+            coupons[ID] = cur_coupon;
 
             StartCoroutine( GetTextureCoupon(ID, url) );
-
-            coupons[ID] = cur_coupon;
         }
-
-        yield return new WaitForSeconds(1f);
-
-        CreateCouponButtons();
 
     }
 
@@ -428,7 +394,7 @@ public class webRequestController : MonoBehaviour
         using (UnityWebRequest www = UnityWebRequest.Get(base_coupon_url))
         {   
             // Debug.Log(manager.get_token());
-            www.SetRequestHeader("Authorization", manager.get_token());
+            www.SetRequestHeader("Authorization", Manager.get_token());
             yield return www.SendWebRequest();
 
             if (www.isNetworkError || www.isHttpError)
@@ -440,7 +406,7 @@ public class webRequestController : MonoBehaviour
             else
             {   
                 Debug.Log("Request sent!");
-                StartCoroutine( CreateCoupon(www) );
+                CreateCoupon(www);
             }
         }
 

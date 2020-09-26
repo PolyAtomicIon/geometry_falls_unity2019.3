@@ -44,9 +44,15 @@ public class LevelManager : MonoBehaviour
     }
 
     private void set_materials_color(int palette_index){
-        
-        // for obstacles
+    
+        // for tunnel
+        Material tunnelMaterial = objectPooler.materials.getTunnelsMaterial();
+        Color tunnelColor = objectPooler.palettes[random_palette].getTunnelColor();
+        tunnelColor.a = 1f;
 
+        tunnelMaterial.SetColor("_BaseColor", tunnelColor); 
+
+        // for obstacles
         Material obstacleMaterial = objectPooler.materials.getObstacleMaterial();
         Color obstacleColor = objectPooler.palettes[random_palette].getObstacleColor();
         obstacleColor.a = 1f;

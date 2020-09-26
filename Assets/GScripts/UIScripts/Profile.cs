@@ -68,8 +68,11 @@ public class Profile : MonoBehaviour {
         nickname_mainPage.text = user_data["email"];
 
         total_coupons.text = user_data["presents_count"];
-        if( user_data["high_score"] )
-            record.text = user_data["high_score"] + "уровень";
+        if( user_data["high_score"] ){
+            string high_score = user_data["high_score"];
+            record.text = high_score + "уровень";
+            // Highscore.setHighscore_fromOffline(int.Parse(high_score));
+        }
         if( user_data["rank"] )
             ranking.text = "#" + user_data["rank"];
 

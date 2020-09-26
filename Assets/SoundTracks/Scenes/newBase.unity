@@ -8479,7 +8479,7 @@ Light:
   m_Type: 1
   m_Shape: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 1.76
+  m_Intensity: 2.5
   m_Range: 10
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
@@ -9220,6 +9220,7 @@ MonoBehaviour:
   progression: {fileID: 1425683173}
   progressionColor: {fileID: 454370748}
   gameOverSection: {fileID: 282704322}
+  newHighscore_panel: {fileID: 0}
   levelProgession: {fileID: 742369000}
   random_models_indexes: 
   figure_plane: {fileID: 725109364}
@@ -13099,26 +13100,9 @@ MonoBehaviour:
   models_tag: []
   palettes:
   - colors:
-    - {r: 0.05882353, g: 0.2784314, b: 0.94509804, a: 1}
-    - {r: 0.98039216, g: 0.2901961, b: 0.1254902, a: 1}
-    emission_colors:
-    - {r: 0.39607844, g: 0.8901961, b: 0.90588236, a: 0}
-    - {r: 0.92156863, g: 0.5882353, b: 0.6666667, a: 0}
-  - colors:
-    - {r: 0.05882353, g: 0.2784314, b: 0.94509804, a: 1}
-    - {r: 0.98039216, g: 0.2901961, b: 0.1254902, a: 1}
-    emission_colors:
-    - {r: 0.39607844, g: 0.8901961, b: 0.90588236, a: 0}
-    - {r: 0.92156863, g: 0.5882353, b: 0.6666667, a: 0}
-  - colors:
-    - {r: 0.05882353, g: 0.2784314, b: 0.94509804, a: 1}
-    - {r: 0.98039216, g: 0.2901961, b: 0.1254902, a: 1}
-    emission_colors:
-    - {r: 0.39607844, g: 0.8901961, b: 0.90588236, a: 0}
-    - {r: 0.92156863, g: 0.5882353, b: 0.6666667, a: 0}
-  - colors:
-    - {r: 0.05882353, g: 0.2784314, b: 0.94509804, a: 1}
-    - {r: 0.98039216, g: 0.2901961, b: 0.1254902, a: 1}
+    - {r: 0.99607843, g: 0, b: 0.99607843, a: 1}
+    - {r: 1, g: 1, b: 1, a: 1}
+    - {r: 1, g: 1, b: 1, a: 1}
     emission_colors:
     - {r: 0.39607844, g: 0.8901961, b: 0.90588236, a: 0}
     - {r: 0.92156863, g: 0.5882353, b: 0.6666667, a: 0}

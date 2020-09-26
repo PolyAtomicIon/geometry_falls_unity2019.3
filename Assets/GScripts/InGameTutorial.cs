@@ -11,7 +11,8 @@ public class InGameTutorial : MonoBehaviour
     bool tutorialActive = true;
 
     IEnumerator Tutorial(){
-        yield return new WaitForSeconds(1.2f);
+        // yield return new WaitForSeconds(1.2f);
+        yield return new WaitForSeconds(0.1f);
         tutorialActive = true;
         Tutorial_panel.SetActive(true);
         Time.timeScale = 0;

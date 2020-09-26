@@ -26,12 +26,6 @@ public class GameOver : MonoBehaviour
     public GameObject couponInformation;
     public GameObject couponInformation2;
 
-    public string get_token(){
-        if( !PlayerPrefs.HasKey("auth_token") )
-            return "";
-        return PlayerPrefs.GetString("auth_token");
-    }
-
     public void UI_changer(int score, bool isEvent = false){
         
         Time.timeScale = 1f;
@@ -62,13 +56,13 @@ public class GameOver : MonoBehaviour
 
         using (UnityWebRequest www = UnityWebRequest.Post(url, form ))
         {
-            Debug.Log(get_token());
+            Debug.Log(Manager.get_token());
             
-            www.SetRequestHeader("Authorization", get_token());
+            www.SetRequestHeader("Authorization", Manager.get_token());
             
             yield return www.SendWebRequest();
 
-            Debug.Log("Request sent!");
+            Debug.Log("Prizes: Request sent!");
         
             int present_value = 0;
             int present_id = -1;
@@ -108,10 +102,13 @@ public class GameOver : MonoBehaviour
                 }
                     
                 if( details["present"] != null ){
-                    couponInformation.GetComponentsInChildren<TMP_Text>()[3].text = details["present"]["provider"]["name"];
-                    couponInformation.GetComponentsInChildren<TMP_Text>()[5].text = details["present"]["value"];
+                    // couponInformation.GetComponentsInChildren<TMP_Text>()[3].text = details["present"]["provider"]["name"];
+                    // couponInformation.GetComponentsInChildren<TMP_Text>()[5].text = details["present"]["value"];
                 }
 
+            }
+            else{
+                game_manager.ServerError();
             }
 
             values_randomizer.Add(0);
@@ -148,10 +145,11 @@ public class GameOver : MonoBehaviour
                 }
             }
 
-            FortuneWheelManager.ParsedData();
             FortuneWheelManager.values = values_randomizer;
             FortuneWheelManager.p_id = present_id;
             FortuneWheelManager.is_present = is_present;
+
+            FortuneWheelManager.ParsedData();
 
             UI_changer(levels_done, true);
 
@@ -165,10 +163,13 @@ public class GameOver : MonoBehaviour
         int id = PlayerPrefs.GetInt("id");
         int levels = PlayerPrefs.GetInt("levels");
      
-        if( id != -1 ){
+        // Highscore.setHighscore(level);
+
+        if( id != -1 && level > 1 ){
             Debug.Log("Getting Prize");
             // Debug.Log(id);
             Debug.Log(level);
+            section.SetActive(true);
             StartCoroutine(GetPrize(id, level-1));
         }
         else{

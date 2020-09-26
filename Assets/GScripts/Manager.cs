@@ -57,6 +57,7 @@ public class Manager : MonoBehaviour
     public Image progressionColor;
 
     public GameOver gameOverSection;
+    public GameObject newHighscore_panel;
 
     public LevelProgession levelProgession;
 
@@ -73,6 +74,7 @@ public class Manager : MonoBehaviour
     // end
 
     public int palette = 0;
+    int paletteCount;
 
     public float fall_down_speed;
 
@@ -120,13 +122,27 @@ public class Manager : MonoBehaviour
     public GameObject Loader;
 
     public GameObject allLevelsPassed;
+    public GameObject ServerError_panel;
 
-    public void setMaxComplexityValue(int maxC){
-        maxComplexity = maxC;
+    int current_highscore;
+
+    public void ServerError(){
+        ServerError_panel.SetActive(true);
     }
+
+    public static string get_token(){
+        if( !PlayerPrefs.HasKey("auth_token") )
+            return "";
+        return PlayerPrefs.GetString("auth_token");
+    }
+
     public void SetAudio(){
         AudioListener audioListener = GetComponent<AudioListener>(); 
         audioListener.enabled = ( audioListener.enabled ^ true );
+    }
+
+    public void setMaxComplexityValue(int maxC){
+        maxComplexity = maxC;
     }
 
     private void generate_obstacle_positions(){
@@ -262,12 +278,20 @@ public class Manager : MonoBehaviour
 
     }
 
-    public Color getModelsandTunnelsMaterialColor(){
+    public Color getModelsMaterialColor(){
         return objectPooler.palettes[palette].getModelColor();
     }
 
-    public Material getModelsandTunnelsMaterial(){
+    public Color getObstaclesMaterialColor(){
+        return objectPooler.palettes[palette].getObstacleColor();
+    }
+
+    public Material getModelsMaterial(){
         return objectPooler.materials.getModelMaterial();
+    }
+
+    public Material getTunnelsMaterial(){
+        return objectPooler.materials.getTunnelsMaterial();
     }
 
     /* End of generating obstacle positions */
@@ -307,8 +331,12 @@ public class Manager : MonoBehaviour
             return;
         }
 
+        if( current_highscore < level ){
+            newHighscore(level);
+        }
+
         palette += 1;
-        palette %= 4;
+        palette %= paletteCount;
 
         rearrange_obstacles_array();
 
@@ -324,6 +352,11 @@ public class Manager : MonoBehaviour
         SetProgressionBarColor();
         audioManager.levelPass();
 
+    }
+
+    void newHighscore(int score){
+        Highscore.setHighscore(score);
+        newHighscore_panel.SetActive(true);
     }
 
     void SetPlanesInitialParameters(){
@@ -410,7 +443,7 @@ public class Manager : MonoBehaviour
     IEnumerator runLoadingAnimation(){
         // Syncing  Data or Loading Animation, no matter what is written as an argument
         SplashScreenAnimator.Play("Login to Loading");
-        yield return new WaitForSeconds(2f);
+        yield return new WaitForSeconds(1f);
         LoadAdditiveScene();
     }
 
@@ -421,9 +454,11 @@ public class Manager : MonoBehaviour
         generate_obstacle_positions();
 
         StartCoroutine( runLoadingAnimation() );
-        palette = ThreadSafeRandom.ThisThreadsRandom.Next(4);
 
         objectPooler = ObjectPooler.Instance;
+        
+        paletteCount = objectPooler.palettes.Count;
+        palette = ThreadSafeRandom.ThisThreadsRandom.Next(paletteCount);
 
         /* Plane */
         SetPlanesInitialParameters();
@@ -434,6 +469,8 @@ public class Manager : MonoBehaviour
 
         complexityPeriod = 1f / object_in_level();
         Debug.Log("complexity period = " + complexityPeriod);
+
+        current_highscore = PlayerPrefs.GetInt("high_score");
 
     }
 

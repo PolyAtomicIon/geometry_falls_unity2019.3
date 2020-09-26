@@ -60,6 +60,10 @@ public class ObjectPooler : MonoBehaviour
             return materials_list[1];
         }
 
+        public Material getTunnelsMaterial(){
+            return materials_list[2];
+        }
+
     }
 
     [System.Serializable]
@@ -74,6 +78,11 @@ public class ObjectPooler : MonoBehaviour
         public Color getModelColor(){
             return colors[1];
         }
+    
+        public Color getTunnelColor(){
+            return colors[2];
+        }
+
     }
 
     class LevelComplexity{

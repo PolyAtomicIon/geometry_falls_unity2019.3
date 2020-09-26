@@ -63,10 +63,10 @@ public class Player : MonoBehaviour, IPooledObject
         score += 1;
         if( score < game_manager.object_in_level() ){
             audioManager.pass();
-            colorFlashEffect(Color.red);
+            colorFlashEffect(game_manager.getObstaclesMaterialColor());
         }
         else{
-            changeObjectColor(init_color, Color.red, 1f);
+            changeObjectColor(init_color, game_manager.getObstaclesMaterialColor(), 1f);
         }
     }
 
@@ -167,8 +167,8 @@ public class Player : MonoBehaviour, IPooledObject
         fall_down_speed = game_manager.fall_down_speed;
         setRigidBodyVelocity(fall_down_speed);
 
-        init_color = game_manager.getModelsandTunnelsMaterialColor();
-        objectMaterial = game_manager.getModelsandTunnelsMaterial();
+        init_color = game_manager.getModelsMaterialColor();
+        objectMaterial = game_manager.getModelsMaterial();
     }
 
     void Update(){
