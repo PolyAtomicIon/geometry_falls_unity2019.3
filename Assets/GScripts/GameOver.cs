@@ -163,7 +163,7 @@ public class GameOver : MonoBehaviour
         int id = PlayerPrefs.GetInt("id");
         int levels = PlayerPrefs.GetInt("levels");
      
-        // Highscore.setHighscore(level);
+        Highscore.setHighscore(level);
 
         if( id != -1 && level > 1 ){
             Debug.Log("Getting Prize");

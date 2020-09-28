@@ -28,6 +28,7 @@ public class Profile : MonoBehaviour {
         logout_confirmation_panel.SetActive(false);
     }
     public void Logout(){
+        PlayerPrefs.SetInt("high_score", 0);
         manager.set_token("");
         manager.Reload();
     }
@@ -70,8 +71,8 @@ public class Profile : MonoBehaviour {
         total_coupons.text = user_data["presents_count"];
         if( user_data["high_score"] ){
             string high_score = user_data["high_score"];
-            record.text = high_score + "уровень";
-            // Highscore.setHighscore_fromOffline(int.Parse(high_score));
+            record.text = high_score + " уровень";
+            Highscore.setHighscore_fromOffline(int.Parse(high_score));
         }
         if( user_data["rank"] )
             ranking.text = "#" + user_data["rank"];
@@ -93,6 +94,8 @@ public class Profile : MonoBehaviour {
     }
 
     void Start(){
+
+        PlayerPrefs.SetInt("high_score", 0);
 
         if( manager.get_token() != "" && manager.get_token() != null ){
             GetUserProfile();

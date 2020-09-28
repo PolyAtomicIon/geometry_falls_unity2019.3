@@ -32,7 +32,6 @@ public class MainPage : MonoBehaviour {
 
     private int levels = 0;
 
-
     public TMP_Text rules_text;
 
     string user_profile_url = "http://94.247.128.162/api/core/profile/";
@@ -46,10 +45,11 @@ public class MainPage : MonoBehaviour {
     // 6 - Instructions
     // 7 - verification
     // 8 - Rules
+    // 9 - Transition
     public void showWindow (int windowIndex = 0){
         windows[ currentWindowIndex ].enabled = false;
 
-        string token = PlayerPrefs.GetString("auth_token");
+        string token = get_token();
 
         // Trying access Events and Profile pages unauthorized
         if( (windowIndex == 1 || windowIndex == 3) && (token == null || token == "") ){
@@ -83,6 +83,9 @@ public class MainPage : MonoBehaviour {
     }
 
     public void LoadGame(){
+        // SplashScreenAnimator.Play("Login to Loading");
+        // showWindow(9);
+        
         if( !PlayerPrefs.HasKey("Played practice") )
             PlayerPrefs.SetInt("Played practice", 1);       
         SceneManager.LoadScene("Base");
@@ -129,32 +132,6 @@ public class MainPage : MonoBehaviour {
             AudioBackgroundColor.sprite = audio_off_icon;            
         }
     }
-    IEnumerator set_rules_text()
-    {
-        string url = "http://94.247.128.162/api/core/agreement/";
-
-        using (UnityWebRequest www = UnityWebRequest.Get(url))
-        {   
-            yield return www.SendWebRequest();
-
-            if (www.isNetworkError || www.isHttpError)
-            {
-                Debug.Log("Rules" + www.error);
-                // windows[6].SetActive(true);
-            }
-            else
-            {   
-                Debug.Log("Request sent! Agreement");
-                JSONNode details = JSONNode.Parse(www.downloadHandler.text);
-            
-                Debug.Log( details["agreement"] );
-
-                rules_text.text = details["agreement"];
-
-            }
-        }
-
-    }
 
     public void LoggedIn(){
         controller.GetData();
@@ -174,8 +151,6 @@ public class MainPage : MonoBehaviour {
         if( get_token() != "" ){
             controller.GetData();
         }
-
-        StartCoroutine( set_rules_text() );
 
         // Syncing  Data or Loading Animation, no matter what is written as an argument
         int id = ThreadSafeRandom.ThisThreadsRandom.Next(audios.Count);

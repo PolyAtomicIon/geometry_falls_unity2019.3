@@ -20,7 +20,7 @@ public class Highscore : MonoBehaviour
     } 
 
     public static int getHighscore(){
-        return PlayerPrefs.GetInt("highscore");
+        return PlayerPrefs.GetInt("high_score");
     }
 
     // if local highscore is greater than online, in case player beat the highscore in offline mode

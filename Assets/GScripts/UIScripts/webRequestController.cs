@@ -112,6 +112,12 @@ public class Coupon{
 
     public Sprite background;
 
+    public string measurement;
+    public string instagram_url;
+    public string twogis_url;
+
+    public string description;
+
     public Coupon() { }
 
     public Coupon(int ID, string e_key, int Value, int provider_ID, string provider_Name)
@@ -130,6 +136,8 @@ public class webRequestController : MonoBehaviour
 {
 
     public MainPage manager;
+    Dictionary<string, string> Measurements = new Dictionary<string, string>();
+
     // to check if events information parsed and initialized
     bool events_initialized = false;
 
@@ -146,6 +154,9 @@ public class webRequestController : MonoBehaviour
         if( !PlayerPrefs.HasKey("user_verified") || PlayerPrefs.GetInt("user_verified") == 0 ){
             manager.Verify();
         }
+        else if( manager.get_token() == "" || manager.get_token() == null ){
+            manager.showWindow(5); // login
+        }
         else{
             manager.StartEvent(id);
         }
@@ -155,7 +166,10 @@ public class webRequestController : MonoBehaviour
 
     void instantiateEventButton(Event cur_event, Vector3 position){
 
-        TMP_Text[] text_fields = event_prefab.GetComponentsInChildren<TMP_Text>();
+        GameObject event_prefab_go = Instantiate(event_prefab) as GameObject;
+        event_prefab_go.transform.parent = event_panel.transform;
+
+        TMP_Text[] text_fields = event_prefab_go.GetComponentsInChildren<TMP_Text>();
 
         text_fields[0].text = cur_event.name;
 
@@ -166,13 +180,16 @@ public class webRequestController : MonoBehaviour
 
         text_fields[6].text = cur_event.date_information;
 
-
-        GameObject event_prefab_go = Instantiate(event_prefab) as GameObject;
-        event_prefab_go.transform.parent = event_panel.transform;
-
         // Debug.Log(event_prefab_go.GetComponentsInChildren<Button>()[0]);
-
-        event_prefab_go.GetComponentsInChildren<Button>()[0].onClick.AddListener(delegate{EventButtonClicked(cur_event.id);});
+        if( cur_event.active && !cur_event.played )
+            event_prefab_go.GetComponentsInChildren<Button>()[0].onClick.AddListener(delegate{EventButtonClicked(cur_event.id);});
+        else{
+            event_prefab_go.GetComponentsInChildren<Button>()[0].interactable = false;
+            if( cur_event.played )
+                text_fields[7].text = "Вы уже играли";
+            else
+                text_fields[7].text = "Не активно";
+        }
 
         event_prefab_go.GetComponent<RectTransform>().anchoredPosition = position;
         event_prefab_go.GetComponent<RectTransform>().localScale  = new Vector3(1, 1, 1);
@@ -318,19 +335,40 @@ public class webRequestController : MonoBehaviour
         panel_rect_transform.sizeDelta = tmp_size;
         panel_rect_transform.anchoredPosition = tmp_position;
     }
+    
+    public void openUrl(string URL){
+        Debug.Log(URL);
+        Application.OpenURL(URL);
+    }
 
     void instantiateCouponButton(Coupon cur_coupon, Vector3 position){
-        coupon_prefab.GetComponentsInChildren<TMP_Text>()[0].text = cur_coupon.provider_name.ToString();
+
+        TMP_Text[] text_fields = coupon_prefab.GetComponentsInChildren<TMP_Text>();
+
+        text_fields[0].text = cur_coupon.provider_name;
+
+        text_fields[1].text = cur_coupon.description;
+
+        text_fields[3].text = cur_coupon.key + cur_coupon.measurement;
+        text_fields[5].text = cur_coupon.value.ToString();
+
+        Button[] buttons = coupon_prefab.GetComponentsInChildren<Button>();
+
         GameObject coupon_prefab_go = Instantiate(coupon_prefab) as GameObject;
         coupon_prefab_go.transform.parent = coupon_panel.transform;
+        
+        // Debug.Log( cur_coupon.instagram_url );
 
-        // coupon_prefab_go.onClick.AddListener(delegate{CouponButtonClicked(cur_coupon.id);});
+        // set url for instagram and 2gis
+        coupon_prefab_go.GetComponentsInChildren<Button>()[0].onClick.AddListener(delegate{openUrl(cur_coupon.instagram_url);});
+        coupon_prefab_go.GetComponentsInChildren<Button>()[1].onClick.AddListener(delegate{openUrl(cur_coupon.twogis_url);});
 
         coupon_prefab_go.GetComponent<RectTransform>().anchoredPosition = position;
         coupon_prefab_go.GetComponent<RectTransform>().localScale  = new Vector3(1, 1, 1);
 
         if( cur_coupon.background != null )
-            coupon_prefab_go.transform.Find("Content/Background").GetComponent<Image>().sprite = cur_coupon.background;
+            coupon_prefab_go.transform.Find("ImagePanel/Image").GetComponent<Image>().sprite = cur_coupon.background;
+
 
     }
 
@@ -359,22 +397,37 @@ public class webRequestController : MonoBehaviour
 
         JSONNode coupons_info = JSONNode.Parse(res.downloadHandler.text);
         
+        setCouponsPanel( coupons_info["results"].Count );
+
+        Debug.Log(coupons_info["results"]);
+
         for(int i = 0; i < coupons_info["count"]; i++){
 
             // get data
             int ID = coupons_info["results"][i]["id"];
             string e_key = coupons_info["results"][i]["key"];
             int Value = coupons_info["results"][i]["value"];
+            string measurement = coupons_info["results"][i]["measurement"];
+
             int provider_ID = coupons_info["results"][i]["provider"]["id"];
             string provider_Name = coupons_info["results"][i]["provider"]["name"];
             
-            // string url = events_info["results"][i]["image"];
-            string url = "http://94.247.128.162/media/events/images/jake-the-dog.png";
+            string description = coupons_info["results"][i]["description"];
+
+            string url = coupons_info["results"][i]["image"];
+            // string url = "http://94.247.128.162/media/events/images/jake-the-dog.png";
+
+            string instagram_url = coupons_info["results"][i]["instagram_url"];
+            string twogis_url = coupons_info["results"][i]["double_gis_url"];
 
             // Debug.Log(provider_Name);
-
-            // create Button
             Coupon cur_coupon = new Coupon(ID, e_key, Value, provider_ID, provider_Name);
+            
+            cur_coupon.measurement = measurement;
+            cur_coupon.instagram_url = instagram_url;
+            cur_coupon.twogis_url = twogis_url;
+            cur_coupon.description = description;
+
             coupons[ID] = cur_coupon;
 
             StartCoroutine( GetTextureCoupon(ID, url) );
@@ -422,6 +475,7 @@ public class webRequestController : MonoBehaviour
     }
 
     void Start(){
+        Measurements.Add("MEASUREMENT_PERCENT", "%");
     }
 
 }

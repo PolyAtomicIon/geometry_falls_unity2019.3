@@ -308,7 +308,7 @@ public class Manager : MonoBehaviour
 
         yield return new WaitForSeconds(1.75f);
 
-        gameOverSection.game_over(level);
+        gameOverSection.game_over(levels);
     }
 
     public void start_next_level(){
@@ -316,23 +316,23 @@ public class Manager : MonoBehaviour
         if( game_over_bool ) return;
 
         int levels = PlayerPrefs.GetInt("levels");
-        int id = PlayerPrefs.GetInt("id");  
+        int id = PlayerPrefs.GetInt("id");
 
         // To stop event game, if player passed all levels
 
         levelProgession.refresh();
         score = 0;
+        
+        if( current_highscore < level ){
+            newHighscore(level);
+        }
 
         level += 1;
 
         if( level > levels && id != -1 ){
             game_over_bool = true;
-            StartCoroutine( all_levels_passed(id, levels) ); 
+            StartCoroutine( all_levels_passed(id, levels) );
             return;
-        }
-
-        if( current_highscore < level ){
-            newHighscore(level);
         }
 
         palette += 1;
