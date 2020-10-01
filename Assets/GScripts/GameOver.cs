@@ -107,13 +107,14 @@ public class GameOver : MonoBehaviour
                     values_randomizer.Add( details["presents"][i]["value"] );
                 }
                     
-                if( details["present"] != null ){
+                // if( details["present"] != null ){
                     // couponInformation.GetComponentsInChildren<TMP_Text>()[3].text = details["present"]["provider"]["name"];
                     // couponInformation.GetComponentsInChildren<TMP_Text>()[5].text = details["present"]["value"];
-                }
+                // }
 
             }
             else{
+                Debug.Log("ERROR from prizes");
                 game_manager.ServerError();
             }
 
@@ -170,12 +171,12 @@ public class GameOver : MonoBehaviour
         int levels = PlayerPrefs.GetInt("levels");
      
         Highscore.setHighscore(level-1);
+        section.SetActive(true);
 
         if( id != -1 && level > 1 ){
             Debug.Log("Getting Prize");
             // Debug.Log(id);
             Debug.Log(level);
-            section.SetActive(true);
             StartCoroutine(GetPrize(id, level-1));
         }
         else{
