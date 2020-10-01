@@ -379,7 +379,7 @@ public class webRequestController : MonoBehaviour
 
         if(www.isNetworkError || www.isHttpError) {
             Debug.Log(www.error);
-            Debug.Log("WHAT?");
+            Debug.Log("Coupon Texture error");
         }
         else {
             Texture2D texture = ((DownloadHandlerTexture)www.downloadHandler).texture;
