@@ -127,7 +127,8 @@ public class Player : MonoBehaviour, IPooledObject
         
         nextDegree = direction * rotation_degree;
 
-        Vector3 newRotation = new Vector3(0f, nextDegree, 0f);  
+        // Vector3 newRotation = new Vector3(0f, nextDegree, 0f);
+        Vector3 newRotation = new Vector3(0f, nextDegree, transform.eulerAngles.z);  
         StartCoroutine( SetRotation( newRotation, rotation_duration ) );   
 
     }

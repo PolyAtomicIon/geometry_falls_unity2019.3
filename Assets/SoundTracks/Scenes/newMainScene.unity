@@ -1399,7 +1399,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: dba9bee6890227c4eb3dd57bbfd09836,
+      objectReference: {fileID: 21300000, guid: a806442dfc02b9b46a2bc96da28c0a19,
         type: 3}
     - target: {fileID: 3913008289820604981, guid: 237bb7ac6089ec849809a5ce9325d60f,
         type: 3}
@@ -1476,6 +1476,12 @@ PrefabInstance:
       propertyPath: m_RaycastTarget
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4600327160608055885, guid: 237bb7ac6089ec849809a5ce9325d60f,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 774db4394390940499ff14882cf048e3,
+        type: 3}
     - target: {fileID: 4600327160654865204, guid: 237bb7ac6089ec849809a5ce9325d60f,
         type: 3}
       propertyPath: m_Material
@@ -5808,7 +5814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 4
-  m_AspectRatio: 3.5984557
+  m_AspectRatio: 1.7777778
 --- !u!114 &923860285
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7634,7 +7640,7 @@ PrefabInstance:
     - target: {fileID: 3067778110327774505, guid: 8526e85dc9aafe845b723d1670e0e3c4,
         type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 0
+      value: -40956.07
       objectReference: {fileID: 0}
     - target: {fileID: 3067778111136749343, guid: 8526e85dc9aafe845b723d1670e0e3c4,
         type: 3}
@@ -7717,6 +7723,12 @@ PrefabInstance:
       propertyPath: m_SizeDelta.y
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3555016386790874600, guid: 8526e85dc9aafe845b723d1670e0e3c4,
+        type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 4d6c0329fde1fc74cb50ad0e2dfbba53,
+        type: 3}
     - target: {fileID: 3555016387038022179, guid: 8526e85dc9aafe845b723d1670e0e3c4,
         type: 3}
       propertyPath: m_RaycastTarget
@@ -7802,7 +7814,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 4
-  m_AspectRatio: 3.5984557
+  m_AspectRatio: 1.7777778
 --- !u!114 &1275092192
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10025,7 +10037,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_AspectMode: 4
-  m_AspectRatio: 3.5
+  m_AspectRatio: 1.7777778
 --- !u!114 &1680282914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14485,7 +14497,8 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0418\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0438\u044F \u043A \u043A\u0443\u043F\u043E\u043D\u0430\u043C"
+  m_text: "\u0418\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0438\u044F \n\u043A
+    \u043A\u0443\u043F\u043E\u043D\u0430\u043C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e5e5fbb4ebf3efb48b8e2094ab805501, type: 2}
   m_sharedMaterial: {fileID: -4381881031229844300, guid: e5e5fbb4ebf3efb48b8e2094ab805501,
@@ -14531,7 +14544,7 @@ MonoBehaviour:
   m_enableWordWrapping: 1
   m_wordWrappingRatios: 0.4
   m_overflowMode: 0
-  m_firstOverflowCharacterIndex: -1
+  m_firstOverflowCharacterIndex: 12
   m_linkedTextComponent: {fileID: 0}
   m_isLinkedTextComponent: 0
   m_isTextTruncated: 0
@@ -14965,7 +14978,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 14.5, y: 0}
+  m_AnchoredPosition: {x: 14.5, y: -36539.9}
   m_SizeDelta: {x: -35, y: 3324.3398}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3067778111150923805
@@ -15197,8 +15210,8 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 3067778110315735595}
   m_HandleRect: {fileID: 3067778110315735594}
   m_Direction: 2
-  m_Value: 0.5
-  m_Size: 0.25735313
+  m_Value: 0
+  m_Size: 0
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15714,7 +15727,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7f09a6c4e7c9c9f49a4d000f1afff9b8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4d6c0329fde1fc74cb50ad0e2dfbba53, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -15767,7 +15780,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 7841005101209228291}
   m_TextComponent: {fileID: 8041230216390906181}
   m_materialReferenceIndex: 1
@@ -16081,7 +16094,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 5944743242495160248}
   m_TextComponent: {fileID: 5944743243697181804}
   m_materialReferenceIndex: 1
@@ -16861,7 +16874,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: cec9d83381d69c245b42e58e9a179e7b, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4d6c0329fde1fc74cb50ad0e2dfbba53, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -17769,7 +17782,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 5944743243396736446}
   m_TextComponent: {fileID: 5944743243834638603}
   m_materialReferenceIndex: 1
@@ -18662,7 +18675,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 7f09a6c4e7c9c9f49a4d000f1afff9b8, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 4d6c0329fde1fc74cb50ad0e2dfbba53, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -18893,7 +18906,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 5944743244049117318}
   m_TextComponent: {fileID: 5944743243327514066}
   m_materialReferenceIndex: 1
@@ -19221,7 +19234,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 4a4a4e4a87ebd344298a61c00178f93d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 720b63d6eb3c3db43abe11fc4b1dd55e, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -20047,7 +20060,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 5944743244545929569}
   m_TextComponent: {fileID: 5944743244436911137}
   m_materialReferenceIndex: 1

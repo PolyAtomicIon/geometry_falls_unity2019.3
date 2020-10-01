@@ -138,7 +138,7 @@ public class ObjectPooler : MonoBehaviour
     int randomModel;
 
     private int object_in_level;
-    private int number_each_prefab = 3;
+    private int number_each_prefab = 4;
     
     public Queue<Obstacle>[] obstacles = new Queue<Obstacle>[30];
 
@@ -157,9 +157,9 @@ public class ObjectPooler : MonoBehaviour
         int id = PlayerPrefs.GetInt("id");
 
         // if id == -1 -> it's Practice game
-        if( id == -1 ){
-            levelComplexity.changeToEasyMode();
-        }
+        // if( id == -1 ){
+        //     levelComplexity.changeToEasyMode();
+        // }
     }
 
     void SetGameObjectsMaterial(GameObject gObject, bool obstacle = true){

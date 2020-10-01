@@ -17,8 +17,11 @@ public class GameOver : MonoBehaviour
 
     // buttons: restart, game_over
     public GameObject section;
+    public GameObject section_buttons;
 
     public GameObject Pause_button;
+    public GameObject Blur;
+
 
     public GameObject spinning_object;
     public FortuneWheelManager FortuneWheelManager;
@@ -32,12 +35,15 @@ public class GameOver : MonoBehaviour
 
         if( isEvent )
             spinning_object.SetActive(true);
-
-        section.SetActive(true);
+        else
+            section_buttons.SetActive(true);
+        
+        Blur.SetActive(true);
         Pause_button.SetActive(false);
     }
 
     public void GiveAward(bool is_present){
+        spinning_object.SetActive(false);
         if( is_present )
             couponInformation.SetActive(true);
         else

@@ -201,7 +201,8 @@ public class Manager : MonoBehaviour
 
         // If Model
         if( model ){  
-            objectToSpawn.transform.eulerAngles = new Vector3(0f, 0f, 0);
+            // objectToSpawn.transform.eulerAngles = new Vector3(0f, 0f, 0f);
+            objectToSpawn.transform.eulerAngles = new Vector3(0f, 0f, objectToSpawn.transform.eulerAngles.z);
         }
 
         // Call the OnObjectSpwan, differs for player and obstacle.
