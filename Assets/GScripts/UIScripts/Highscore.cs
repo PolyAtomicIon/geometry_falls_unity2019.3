@@ -31,6 +31,9 @@ public class Highscore : MonoBehaviour
         if( cur_record > score ){
             instance.StartCoroutine(setHighscore_request());  
         }
+        else{
+            PlayerPrefs.SetInt("high_score", score);
+        }
 
     }
 

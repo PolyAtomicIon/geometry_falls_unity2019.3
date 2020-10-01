@@ -122,6 +122,7 @@ public class Manager : MonoBehaviour
     public GameObject Loader;
 
     public GameObject allLevelsPassed;
+    public GameObject Blur;
     public GameObject ServerError_panel;
 
     int current_highscore;
@@ -305,10 +306,11 @@ public class Manager : MonoBehaviour
         // player.gameObject.SetActive(false);
 
         allLevelsPassed.SetActive(true);
+        Blur.SetActive(true);
 
         yield return new WaitForSeconds(1.75f);
 
-        gameOverSection.game_over(levels);
+        gameOverSection.game_over(levels+1);
     }
 
     public void start_next_level(){
@@ -323,6 +325,8 @@ public class Manager : MonoBehaviour
         levelProgession.refresh();
         score = 0;
         
+        Debug.Log( current_highscore + " vs  " + level );
+
         if( current_highscore < level ){
             newHighscore(level);
         }
@@ -470,7 +474,7 @@ public class Manager : MonoBehaviour
         complexityPeriod = 1f / object_in_level();
         Debug.Log("complexity period = " + complexityPeriod);
 
-        current_highscore = PlayerPrefs.GetInt("high_score");
+        current_highscore = Highscore.getHighscore();
 
     }
 

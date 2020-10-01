@@ -10,10 +10,12 @@ using UnityEngine.UI;
 public class Rules : MonoBehaviour {
 
     public TMP_Text rules_text;
+    public TMP_Text instructoins_text;
+
 
     IEnumerator set_rules_text()
     {
-        string url = "http://94.247.128.162/api/core/agreement/";
+        string url = "http://94.247.128.162/api/core/agreement/?agreement_type=TYPE_FULL";
 
         using (UnityWebRequest www = UnityWebRequest.Get(url))
         {   
@@ -36,8 +38,35 @@ public class Rules : MonoBehaviour {
 
     }
 
+    IEnumerator set_instructions_text()
+    {
+        string url = "http://94.247.128.162/api/core/agreement/?agreement_type=TYPE_SMALL";
+
+        using (UnityWebRequest www = UnityWebRequest.Get(url))
+        {   
+            yield return www.SendWebRequest();
+
+            if (www.isNetworkError || www.isHttpError)
+            {
+                Debug.Log("Rules" + www.error);
+            }
+            else
+            {   
+                Debug.Log("Request sent! Agreement");
+                JSONNode details = JSONNode.Parse(www.downloadHandler.text);
+            
+                Debug.Log( details["agreement"] );
+
+                instructoins_text.text = details["agreement"];
+            }
+        }
+
+    }
+
     void Start(){
         StartCoroutine(set_rules_text());
+        StartCoroutine(set_instructions_text());
+
     }
 
 }

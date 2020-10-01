@@ -1043,7 +1043,7 @@ PrefabInstance:
     - target: {fileID: 1338681259560090404, guid: 237bb7ac6089ec849809a5ce9325d60f,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 30
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1338681259560090404, guid: 237bb7ac6089ec849809a5ce9325d60f,
         type: 3}
@@ -1053,22 +1053,22 @@ PrefabInstance:
     - target: {fileID: 1338681259560090404, guid: 237bb7ac6089ec849809a5ce9325d60f,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1338681259560090404, guid: 237bb7ac6089ec849809a5ce9325d60f,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1338681259560090404, guid: 237bb7ac6089ec849809a5ce9325d60f,
         type: 3}
       propertyPath: m_textInfo.pageCount
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1338681259560090404, guid: 237bb7ac6089ec849809a5ce9325d60f,
         type: 3}
       propertyPath: m_textInfo.materialCount
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1338681259560090404, guid: 237bb7ac6089ec849809a5ce9325d60f,
         type: 3}
@@ -1078,7 +1078,7 @@ PrefabInstance:
     - target: {fileID: 1338681259560090404, guid: 237bb7ac6089ec849809a5ce9325d60f,
         type: 3}
       propertyPath: m_text
-      value: 
+      value: "\u0412\u043E\u0439\u0442\u0435 \u0432 \u0430\u043A\u043A\u0430\u0443\u043D\u0442"
       objectReference: {fileID: 0}
     - target: {fileID: 1338681259560090404, guid: 237bb7ac6089ec849809a5ce9325d60f,
         type: 3}
@@ -2145,6 +2145,30 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_ShowMaskGraphic: 1
+--- !u!114 &364426724 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3913008289820604980, guid: 237bb7ac6089ec849809a5ce9325d60f,
+    type: 3}
+  m_PrefabInstance: {fileID: 364426712}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364426714}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &364426730 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4600327160608055885, guid: 237bb7ac6089ec849809a5ce9325d60f,
+    type: 3}
+  m_PrefabInstance: {fileID: 364426712}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 364426716}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &392282622
 GameObject:
   m_ObjectHideFlags: 0
@@ -3502,6 +3526,7 @@ GameObject:
   - component: {fileID: 568243356}
   - component: {fileID: 568243359}
   - component: {fileID: 568243360}
+  - component: {fileID: 568243361}
   m_Layer: 5
   m_Name: Main_canvas
   m_TagString: Untagged
@@ -3688,6 +3713,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 878e69aacd86a1441bc00227376a7682, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &568243361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 568243351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3982f402556fcb41935731b13d1b3c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rules_text: {fileID: 1255944978}
+  instructoins_text: {fileID: 3067778111150923805}
 --- !u!1 &589839889
 GameObject:
   m_ObjectHideFlags: 0
@@ -7069,6 +7108,7 @@ GameObject:
   - component: {fileID: 1242949331}
   - component: {fileID: 1242949330}
   - component: {fileID: 1242949329}
+  - component: {fileID: 1242949333}
   m_Layer: 5
   m_Name: MainPage_canvas
   m_TagString: Untagged
@@ -7156,6 +7196,21 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &1242949333
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1242949328}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d9f839eb9a8c36499ec6aab3d7a566d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  banners:
+  - {fileID: 364426730}
+  - {fileID: 364426724}
 --- !u!114 &1244313181 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8194619052541182393, guid: 3f5ee5851934bd74dba62fe2399408e8,
@@ -7431,22 +7486,22 @@ PrefabInstance:
     - target: {fileID: 3067778110327774504, guid: 8526e85dc9aafe845b723d1670e0e3c4,
         type: 3}
       propertyPath: m_textInfo.characterCount
-      value: 2068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3067778110327774504, guid: 8526e85dc9aafe845b723d1670e0e3c4,
         type: 3}
       propertyPath: m_textInfo.spaceCount
-      value: 285
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3067778110327774504, guid: 8526e85dc9aafe845b723d1670e0e3c4,
         type: 3}
       propertyPath: m_textInfo.wordCount
-      value: 275
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3067778110327774504, guid: 8526e85dc9aafe845b723d1670e0e3c4,
         type: 3}
       propertyPath: m_textInfo.lineCount
-      value: 93
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3067778110327774504, guid: 8526e85dc9aafe845b723d1670e0e3c4,
         type: 3}
@@ -7461,7 +7516,7 @@ PrefabInstance:
     - target: {fileID: 3067778110327774504, guid: 8526e85dc9aafe845b723d1670e0e3c4,
         type: 3}
       propertyPath: m_text
-      value: "\u0421\u0432\u043E\u0434 \u043F\u0440\u0430\u0432\u0438\u043B:\r\n\r\n\u0412\u043D\u0438\u043C\u0430\u043D\u0438\u0435:
+      value: "(Offline) \u0421\u0432\u043E\u0434 \u043F\u0440\u0430\u0432\u0438\u043B:\r\n\r\n\u0412\u043D\u0438\u043C\u0430\u043D\u0438\u0435:
         \u0418\u0433\u0440\u043E\u043A \u0434\u043E\u043B\u0436\u0435\u043D \u0431\u044B\u0442\u044C
         \u0441\u0442\u0430\u0440\u0448\u0435 17 \u043B\u0435\u0442\r\n\u0412\u043D\u0438\u043C\u0430\u043D\u0438\u0435:
         \u0418\u0433\u0440\u0430 \u0438 \u043F\u0440\u0438\u0437\u044B \u0432 \u043D\u0435\u0439
@@ -14029,7 +14084,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 5104398583473076796}
   m_TextComponent: {fileID: 5016622579670024058}
   m_materialReferenceIndex: 1
@@ -14430,7 +14485,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0418\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0438\u044F\n\u043A \u043A\u0443\u043F\u043E\u043D\u0430\u043C"
+  m_text: "\u0418\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0438\u044F \u043A \u043A\u0443\u043F\u043E\u043D\u0430\u043C"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: e5e5fbb4ebf3efb48b8e2094ab805501, type: 2}
   m_sharedMaterial: {fileID: -4381881031229844300, guid: e5e5fbb4ebf3efb48b8e2094ab805501,
@@ -14911,7 +14966,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
   m_AnchoredPosition: {x: 14.5, y: 0}
-  m_SizeDelta: {x: -35, y: 0}
+  m_SizeDelta: {x: -35, y: 3324.3398}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &3067778111150923805
 MonoBehaviour:
@@ -14932,102 +14987,21 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "\u0412\u043D\u0438\u043C\u0430\u043D\u0438\u0435: \u0418\u0433\u0440\u043E\u043A
-    \u0434\u043E\u043B\u0436\u0435\u043D \u0431\u044B\u0442\u044C \u0441\u0442\u0430\u0440\u0448\u0435
-    17 \u043B\u0435\u0442\\r\\n\u0412\u043D\u0438\u043C\u0430\u043D\u0438\u0435:
-    \u0418\u0433\u0440\u0430 \u0438 \u043F\u0440\u0438\u0437\u044B \u0432 \u043D\u0435\u0439
-    \u043F\u043E\u043B\u043D\u043E\u0441\u0442\u044C\u044E \u0431\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u044B!
-    \\r\\n\u0412\u043D\u0438\u043C\u0430\u043D\u0438\u0435: Apple Inc \u043D\u0435
-    \u044F\u0432\u043B\u044F\u0435\u0442\u0441\u044F \u0441\u043F\u043E\u043D\u0441\u043E\u0440\u043E\u043C
-    \u0438 \u043D\u0438\u043A\u0430\u043A \u043D\u0435 \u043F\u0440\u0438\u0447\u0430\u0441\u0442\u043D\u0430
-    \u043A \u0438\u0433\u0440\u0435.\\r\\n\\r\\n\u0427\u0442\u043E\u0431\u044B \u0432\u044B\u0438\u0433\u0440\u0430\u0442\u044C
-    \u043A\u0443\u043F\u043E\u043D \u0438\u043B\u0438 \u043B\u044E\u0431\u043E\u0439
-    \u043F\u043E\u0434\u0430\u0440\u043E\u043A \u043A\u043E\u043C\u043F\u0430\u043D\u0438\u0438
-    \u0441\u043F\u043E\u043D\u0441\u043E\u0440\u0430,  \u0434\u043E\u0441\u0442\u0430\u0442\u043E\u0447\u043D\u043E
-    \u043F\u0440\u043E\u0439\u0442\u0438 \u0443\u0440\u043E\u0432\u043D\u0438 \u0438
-    \u043F\u0440\u043E\u043A\u0440\u0443\u0442\u0438\u0442\u044C \u043A\u043E\u043B\u0435\u0441\u043E.
-    \u0415\u0441\u043B\u0438 \u0432\u0430\u043C \u0432\u044B\u043F\u0430\u043B \u043A\u0443\u043F\u043E\u043D,
-    \u0434\u043E\u0441\u0442\u0430\u0442\u043E\u0447\u043D\u043E \u0440\u0435\u0430\u043B\u0438\u0437\u043E\u0432\u0430\u0442\u044C
-    \u0435\u0433\u043E \u0432 \u0441\u0438\u0441\u0442\u0435\u043C\u0435 \u043F\u0430\u0440\u0442\u043D\u0435\u0440\u0430.
-    \u041F\u043E\u0434\u0440\u043E\u0431\u043D\u0430\u044F \u0438\u043D\u0441\u0442\u0440\u0443\u043A\u0446\u0438\u044F
-    \u043F\u043E \u0440\u0435\u0430\u043B\u0438\u0437\u0430\u0446\u0438\u0438, \u043F\u0440\u0438\u0434\u0435\u0442
-    \u0432\u0430\u043C \u043D\u0430 \u043F\u043E\u0447\u0442\u0443.\\r\\n\\r\\n\u0415\u0441\u043B\u0438
-    \u0432\u0430\u043C \u043D\u0435 \u0432\u044B\u043F\u0430\u043B \u043A\u0443\u043F\u043E\u043D,
-    \u043C\u043E\u0436\u0435\u0442\u0435 \u043F\u043E\u043F\u0440\u043E\u0431\u043E\u0432\u0430\u0442\u044C
-    \u0432 \u0434\u0440\u0443\u0433\u043E\u043C Event'e \u0438\u043B\u0438 \u043F\u043E\u043F\u0440\u0430\u043A\u0442\u0438\u043A\u043E\u0432\u0430\u0442\u044C\u0441\u044F
-    \u0432 \u043F\u0440\u043E\u0441\u0442\u043E\u0439 \u0438\u0433\u0440\u0435\\r\\n\\r\\n\u0421\u0432\u043E\u0434
-    \u0441\u043E\u0433\u043B\u0430\u0448\u0435\u043D\u0438\u0439:\\r\\n\\r\\n\u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C
-    \u2014 \u0444\u0438\u0437\u0438\u0447\u0435\u0441\u043A\u043E\u0435 \u043B\u0438\u0446\u043E,
-    \u0437\u0430\u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0438\u0440\u043E\u0432\u0430\u043D\u043D\u043E\u0435
-    \u0432 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0438 Poly Pon\\r\\n\u041F\u0430\u0440\u0442\u043D\u0435\u0440
-    - \u041B\u044E\u0431\u043E\u0435 \u0444\u0438\u0437. \u0438\u043B\u0438 \u044E\u0440.
-    \u043B\u0438\u0446\u043E, \u0440\u0430\u0437\u043C\u0435\u0449\u0430\u044E\u0449\u0438\u0439
-    \u043A\u0443\u043F\u043E\u043D\u044B \u0432 Poly Pon\\r\\n\\r\\n\u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430
-    \u043A\u043E\u043D\u0444\u0438\u0434\u0435\u043D\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0438
-    \u0438 \u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0442\u0435\u043B\u044C\u0441\u043A\u043E\u0435
-    \u0441\u043E\u0433\u043B\u0430\u0448\u0435\u043D\u0438\u0435:\\r\\n1. \u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C
-    \u0441\u043E\u0433\u043B\u0430\u0441\u0435\u043D \u0441 \u0442\u0435\u043C, \u0447\u0442\u043E
-    \u041F\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u0438\u0442\u0435\u043B\u0435\u043C
-    \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u0443\u044E\u0442\u0441\u044F \u0438
-    \u043E\u0431\u0440\u0430\u0431\u0430\u0442\u044B\u0432\u0430\u044E\u0442\u0441\u044F
-    \u043F\u0435\u0440\u0441\u043E\u043D\u0430\u043B\u044C\u043D\u044B\u0435 \u0434\u0430\u043D\u043D\u044B\u0435
-    \u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C.\\r\\n2.
-    \u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0441\u043E\u0433\u043B\u0430\u0441\u0435\u043D
-    \u0441 \u0442\u0435\u043C, \u0447\u0442\u043E \u043F\u043E\u0441\u043B\u0435
-    \u043F\u0440\u043E\u0445\u043E\u0436\u0434\u0435\u043D\u0438\u044F \u043F\u0440\u043E\u0446\u0435\u0434\u0443\u0440\u044B
-    \u0440\u0435\u0433\u0438\u0441\u0442\u0440\u0430\u0446\u0438\u0438 \u0432 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0438
-    \u043D\u0430 \u044D\u043B\u0435\u043A\u0442\u0440\u043E\u043D\u043D\u044B\u0439
-    \u0430\u0434\u0440\u0435\u0441 \u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044F
-    \u041F\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u0438\u0442\u0435\u043B\u0435\u043C
-    \u0431\u0443\u0434\u0443\u0442 \u043D\u0430\u043F\u0440\u0430\u0432\u043B\u044F\u0442\u044C\u0441\u044F
-    \u043F\u0438\u0441\u044C\u043C\u0430 \u0438 \u0441\u043E\u043E\u0431\u0449\u0435\u043D\u0438\u044F,
-    \u0432 \u0442\u043E\u043C \u0447\u0438\u0441\u043B\u0435 \u0440\u0435\u043A\u043B\u0430\u043C\u043D\u043E\u0433\u043E
-    \u0445\u0430\u0440\u0430\u043A\u0442\u0435\u0440\u0430.\\r\\n3. \u041F\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u0438\u0442\u0435\u043B\u044C
-    \u043E\u0431\u044F\u0437\u0443\u0435\u0442\u0441\u044F \u043D\u0435 \u043F\u0435\u0440\u0435\u0434\u0430\u0432\u0430\u0442\u044C
-    \u0430\u0434\u0440\u0435\u0441 \u0438 \u0438\u043D\u044B\u0435 \u0441\u0432\u0435\u0434\u0435\u043D\u0438\u044F
-    \u043E \u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u0435
-    \u0442\u0440\u0435\u0442\u044C\u0438\u043C \u043B\u0438\u0446\u0430\u043C.\\r\\n4.
-    \u041F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u0435\u043B\u044C \u0432
-    \u043B\u044E\u0431\u043E\u0435 \u0432\u0440\u0435\u043C\u044F \u043C\u043E\u0436\u0435\u0442
-    \u043E\u0442\u043F\u0438\u0441\u0430\u0442\u044C \u043E\u0442 \u0440\u0430\u0441\u0441\u044B\u043B\u043A\u0438,
-    \u0431\u0435\u0437 \u0430\u0432\u0442\u043E\u0440\u0438\u0437\u0430\u0446\u0438\u0438.
-    \u0421\u0441\u044B\u043B\u043A\u0430 \u043D\u0430 \u043E\u0442\u043F\u0438\u0441\u043A\u0443
-    \u043F\u0440\u0438\u0441\u0443\u0442\u0441\u0442\u0432\u0443\u0435\u0442 \u0432
-    \u043A\u0430\u0436\u0434\u043E\u043C \u043F\u0438\u0441\u044C\u043C\u0435. \\r\\n5.
-    \u041F\u043E\u043B\u0438\u0442\u0438\u043A\u0430 \u043A\u043E\u043D\u0444\u0438\u0434\u0435\u043D\u0446\u0438\u0430\u043B\u044C\u043D\u043E\u0441\u0442\u0438
-    \u041F\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u0438\u0442\u0435\u043B\u044F
-    \u0432\u0441\u0435\u0433\u0434\u0430 \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u0430
-    \u0432 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0438 Poly Pon
-    \u043D\u0430 \u0433\u043B\u0430\u0432\u043D\u043E\u043C \u044D\u043A\u0440\u0430\u043D\u0435
-    \u043F\u043E\u0434 \u043A\u043D\u043E\u043F\u043A\u043E\u0439 \\\"!\\\" \u0432
-    \u043E\u0442\u043A\u0440\u044B\u0442\u043E\u043C \u0434\u043E\u0441\u0442\u0443\u043F\u0435\\r\\n6.
-    \u0418\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044F \u0432 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0438
-    \u043C\u043E\u0436\u0435\u0442 \u0440\u0430\u0437\u043C\u0435\u0449\u0430\u0442\u044C\u0441\u044F
-    \u043F\u0430\u0440\u0442\u043D\u0435\u0440\u0430\u043C\u0438, \u043F\u0440\u0438
-    \u044D\u0442\u043E\u043C \u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0435\u043D\u043E\u0441\u0442\u044C
-    \u0437\u0430 \u0434\u043E\u0441\u0442\u043E\u0432\u0435\u0440\u043D\u043E\u0441\u0442\u044C
-    \u0438 \u0441\u043E\u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u0435
-    \u0437\u0430\u043A\u043E\u043D\u0430\u043C \u0420\u041A \u043D\u0435\u0441\u0435\u0442
-    \u043F\u0430\u0440\u0442\u043D\u0435\u0440, \u0440\u0430\u0437\u043C\u0435\u0441\u0442\u0438\u0432\u0448\u0438\u0439
-    \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u044E.\\r\\n7. \u041F\u0440\u0438
-    \u043E\u0431\u043D\u0430\u0440\u0443\u0436\u0435\u043D\u0438\u0438 \u043D\u0435\u0441\u043E\u043E\u0442\u0432\u0435\u0442\u0441\u0442\u0432\u0438\u0439
-    \u0437\u0430\u043A\u043E\u043D\u043E\u0434\u0430\u0442\u0435\u043B\u044C\u0441\u0442\u0432\u0443
-    \u0420\u041A \u0441\u043B\u0435\u0434\u0443\u0435\u0442 \u043E\u0431\u0440\u0430\u0449\u0430\u0442\u044C\u0441\u044F
-    \u043F\u043E \u0430\u0434\u0440\u0435\u0441\u0443 mrgalazymagic@gmail.com \u0434\u043B\u044F
-    \u043F\u0440\u0438\u043D\u044F\u0442\u0438\u044F \u041F\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u0438\u0442\u0435\u043B\u0435\u043C
-    \u0441\u0432\u043E\u0435\u0432\u0440\u0435\u043C\u0435\u043D\u043D\u044B\u0445
-    \u043C\u0435\u0440 \u043F\u043E \u0443\u0434\u0430\u043B\u0435\u043D\u0438\u044E
-    \u043D\u0435\u043D\u0430\u0434\u043B\u0435\u0436\u0430\u0449\u0435\u0439 \u0438\u043D\u0444\u043E\u0440\u043C\u0430\u0446\u0438\u0438\\r\\n8.
-    \u041F\u0440\u0435\u0434\u0441\u0442\u0430\u0432\u0438\u0442\u0435\u043B\u044C
-    \u043C\u043E\u0436\u0435\u0442 \u0438\u0437\u043C\u0435\u043D\u044F\u0442\u044C
-    \u0434\u0430\u043D\u043D\u0443\u044E \u041E\u0444\u0435\u0440\u0442\u0443 \u0431\u0435\u0437
-    \u0443\u0432\u0435\u0434\u043E\u043C\u043B\u0435\u043D\u0438\u044F \u041F\u043E\u0434\u043F\u0438\u0441\u0447\u0438\u043A\u0430.
-    \u0410\u043A\u0442\u0443\u0430\u043B\u044C\u043D\u0430\u044F \u0432\u0435\u0440\u0441\u0438\u044F
-    \u043E\u0444\u0435\u0440\u0442\u044B \u0432\u0441\u0435\u0433\u0434\u0430 \u0434\u043E\u0441\u0442\u0443\u043F\u043D\u0430
-    \u0432 \u043F\u0440\u0438\u043B\u043E\u0436\u0435\u043D\u0438\u0438 Poly Pon
-    \u043D\u0430 \u0433\u043B\u0430\u0432\u043D\u043E\u043C \u044D\u043A\u0440\u0430\u043D\u0435
-    \u043F\u043E\u0434 \u043A\u043D\u043E\u043F\u043A\u043E\u0439 \"!!!\" \u0432
-    \u043E\u0442\u043A\u0440\u044B\u0442\u043E\u043C \u0434\u043E\u0441\u0442\u0443\u043F\u0435"
+  m_text: "(Offline) \u0415\u0441\u043B\u0438 \u0432\u044B \u0432\u044B\u0438\u0433\u0440\u0430\u043B\u0438
+    \u043A\u0443\u043F\u043E\u043D, \u043F\u043E\u0437\u0434\u0440\u0430\u0432\u043B\u044F\u0435\u043C!\r\n\r\n\u0427\u0442\u043E\u0431\u044B
+    \u0435\u0433\u043E \u0438\u0441\u043F\u043E\u043B\u044C\u0437\u043E\u0432\u0430\u0442\u044C:\r\n1)\u041F\u0440\u043E\u0447\u0438\u0442\u0430\u0439\u0442\u0435
+    \u043E\u043F\u0438\u0441\u0430\u043D\u0438\u0435 \u043A\u0443\u043F\u043E\u043D\u0430,
+    \u0447\u0442\u043E\u0431\u044B \u043F\u043E\u043D\u044F\u0442\u044C \u0447\u0442\u043E
+    \u043E\u043D \u0434\u0430\u0435\u0442\r\n2)\u041F\u043E\u043A\u0430\u0437\u044B\u0432\u0430\u0435\u0442\u0435
+    \u0435\u0433\u043E \u0441\u043E\u0442\u0440\u0443\u0434\u043D\u0438\u043A\u0443
+    \u043A\u0430\u0444\u0435/\u0440\u0435\u0441\u0442\u043E\u0440\u0430\u043D\u0430
+    \u0438 \u043F\u043E\u043B\u0443\u0447\u0430\u0439\u0442\u0435 \u0432\u0430\u0448
+    \u043F\u0440\u0438\u0437\r\n\r\n\u0412 \u0441\u043E\u0440\u0435\u0432\u043D\u043E\u0432\u0430\u0442\u0435\u043B\u044C\u043D\u043E\u043C
+    \u0440\u0435\u0436\u0438\u043C\u0435 \u0437\u0430 \u043F\u0435\u0440\u0432\u044B\u0435
+    \u043C\u0435\u0441\u0442\u0430 \u0432 \u0440\u0435\u0439\u0442\u0438\u043D\u0433\u0435
+    \u0432\u044B \u0442\u0430\u043A \u0436\u0435 \u043F\u043E\u043B\u0443\u0447\u0438\u0442\u0435
+    \u0431\u0435\u0441\u043F\u043B\u0430\u0442\u043D\u0443\u044E \u0435\u0434\u0443
+    \u0438 \u0441\u043A\u0438\u0434\u043A\u0438!"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 99d404ed379d7de438f72b3948af86a6, type: 2}
   m_sharedMaterial: {fileID: 8667535842794227162, guid: 99d404ed379d7de438f72b3948af86a6,
@@ -15135,7 +15109,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3067778111150923779}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3245ec927659c4140ac4f8d17403cc18, type: 3}
   m_Name: 
@@ -15224,7 +15198,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 3067778110315735594}
   m_Direction: 2
   m_Value: 0.5
-  m_Size: 0.21887033
+  m_Size: 0.25735313
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:
@@ -15519,7 +15493,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 3067778112214779320}
   m_TextComponent: {fileID: 3067778111150923805}
   m_materialReferenceIndex: 1
@@ -16042,7 +16016,7 @@ MonoBehaviour:
   m_material: {fileID: 0}
   m_sharedMaterial: {fileID: 0}
   m_isDefaultMaterial: 0
-  m_padding: 0
+  m_padding: 1.25
   m_canvasRenderer: {fileID: 1968418350334453429}
   m_TextComponent: {fileID: 1736650926075126771}
   m_materialReferenceIndex: 1

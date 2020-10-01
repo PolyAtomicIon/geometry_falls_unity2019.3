@@ -349,8 +349,8 @@ public class webRequestController : MonoBehaviour
 
         text_fields[1].text = cur_coupon.description;
 
-        text_fields[3].text = cur_coupon.key + cur_coupon.measurement;
-        text_fields[5].text = cur_coupon.value.ToString();
+        text_fields[3].text = cur_coupon.key;
+        text_fields[5].text = cur_coupon.value.ToString() + cur_coupon.measurement;
 
         Button[] buttons = coupon_prefab.GetComponentsInChildren<Button>();
 
@@ -446,7 +446,7 @@ public class webRequestController : MonoBehaviour
 
         using (UnityWebRequest www = UnityWebRequest.Get(base_coupon_url))
         {   
-            // Debug.Log(manager.get_token());
+            // Debug.Log(Manager.get_token());
             www.SetRequestHeader("Authorization", Manager.get_token());
             yield return www.SendWebRequest();
 
