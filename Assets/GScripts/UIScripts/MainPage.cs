@@ -57,8 +57,15 @@ public class MainPage : MonoBehaviour {
             currentWindowIndex = 5;
         }
         else{
-            windows[ windowIndex ].enabled = true;
 
+            if( windowIndex == 1 && !controller.events_initialized ){
+                controller.GetEventsData();
+            }
+            else if( windowIndex == 2 && !controller.coupons_initialized ){
+                controller.GetCouponsData();
+            }
+
+            windows[ windowIndex ].enabled = true;
             currentWindowIndex = windowIndex;
         }
 
@@ -83,12 +90,24 @@ public class MainPage : MonoBehaviour {
     }
 
     public void LoadGame(){
-        // SplashScreenAnimator.Play("Login to Loading");
-        // showWindow(9);
+        SplashScreenAnimator.Play("Login to Loading");
+        showWindow(9);
         
         if( !PlayerPrefs.HasKey("Played practice") )
-            PlayerPrefs.SetInt("Played practice", 1);       
-        SceneManager.LoadScene("Base");
+            PlayerPrefs.SetInt("Played practice", 1); 
+
+        // SceneManager.LoadScene("Base");
+        StartCoroutine(LoadYourAsyncScene("Base"));
+    }
+
+    IEnumerator LoadYourAsyncScene(string SceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneName);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
     }
 
     public void StartPractice (){
@@ -134,7 +153,6 @@ public class MainPage : MonoBehaviour {
     }
 
     public void LoggedIn(){
-        controller.GetData();
         profile.GetUserProfile();
     }
 
@@ -148,14 +166,7 @@ public class MainPage : MonoBehaviour {
             EventsButton.interactable = false;         
         }
 
-        if( get_token() != "" ){
-            controller.GetData();
-        }
-
-        // Syncing  Data or Loading Animation, no matter what is written as an argument
         int id = ThreadSafeRandom.ThisThreadsRandom.Next(audios.Count);
-        // PlayerPrefs.SetInt("bgAudioID", id);
-
         BackgroundMusic.clip = audios[id];
 
         BackgroundMusic.Play();
@@ -168,7 +179,6 @@ public class MainPage : MonoBehaviour {
             AudioBackgroundColor.sprite = audio_off_icon;
         }
 
-        // SplashScreenAnimator.Play("Login to Loading");
     }
 
 }

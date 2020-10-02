@@ -119,7 +119,7 @@ public class Manager : MonoBehaviour
     public AudioM audioManager;
 
     public Animator SplashScreenAnimator;
-    public GameObject Loader;
+    public GameObject SplashScreenGO;
 
     public GameObject allLevelsPassed;
     public GameObject Blur;
@@ -440,16 +440,33 @@ public class Manager : MonoBehaviour
 
     private void LoadAdditiveScene(){
         SceneManager.LoadScene("AdditiveScene", LoadSceneMode.Additive);
-        
         SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
-        // yield return true;
     }
+
+    private void LoadAdditiveSceneAsync(){
+        // SceneManager.LoadScene();
+        StartCoroutine(LoadYourAsyncScene("AdditiveScene"));
+        SceneManager.SetActiveScene(SceneManager.GetSceneByName("Base"));
+    }
+
+    IEnumerator LoadYourAsyncScene(string SceneName)
+    {
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(SceneName, LoadSceneMode.Additive);
+
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
+        }
+
+        SplashScreenGO.SetActive(false);  
+    }
+
 
     IEnumerator runLoadingAnimation(){
         // Syncing  Data or Loading Animation, no matter what is written as an argument
-        SplashScreenAnimator.Play("Login to Loading");
-        yield return new WaitForSeconds(1f);
-        LoadAdditiveScene();
+        SplashScreenAnimator.Play("Login to Loading");      
+        yield return new WaitForSeconds(1.5f);
+        LoadAdditiveSceneAsync();
     }
 
     void Start(){

@@ -139,7 +139,7 @@ public class webRequestController : MonoBehaviour
     Dictionary<string, string> Measurements = new Dictionary<string, string>();
 
     // to check if events information parsed and initialized
-    bool events_initialized = false;
+    public bool events_initialized = false;
 
     Dictionary<int, Event> events = new Dictionary<int, Event>();
     public GameObject event_panel;
@@ -314,7 +314,7 @@ public class webRequestController : MonoBehaviour
     }
 
     // to check if coupons information parsed and initialized
-    bool coupons_initialized = false;
+    public bool coupons_initialized = false;
     
     Dictionary<int, Coupon> coupons = new Dictionary<int, Coupon>();
 
@@ -465,10 +465,13 @@ public class webRequestController : MonoBehaviour
 
     }
 
-    
-    public void GetData(){
+    public void GetEventsData(){
         events_initialized = true;
         StartCoroutine( GetEvents() );
+        cur_token = PlayerPrefs.GetString("auth_token");
+    }
+
+    public void GetCouponsData(){
         coupons_initialized = true;
         StartCoroutine( GetCoupons() );  
         cur_token = PlayerPrefs.GetString("auth_token");

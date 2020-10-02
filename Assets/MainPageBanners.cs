@@ -35,7 +35,7 @@ public class MainPageBanners : MonoBehaviour
 
         using (UnityWebRequest www = UnityWebRequest.Get(url))
         {   
-            www.SetRequestHeader("Authorization", Manager.get_token());
+            // www.SetRequestHeader("Authorization", Manager.get_token());
             yield return www.SendWebRequest();
 
             if (www.isNetworkError || www.isHttpError)
