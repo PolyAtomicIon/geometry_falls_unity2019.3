@@ -17,7 +17,7 @@ public class startScene : MonoBehaviour
     IEnumerator LoadYourAsyncScene()
     {
         
-        yield return new WaitForSeconds(0.25f);
+        yield return new WaitForSeconds(0.5f);
         string SceneName = "newMainScene";
 
         // if( PlayerPrefs.GetInt("isLaunched") == 0 ){

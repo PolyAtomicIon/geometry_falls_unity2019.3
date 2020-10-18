@@ -20,6 +20,9 @@ public class ControlButton : MonoBehaviour,  IPointerUpHandler, IPointerDownHand
         pointerDownTime = Time.time;
         isPressed = true;
         turned = false;
+        
+        if( !player.is_game_over )
+            player.onHoldColorChanger();
     }
 
     public void OnPointerUp(PointerEventData eventData)
@@ -27,6 +30,9 @@ public class ControlButton : MonoBehaviour,  IPointerUpHandler, IPointerDownHand
         if( isPressed ){
             isPressed = false;
             player.Turn(0);
+
+            if( !player.is_game_over )
+                player.onReleaseColorChanger();
         }
     }
 
@@ -36,6 +42,7 @@ public class ControlButton : MonoBehaviour,  IPointerUpHandler, IPointerDownHand
 			player = FindObjectOfType<Player>();
 
         if( isPressed && !turned ){
+
             float holdTime = Time.time - pointerDownTime;
             if( holdTime > 0.05f ){        
                 if( isLeft )

@@ -29,9 +29,9 @@ public class GameOver : MonoBehaviour
     public GameObject couponInformation;
     public GameObject couponInformation2;
 
-    public void UI_changer(int score, bool isEvent = false){
-        
-        Time.timeScale = 1f;
+    IEnumerator waitForGameOverAnimation(bool isEvent){
+
+        yield return new WaitForSeconds(0.75f);
 
         if( isEvent )
             spinning_object.SetActive(true);
@@ -39,7 +39,16 @@ public class GameOver : MonoBehaviour
             section_buttons.SetActive(true);
         
         Blur.SetActive(true);
+    }
+
+    public void UI_changer(int score, bool isEvent = false){
+        
+        Time.timeScale = 1f;
+
+        
         Pause_button.SetActive(false);
+
+        StartCoroutine(waitForGameOverAnimation(isEvent));
     }
 
     public void GiveAward(bool is_present){

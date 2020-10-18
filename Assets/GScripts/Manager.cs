@@ -104,6 +104,7 @@ public class Manager : MonoBehaviour
     private float complexityPeriod = 0;
     private float StartDegreeLevel = 0.5f;
     private float last_degree = -1;
+    private int repeater = 0;
 
     [SerializeField] private float obstacle_start_degree = -90f;
     [SerializeField] private float degree = 120f;
@@ -146,6 +147,10 @@ public class Manager : MonoBehaviour
         maxComplexity = maxC;
     }
 
+    public int getCurLevel(){
+        return level;
+    }
+
     private void generate_obstacle_positions(){
 
         Vector3 obstacle_position = new Vector3(0f, gap/2 + gap, 0f);
@@ -166,9 +171,19 @@ public class Manager : MonoBehaviour
         float final_degree = obstacle_start_degree + degree * (angles-1);
         float resultAngle = obstacle_start_degree + degree * multiplier;
 
-        // to not repeat angles
-        while(resultAngle == last_degree){
-            resultAngle += degree;
+        if( resultAngle == last_degree ){
+            repeater++;
+            if( repeater > 2 ){
+                // to not repeat angles
+                while(resultAngle == last_degree){
+                    resultAngle += degree;
+                }
+
+                repeater = 0;
+            }
+        }
+        else{
+            repeater = 0;
         }
 
         if( resultAngle > final_degree ){
@@ -286,6 +301,10 @@ public class Manager : MonoBehaviour
 
     public Color getObstaclesMaterialColor(){
         return objectPooler.palettes[palette].getObstacleColor();
+    }
+
+    public Color getTunnelsMaterialColor(){
+        return objectPooler.palettes[palette].getTunnelColor();
     }
 
     public Material getModelsMaterial(){

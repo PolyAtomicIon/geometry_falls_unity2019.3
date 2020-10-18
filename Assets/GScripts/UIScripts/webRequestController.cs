@@ -7,7 +7,7 @@ using TMPro;
 using UnityEngine.UI;
 using System;
 
-public class Event{
+public class Events{
     public int id;
     public string name;
     public string start_date, end_date;
@@ -29,9 +29,9 @@ public class Event{
 
     public string date_information;
 
-    public Event() { }
+    public Events() { }
 
-    public Event(int ID, string e_name, string start, string end, bool is_active)
+    public Events(int ID, string e_name, string start, string end, bool is_active)
     {
         id = ID;
         name = e_name;
@@ -141,7 +141,7 @@ public class webRequestController : MonoBehaviour
     // to check if events information parsed and initialized
     public bool events_initialized = false;
 
-    Dictionary<int, Event> events = new Dictionary<int, Event>();
+    Dictionary<int, Events> events = new Dictionary<int, Events>();
     public GameObject event_panel;
     public GameObject event_prefab;
     public string base_event_url = "http://94.247.128.162/api/game/events/";
@@ -164,7 +164,7 @@ public class webRequestController : MonoBehaviour
 
     Sprite BG;
 
-    void instantiateEventButton(Event cur_event, Vector3 position){
+    void instantiateEventButton(Events cur_event, Vector3 position){
 
         GameObject event_prefab_go = Instantiate(event_prefab) as GameObject;
         event_prefab_go.transform.parent = event_panel.transform;
@@ -267,7 +267,7 @@ public class webRequestController : MonoBehaviour
             // Debug.Log(ID);
 
             // create Button
-            Event cur_event = new Event(ID, e_name, start, end, is_active);
+            Events cur_event = new Events(ID, e_name, start, end, is_active);
 
             events[ID] = cur_event;
             events[ID].levels = levels;

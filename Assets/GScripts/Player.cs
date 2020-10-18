@@ -13,11 +13,14 @@ public class Player : MonoBehaviour, IPooledObject
     private Manager game_manager;
     CameraScript cameraScript;
     public AudioM audioManager;
+    public VFXs vfxs;
 
     // Components for colorFlashEffect
     private Color init_color; 
     private Material objectMaterial; 
     private float FlashEffectDuration = 0.45f;
+    private float RotatedEffectDuration = 1f;
+    private float toInitialffectDuration = 0.75f;
     private float HitEffectDuration = 1.2f;
 
     // Default physics variables
@@ -45,9 +48,22 @@ public class Player : MonoBehaviour, IPooledObject
         changeObjectColor(toColor, init_color, FlashEffectDuration);
     }
 
+    public void onHoldColorChanger(){
+        Color toColor = game_manager.getObstaclesMaterialColor();
+        changeObjectColor(init_color, toColor, 2 * FlashEffectDuration);
+    }
+
+    public void onReleaseColorChanger(){
+        Color toColor = game_manager.getObstaclesMaterialColor();
+        changeObjectColor(toColor, init_color, FlashEffectDuration);
+    }
+
+
     private void StopObjectAndStartGameOver(){
         
         audioManager.hit();
+        vfxs.fail.Play();
+
         changeObjectColor(init_color, Color.black, HitEffectDuration);
 
         setRigidBodyVelocity(0);
@@ -63,7 +79,8 @@ public class Player : MonoBehaviour, IPooledObject
         score += 1;
         if( score < game_manager.object_in_level() ){
             audioManager.pass();
-            colorFlashEffect(game_manager.getObstaclesMaterialColor());
+            // colorFlashEffect();
+            vfxs.success.Play();
         }
         else{
             changeObjectColor(init_color, game_manager.getObstaclesMaterialColor(), 1f);
@@ -152,6 +169,9 @@ public class Player : MonoBehaviour, IPooledObject
 
         if( audioManager == null )
             audioManager = FindObjectOfType<AudioM>();
+            
+        if( vfxs == null )
+            vfxs = FindObjectOfType<VFXs>();
 
         game_manager.player = this;
     }
@@ -183,7 +203,7 @@ public class Player : MonoBehaviour, IPooledObject
      void OnCollisionEnter (Collision col)
     {
         Debug.Log(col.gameObject.name);    
-
+        
         StopObjectAndStartGameOver();
     }
 
