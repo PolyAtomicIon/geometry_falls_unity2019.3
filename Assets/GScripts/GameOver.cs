@@ -18,6 +18,7 @@ public class GameOver : MonoBehaviour
     // buttons: restart, game_over
     public GameObject section;
     public GameObject section_buttons;
+    public GameObject GoMenu_button;
 
     public GameObject Pause_button;
     public GameObject Blur;
@@ -31,13 +32,18 @@ public class GameOver : MonoBehaviour
 
     IEnumerator waitForGameOverAnimation(bool isEvent){
 
-        yield return new WaitForSeconds(0.75f);
+        yield return new WaitForSeconds(0.6f);
 
         if( isEvent )
             spinning_object.SetActive(true);
-        else
+        else{
             section_buttons.SetActive(true);
-        
+                
+            // yield return new WaitForSeconds(0.7f);
+
+            GoMenu_button.SetActive(true);
+        }
+
         Blur.SetActive(true);
     }
 

@@ -94,7 +94,7 @@ public class Manager : MonoBehaviour
     public Vector3[] obstacle_positions = new Vector3[(int) Constants.object_in_level + 1];
     public float[] obstacle_angles = new float[(int) Constants.object_in_level + 1];
     public int[] obstacle_complexities = new int[(int) Constants.object_in_level + 1];
-
+    private bool first_obstacle = false;    
     
     int maxComplexity = 0;
     [SerializeField]
@@ -163,6 +163,11 @@ public class Manager : MonoBehaviour
 
     float getRandomObstacleDegree(){
 
+        if(  !first_obstacle ){
+            first_obstacle = true;
+            return obstacle_start_degree;
+        }
+
         int angles = 360 / (int) degree;
 
         float multiplier = ThreadSafeRandom.ThisThreadsRandom.Next(angles);
@@ -173,7 +178,8 @@ public class Manager : MonoBehaviour
 
         if( resultAngle == last_degree ){
             repeater++;
-            if( repeater > 2 ){
+            if( repeater > 0 ){
+            // if( repeater > 2 ){
                 // to not repeat angles
                 while(resultAngle == last_degree){
                     resultAngle += degree;
@@ -194,7 +200,7 @@ public class Manager : MonoBehaviour
         }
 
         last_degree = resultAngle;
-
+    
         return resultAngle;
 
     }
@@ -397,6 +403,7 @@ public class Manager : MonoBehaviour
 
     public void increment_score()
     {
+        Debug.Log(" Score " + score);
         score += 1;
         levelProgession.increment(score - 1);
     }
@@ -512,7 +519,9 @@ public class Manager : MonoBehaviour
         Debug.Log("complexity period = " + complexityPeriod);
 
         current_highscore = Highscore.getHighscore();
-
+        
+        // Change it then
+        first_obstacle = false;
     }
 
     void Update()

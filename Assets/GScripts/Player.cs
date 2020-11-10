@@ -31,7 +31,7 @@ public class Player : MonoBehaviour, IPooledObject
     public float angular_drag = 0.45f;
    
     // Default values for Rotation Animation 
-    private float rotation_duration = 0.2f;
+    private float rotation_duration = 0.175f;
     private float rotation_degree = 120f;
     // end
 
